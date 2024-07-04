@@ -16,7 +16,8 @@ public class Pathology {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    String specialtyId;
-    String description;
+    private String id;
+    private String specialtyId;
+    private String description;
+    private boolean active;
 }

@@ -16,9 +16,10 @@ public class Medicine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    String pathologyId;
-    String treatmentId;
-    String pharmacyId;
-    String description;
+    private String id;
+    private String pathologyId;
+    private String treatmentId;
+    private String pharmacyId;
+    private String description;
+    boolean active;
 }

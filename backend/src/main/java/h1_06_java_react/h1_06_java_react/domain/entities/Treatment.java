@@ -16,7 +16,8 @@ public class Treatment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    String pathologyId;
+    private String id;
+    private String pathologyId;
+    private boolean active;
 
 }

@@ -16,6 +16,7 @@ public class Lab {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    int description;
+    private String id;
+    private int description;
+    private boolean active;
 }
