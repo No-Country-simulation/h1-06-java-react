@@ -1,12 +1,11 @@
 package h1_06_java_react.h1_06_java_react.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.BloodType;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.Gender;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.Role;
+import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,9 +38,13 @@ public class Patient implements UserDetails {
     private Long dni;
     private String email;
     private String password;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
     private BloodType bloodType;
+    @Enumerated(EnumType.STRING)
     private Role role = Role.PATIENT;
     private Boolean active = true;
 

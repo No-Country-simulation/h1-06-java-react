@@ -1,5 +1,6 @@
 package h1_06_java_react.h1_06_java_react.adapters.dtos.patient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.BloodType;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.Gender;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ public record UpdateDtoPatient(
         String name,
         String surname,
         Long dni,
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dateOfBirth,
         Gender gender,
         BloodType bloodType

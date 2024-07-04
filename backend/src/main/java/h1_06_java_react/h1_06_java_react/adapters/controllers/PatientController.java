@@ -22,7 +22,7 @@ public class PatientController {
 
     @PostMapping("/register")
     public ResponseEntity<ReadDtoPatient> registerPatient(
-            @RequestBody @Valid @NotNull CreateDtoPatient createPatient){
+            @RequestBody @Valid CreateDtoPatient createPatient){
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 this.patientService.createPatient(createPatient));
     }

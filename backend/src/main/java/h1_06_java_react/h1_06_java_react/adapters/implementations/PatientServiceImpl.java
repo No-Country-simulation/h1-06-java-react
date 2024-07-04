@@ -58,15 +58,39 @@ public class PatientServiceImpl implements PatientService {
 
     @Transactional
     @Override
-    public ReadDtoPatient updatePatient(UpdateDtoPatient updateDtoUser) {
-        return null;
+    public ReadDtoPatient updatePatient(UpdateDtoPatient updateDtoPatient) {
+        selfValidation.checkSelfValidation(updateDtoPatient.id());
+        Patient patient = patientRepository.findByIdAndActive(updateDtoPatient.id(), true)
+                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + updateDtoPatient.id()));
+
+        if (updateDtoPatient.name() != null) {
+            patient.setName(updateDtoPatient.name());
+        }
+        if (updateDtoPatient.surname() != null) {
+            patient.setSurname(updateDtoPatient.surname());
+        }
+        if (updateDtoPatient.dni() != null) {
+            patient.setDni(updateDtoPatient.dni());
+        }
+        if (updateDtoPatient.dateOfBirth() != null) {
+            patient.setDateOfBirth(updateDtoPatient.dateOfBirth());
+        }
+        if (updateDtoPatient.gender() != null) {
+            patient.setGender(updateDtoPatient.gender());
+        }
+        if (updateDtoPatient.bloodType() != null) {
+            patient.setBloodType(updateDtoPatient.bloodType());
+        }
+
+        this.patientRepository.save(patient);
+        return patientMapper.patientToReadDto(patient);
     }
 
     @Transactional
     @Override
     public Boolean updatePassword(UpdateDtoPassword updateDtoPassword) {
-        return null;
-    }
+        return null; }
+
 
     @Transactional
     @Override

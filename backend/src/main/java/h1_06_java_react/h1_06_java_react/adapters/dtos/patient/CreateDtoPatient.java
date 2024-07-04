@@ -1,5 +1,6 @@
 package h1_06_java_react.h1_06_java_react.adapters.dtos.patient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.BloodType;
 import h1_06_java_react.h1_06_java_react.domain.entities.enums.Gender;
 import jakarta.validation.constraints.Email;
@@ -21,6 +22,7 @@ public record CreateDtoPatient(
         @NotNull(message = "La contraseña no puede ser nula.")
         @Size(min = 7, message = "La contraseña debe tener al menos 8 carateres.")
         String password,
+        @JsonFormat(pattern = "yyyy-MM-dd")
         //@NotNull(message = "La fecha de nacimiento no puede ser nula.")
         LocalDate dateOfBirth,
         //@NotNull(message = "El género no puede ser nulo.")
