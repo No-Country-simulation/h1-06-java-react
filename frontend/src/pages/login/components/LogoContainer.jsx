@@ -1,9 +1,9 @@
 function LogoContainer() {
   return (
     <div id="logo-container">
-      <div id="logo-form">
+     {/*  <div id="logo-form">
         <img src="#" />
-      </div>
+      </div> */}
     </div>
   );
 }

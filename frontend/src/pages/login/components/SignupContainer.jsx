@@ -4,7 +4,7 @@ function SignupContainer() {
     <div id="sign-up-container">
       <div id="signup">
         <span>No tienes cuenta?</span>
-        <Link to={"#"}>Registrate</Link>
+        <Link to="#">Registrate</Link>
       </div>
     </div>
   );
