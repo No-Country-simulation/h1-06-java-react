@@ -1,7 +1,7 @@
 package io.justina.h106javareact.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.justina.h106javareact.domain.entities.enums.BloodType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.justina.h106javareact.domain.entities.enums.Gender;
 import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.*;
@@ -16,35 +16,37 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Patient implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String entityId;
-    private String healthcareProviderId;
-    private String doctorStaffId;
-    private String documentTypeId;
-
     private String name;
     private String surname;
-    private Long dni;
+    @Column(unique = true)
     private String email;
     private String password;
+    @Column(unique = true)
+    private String dni;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
-    private BloodType bloodType;
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.PATIENT;
+    private Role role = Role.PACIENTE;
+    private String doctorDataId;
+    private String patientDataId;
+    private String relativeDataId;
+    @OneToMany(mappedBy = "patient" , fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<MedicalRecord> medicalRecord;
     private Boolean active = true;
 
     @Override

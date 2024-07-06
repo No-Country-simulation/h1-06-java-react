@@ -46,7 +46,7 @@ public class SecurityConfig {
 };
 
     private static final String[] AUTH_ENDPOINTS = {
-            // REGARDING PATIENT
+            // REGARDING PACIENTE
             "patient/id/{id}/{active}",
             "patient/email/{email}/{active}"
     };
@@ -67,9 +67,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .csrf(AbstractHttpConfigurer::disable).cors((cors) -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(request ->
                     request.requestMatchers(FREE_ENDPOINTS).permitAll()
-                            .requestMatchers(AUTH_ENDPOINTS).hasAnyRole("DOCTOR", "PATIENT")
+                            .requestMatchers(AUTH_ENDPOINTS).hasAnyRole("DOCTOR", "PACIENTE")
                             .requestMatchers(DOCTOR_ENDPOINTS).hasRole("DOCTOR")
-                            .requestMatchers(PATIENT_ENDPOINTS).hasRole("PATIENT")
+                            .requestMatchers(PATIENT_ENDPOINTS).hasRole("PACIENTE")
                             .anyRequest().permitAll()
             )
             .sessionManagement(sessionManager ->

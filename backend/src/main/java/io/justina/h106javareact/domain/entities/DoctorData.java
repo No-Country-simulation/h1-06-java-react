@@ -1,9 +1,7 @@
 package io.justina.h106javareact.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import io.justina.h106javareact.domain.entities.enums.Specialty;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lab {
+public class DoctorData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private int description;
-    private boolean active;
+    @Enumerated(EnumType.STRING)
+    private Specialty specialty;
+    private String medicalLicense;
+
 }

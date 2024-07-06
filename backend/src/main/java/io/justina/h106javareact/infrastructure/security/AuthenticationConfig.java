@@ -1,5 +1,5 @@
 package io.justina.h106javareact.infrastructure.security;
-import io.justina.h106javareact.adapters.repositories.PatientRepository;
+import io.justina.h106javareact.adapters.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class AuthenticationConfig {
-    private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -30,7 +30,7 @@ public class AuthenticationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return new CustomUserDetailsService(patientRepository);
+        return new CustomUserDetailsService(userRepository);
     }
 }
 
