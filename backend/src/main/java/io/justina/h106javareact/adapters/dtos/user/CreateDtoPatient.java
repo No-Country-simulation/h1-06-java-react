@@ -1,7 +1,6 @@
-package io.justina.h106javareact.adapters.dtos.patient;
+package io.justina.h106javareact.adapters.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.justina.h106javareact.domain.entities.enums.BloodType;
 import io.justina.h106javareact.domain.entities.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +14,7 @@ public record CreateDtoPatient(
         @NotNull(message = "El apellido no puede ser nulo.")
         String surname,
         @NotNull(message = "El dni no puede ser nulo.")
-        Long dni,
+        String dni,
         @Email
         @NotNull(message = "El email no puede ser nulo.")
         String email,
@@ -26,8 +25,6 @@ public record CreateDtoPatient(
         //@NotNull(message = "La fecha de nacimiento no puede ser nula.")
         LocalDate dateOfBirth,
         //@NotNull(message = "El género no puede ser nulo.")
-        Gender gender,
-        //@NotNull(message = "El tipo de sangre no puede ser nulo.")
-        BloodType bloodType
+        Gender gender
 ) {
 }

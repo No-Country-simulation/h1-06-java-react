@@ -1,14 +1,14 @@
 package io.justina.h106javareact.adapters.implementations;
 
-import io.justina.h106javareact.adapters.dtos.patient.CreateDtoPatient;
-import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
-import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPassword;
-import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.user.CreateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.user.ReadDtoPatient;
+import io.justina.h106javareact.adapters.dtos.user.UpdateDtoPassword;
+import io.justina.h106javareact.adapters.dtos.user.UpdateDtoPatient;
 import io.justina.h106javareact.adapters.mappers.PatientMapper;
-import io.justina.h106javareact.adapters.repositories.PatientRepository;
-import io.justina.h106javareact.application.services.PatientService;
+import io.justina.h106javareact.adapters.repositories.UserRepository;
+import io.justina.h106javareact.application.services.UserService;
 import io.justina.h106javareact.application.validations.SelfValidation;
-import io.justina.h106javareact.domain.entities.Patient;
+import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PatientServiceImpl implements PatientService {
-    private final PatientRepository patientRepository;
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
     private final PatientMapper patientMapper;
     private final PasswordEncoder passwordEncoder;
     public final SelfValidation selfValidation;
@@ -28,62 +28,59 @@ public class PatientServiceImpl implements PatientService {
     @Transactional
     @Override
     public ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient) {
-        var userAlreadyExists = patientRepository.findByEmail(createDtoPatient.email());
+        var userAlreadyExists = userRepository.findByEmail(createDtoPatient.email());
         if(userAlreadyExists.isPresent()){ throw new EntityExistsException("¡Este email ya está en uso!"); }
 
-        Patient patient = this.patientMapper.createDtoToPatient(createDtoPatient);
-        patient.setPassword(passwordEncoder.encode(createDtoPatient.password()));
+        User user = this.patientMapper.createDtoToPatient(createDtoPatient);
+        user.setPassword(passwordEncoder.encode(createDtoPatient.password()));
 
-        patient.setActive(Boolean.TRUE);
-        patient.setRole(Role.PATIENT);
-        var patientAdded = patientRepository.save(patient);
+        user.setActive(Boolean.TRUE);
+        user.setRole(Role.PACIENTE);
+        var patientAdded = userRepository.save(user);
         return patientMapper.patientToReadDto(patientAdded);
     }
 
     @Override
     public ReadDtoPatient readPatientById(String id, Boolean active) {
-        Patient patient = patientRepository.findByIdAndActive(id, active)
+        User user = userRepository.findByIdAndActive(id, active)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + id));
 
-        return patientMapper.patientToReadDto(patient);
+        return patientMapper.patientToReadDto(user);
     }
 
     @Override
     public ReadDtoPatient readPatientByEmail(String email, Boolean active) {
-        Patient patient = patientRepository.findByEmailAndActive(email, active)
+        User user = userRepository.findByEmailAndActive(email, active)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el email " + email));
 
-        return patientMapper.patientToReadDto(patient);
+        return patientMapper.patientToReadDto(user);
     }
 
     @Transactional
     @Override
     public ReadDtoPatient updatePatient(UpdateDtoPatient updateDtoPatient) {
         selfValidation.checkSelfValidation(updateDtoPatient.id());
-        Patient patient = patientRepository.findByIdAndActive(updateDtoPatient.id(), true)
+        User user = userRepository.findByIdAndActive(updateDtoPatient.id(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + updateDtoPatient.id()));
 
         if (updateDtoPatient.name() != null) {
-            patient.setName(updateDtoPatient.name());
+            user.setName(updateDtoPatient.name());
         }
         if (updateDtoPatient.surname() != null) {
-            patient.setSurname(updateDtoPatient.surname());
+            user.setSurname(updateDtoPatient.surname());
         }
         if (updateDtoPatient.dni() != null) {
-            patient.setDni(updateDtoPatient.dni());
+            user.setDni(updateDtoPatient.dni());
         }
         if (updateDtoPatient.dateOfBirth() != null) {
-            patient.setDateOfBirth(updateDtoPatient.dateOfBirth());
+            user.setDateOfBirth(updateDtoPatient.dateOfBirth());
         }
         if (updateDtoPatient.gender() != null) {
-            patient.setGender(updateDtoPatient.gender());
-        }
-        if (updateDtoPatient.bloodType() != null) {
-            patient.setBloodType(updateDtoPatient.bloodType());
+            user.setGender(updateDtoPatient.gender());
         }
 
-        this.patientRepository.save(patient);
-        return patientMapper.patientToReadDto(patient);
+        this.userRepository.save(user);
+        return patientMapper.patientToReadDto(user);
     }
 
     @Transactional
@@ -96,10 +93,10 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Boolean togglePatient(String id) {
         selfValidation.checkSelfValidation(id);
-        Patient patientEntity = patientRepository.findById(id)
+        User userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + id));
-        patientEntity.setActive(!patientEntity.getActive());
-        patientRepository.save(patientEntity);
+        userEntity.setActive(!userEntity.getActive());
+        userRepository.save(userEntity);
         return true;
     }
 }

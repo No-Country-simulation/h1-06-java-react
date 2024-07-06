@@ -1,12 +1,12 @@
 package io.justina.h106javareact.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,8 +17,8 @@ public class Pharmacy {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String medicineId;
-    private String labId;
+    private String name;
+    private String address;
     private boolean active;
 
 

@@ -1,25 +1,21 @@
 package io.justina.h106javareact.domain.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Medicine {
+public class RelativeData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String name;
-    private String code;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Pharmacy> pharmacyList;
-    private String description;
-    boolean active;
+    private User assistedPatient;
 }

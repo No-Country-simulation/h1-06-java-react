@@ -1,4 +1,4 @@
-package io.justina.h106javareact.adapters.dtos.patient;
+package io.justina.h106javareact.adapters.dtos.user;
 
 import io.justina.h106javareact.domain.entities.enums.BloodType;
 import io.justina.h106javareact.domain.entities.enums.Gender;
@@ -13,7 +13,7 @@ public record ReadDtoPatient(
         String documentTypeId,
         String name,
         String surname,
-        Long dni,
+        String dni,
         String email,
         LocalDate dateOfBirth,
         Gender gender,

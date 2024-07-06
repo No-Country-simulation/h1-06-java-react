@@ -2,7 +2,7 @@ package io.justina.h106javareact.adapters.implementations;
 
 import io.justina.h106javareact.adapters.dtos.login.RequestLogin;
 import io.justina.h106javareact.adapters.dtos.login.ResponseLogin;
-import io.justina.h106javareact.adapters.repositories.PatientRepository;
+import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.AuthenticationService;
 import io.justina.h106javareact.infrastructure.security.JwtService;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String name = "";
         String surname = "";
 
-        var patient = patientRepository.findByEmail(data.email());
+        var patient = userRepository.findByEmail(data.email());
         if (patient.isPresent()) {
             role = patient.get().getAuthorities().toString();
             id = patient.get().getId();
