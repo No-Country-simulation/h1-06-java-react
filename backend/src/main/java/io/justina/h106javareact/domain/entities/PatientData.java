@@ -18,5 +18,5 @@ public class PatientData {
     private BloodType bloodType;
     private String healthcareProviderId;
     private String socialSecurityNumber;
-    private boolean isDonor;
+    private Boolean isDonor;
 }

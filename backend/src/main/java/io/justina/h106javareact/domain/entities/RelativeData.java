@@ -17,5 +17,5 @@ public class RelativeData {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private User assistedPatient;
+    private String assistedPatientId;
 }

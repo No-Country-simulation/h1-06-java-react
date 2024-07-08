@@ -1,8 +1,11 @@
 package io.justina.h106javareact.adapters.controllers;
 
-import io.justina.h106javareact.adapters.dtos.user.CreateDtoPatient;
-import io.justina.h106javareact.adapters.dtos.user.ReadDtoPatient;
-import io.justina.h106javareact.adapters.dtos.user.UpdateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.doctor.CreateDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.doctor.ReadDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.patient.CreateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
+import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.relative.*;
 import io.justina.h106javareact.application.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -12,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @SuppressWarnings("unused")
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1")
 @RestController
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer Authentication")
@@ -20,11 +23,25 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/patient/register")
     public ResponseEntity<ReadDtoPatient> registerPatient(
             @RequestBody @Valid CreateDtoPatient createPatient){
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 this.userService.createPatient(createPatient));
+    }
+
+    @PostMapping("/doctor/register")
+    public ResponseEntity<ReadDtoDoctor> registerDoctor(
+            @RequestBody @Valid CreateDtoDoctor createDoctor){
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                this.userService.createDoctor(createDoctor));
+    }
+
+    @PostMapping("/relative/register")
+    public ResponseEntity<ReadDtoRelative> registerRelative(
+            @RequestBody @Valid CreateDtoRelative createRelative){
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                this.userService.createRelative(createRelative));
     }
 
     @GetMapping("/id/{id}/{active}")

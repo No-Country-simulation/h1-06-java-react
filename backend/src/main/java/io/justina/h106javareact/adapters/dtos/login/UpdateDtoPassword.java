@@ -1,4 +1,4 @@
-package io.justina.h106javareact.adapters.dtos.user;
+package io.justina.h106javareact.adapters.dtos.login;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
