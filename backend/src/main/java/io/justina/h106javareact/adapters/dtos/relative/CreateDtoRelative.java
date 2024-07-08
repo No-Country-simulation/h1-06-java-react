@@ -1,4 +1,4 @@
-package io.justina.h106javareact.adapters.dtos.user;
+package io.justina.h106javareact.adapters.dtos.relative;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.justina.h106javareact.domain.entities.enums.Gender;
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-public record CreateDtoPatient(
+public record CreateDtoRelative(
         @NotNull(message = "El nombre no puede ser nulo.")
         String name,
         @NotNull(message = "El apellido no puede ser nulo.")
@@ -22,9 +22,14 @@ public record CreateDtoPatient(
         @Size(min = 7, message = "La contraseña debe tener al menos 8 carateres.")
         String password,
         @JsonFormat(pattern = "yyyy-MM-dd")
-        //@NotNull(message = "La fecha de nacimiento no puede ser nula.")
+        @NotNull(message = "La fecha de nacimiento no puede ser nula.")
         LocalDate dateOfBirth,
-        //@NotNull(message = "El género no puede ser nulo.")
-        Gender gender
+        @NotNull(message = "El género no puede ser nulo.")
+        Gender gender,
+        @Email
+        @NotNull(message = "El email del paciente a cargo no puede ser nulo.")
+        String assistedEmail
+
+
 ) {
 }

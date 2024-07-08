@@ -1,13 +1,23 @@
 package io.justina.h106javareact.adapters.implementations;
 
-import io.justina.h106javareact.adapters.dtos.user.CreateDtoPatient;
-import io.justina.h106javareact.adapters.dtos.user.ReadDtoPatient;
-import io.justina.h106javareact.adapters.dtos.user.UpdateDtoPassword;
-import io.justina.h106javareact.adapters.dtos.user.UpdateDtoPatient;
-import io.justina.h106javareact.adapters.mappers.PatientMapper;
+import io.justina.h106javareact.adapters.dtos.doctor.CreateDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.doctor.ReadDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.patient.CreateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
+import io.justina.h106javareact.adapters.dtos.login.UpdateDtoPassword;
+import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
+import io.justina.h106javareact.adapters.dtos.relative.CreateDtoRelative;
+import io.justina.h106javareact.adapters.dtos.relative.ReadDtoRelative;
+import io.justina.h106javareact.adapters.mappers.UserMapper;
+import io.justina.h106javareact.adapters.repositories.DoctorDataRepository;
+import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
+import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.UserService;
 import io.justina.h106javareact.application.validations.SelfValidation;
+import io.justina.h106javareact.domain.entities.DoctorData;
+import io.justina.h106javareact.domain.entities.PatientData;
+import io.justina.h106javareact.domain.entities.RelativeData;
 import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.EntityExistsException;
@@ -21,7 +31,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final PatientMapper patientMapper;
+    private final UserMapper userMapper;
+    private final PatientDataRepository patientDataRepository;
+    private final DoctorDataRepository doctorDataRepository;
+    private final RelativeDataRepository relativeDataRepository;
     private final PasswordEncoder passwordEncoder;
     public final SelfValidation selfValidation;
 
@@ -31,13 +44,55 @@ public class UserServiceImpl implements UserService {
         var userAlreadyExists = userRepository.findByEmail(createDtoPatient.email());
         if(userAlreadyExists.isPresent()){ throw new EntityExistsException("¡Este email ya está en uso!"); }
 
-        User user = this.patientMapper.createDtoToPatient(createDtoPatient);
+        PatientData patientData = this.userMapper.createPatientDtoToData(createDtoPatient);
+        var patientDataAdded = patientDataRepository.save(patientData);
+
+        User user = this.userMapper.createPatientDtoToUser(createDtoPatient);
         user.setPassword(passwordEncoder.encode(createDtoPatient.password()));
 
         user.setActive(Boolean.TRUE);
         user.setRole(Role.PACIENTE);
+        user.setPatientDataId(patientDataAdded.getId());
         var patientAdded = userRepository.save(user);
-        return patientMapper.patientToReadDto(patientAdded);
+        return userMapper.entityToReadDtoPatient(patientAdded, patientDataAdded);
+    }
+
+    @Transactional
+    @Override
+    public ReadDtoDoctor createDoctor(CreateDtoDoctor createDtoDoctor) {
+        var userAlreadyExists = userRepository.findByEmail(createDtoDoctor.email());
+        if(userAlreadyExists.isPresent()){ throw new EntityExistsException("¡Este email ya está en uso!"); }
+
+        DoctorData doctorData = this.userMapper.createDoctorDtoToData(createDtoDoctor);
+        var doctorDataAdded = doctorDataRepository.save(doctorData);
+
+        User user = this.userMapper.createDoctorDtoToUser(createDtoDoctor);
+        user.setPassword(passwordEncoder.encode(createDtoDoctor.password()));
+
+        user.setActive(Boolean.TRUE);
+        user.setRole(Role.DOCTOR);
+        user.setDoctorDataId(doctorDataAdded.getId());
+        var doctorAdded = userRepository.save(user);
+        return userMapper.entityToReadDtoDoctor(doctorAdded, doctorDataAdded);
+    }
+
+    @Transactional
+    @Override
+    public ReadDtoRelative createRelative(CreateDtoRelative createDtoRelative) {
+        var userAlreadyExists = userRepository.findByEmail(createDtoRelative.email());
+        if(userAlreadyExists.isPresent()){ throw new EntityExistsException("¡Este email ya está en uso!"); }
+
+        RelativeData relativeData = this.userMapper.createRelativeDtoToData(createDtoRelative);
+        var relativeDataAdded = relativeDataRepository.save(relativeData);
+
+        User user = this.userMapper.createRelativeDtoToUser(createDtoRelative);
+        user.setPassword(passwordEncoder.encode(createDtoRelative.password()));
+
+        user.setActive(Boolean.TRUE);
+        user.setRole(Role.TUTOR);
+        user.setDoctorDataId(relativeDataAdded.getId());
+        var relativeAdded = userRepository.save(user);
+        return userMapper.entityToReadDtoRelative(relativeAdded, relativeDataAdded);
     }
 
     @Override
@@ -45,7 +100,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByIdAndActive(id, active)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + id));
 
-        return patientMapper.patientToReadDto(user);
+        return null; //userMapper.patientToReadDto(user);
     }
 
     @Override
@@ -53,7 +108,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmailAndActive(email, active)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el email " + email));
 
-        return patientMapper.patientToReadDto(user);
+        return null; //userMapper.patientToReadDto(user);
     }
 
     @Transactional
@@ -80,7 +135,7 @@ public class UserServiceImpl implements UserService {
         }
 
         this.userRepository.save(user);
-        return patientMapper.patientToReadDto(user);
+        return null; //userMapper.patientToReadDto(user);
     }
 
     @Transactional
