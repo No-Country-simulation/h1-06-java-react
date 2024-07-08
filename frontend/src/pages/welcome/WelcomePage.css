@@ -1,0 +1,48 @@
+#welcome-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
+}
+
+#welcome-button {
+  display: flex;
+  justify-content: end;
+  margin-top: 20%;
+  margin-right: 10%;
+}
+
+#welcome-button a {
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10%;
+  margin-bottom: 10%;
+  width: 60%;
+}
+
+.welcome-text span{
+    font-size: 56px;
+    color: #FFFFFF;
+    text-shadow: 2px 4px 8px 0px #00000059;
+    line-height: 50px;
+    margin-bottom: 50px;
+}
+
+
+#welcome-markers {
+  display: flex;
+  gap: 10px;
+}
+
+.markers {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+}
