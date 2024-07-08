@@ -3,8 +3,9 @@
 #root {
   padding: 0;
   margin: 0;
-  background: linear-gradient(180deg, #ffffff 0%, #999999 100%);
-  background: linear-gradient(180deg, #5664c4 0%, #7897bf 50%, #9acaba 100%);
+  background: linear-gradient(180deg, #5664c4 0%, #7897bf 50%, #9acaba 100%),
+    linear-gradient(180deg, #ffffff 0%, #999999 100%);
+  background-blend-mode: hard-light, normal;
 }
 
 .roboto-thin {
@@ -115,6 +116,12 @@ a:active {
   justify-content: center;
   align-items: center;
 }
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 button {
   border: none;
 }
@@ -126,4 +133,17 @@ button:focus {
 
 button:focus {
   outline: none !important;
+}
+input {
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+.flex-row-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

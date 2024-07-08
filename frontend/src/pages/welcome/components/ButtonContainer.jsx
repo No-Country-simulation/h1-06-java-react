@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Buttons from "../../../components/Buttons";
+import Buttons from "../../../components/Buttons/Buttons";
 
 function ButtonContainer() {
   return (
