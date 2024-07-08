@@ -4,6 +4,7 @@ import io.justina.h106javareact.adapters.dtos.relative.CreateDtoRelative;
 import io.justina.h106javareact.adapters.dtos.relative.ReadDtoRelative;
 import io.justina.h106javareact.adapters.dtos.relative.UpdateDtoRelative;
 import io.justina.h106javareact.application.services.RelativeService;
+import io.justina.h106javareact.application.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class RelativeController {
 
     private final RelativeService relativeService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<ReadDtoRelative> registerRelative(
@@ -29,13 +31,13 @@ public class RelativeController {
     @GetMapping("/id/{id}/{active}")
     public ResponseEntity<ReadDtoRelative> findRelativeById(
             @PathVariable String id, @PathVariable Boolean active){
-        return ResponseEntity.ok(relativeService.readRelativeById(id, active));
+        return ResponseEntity.ok(userService.readById(id, active));
     }
 
     @GetMapping("/email/{email}/{active}")
     public ResponseEntity<ReadDtoRelative>  findRelativeByEmail(
             @PathVariable String email, @PathVariable Boolean active){
-        return ResponseEntity.ok(relativeService.readRelativeByEmail(email, active));
+        return ResponseEntity.ok(userService.readByEmail(email, active));
     }
 
     @PutMapping("/update")
@@ -46,6 +48,6 @@ public class RelativeController {
 
     @DeleteMapping("/toggle/{id}")
     public ResponseEntity<Boolean> toggleRelative(@PathVariable String id){
-        return ResponseEntity.ok(relativeService.toggleRelative(id));
+        return ResponseEntity.ok(userService.toggle(id));
     }
 }

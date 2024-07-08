@@ -4,6 +4,7 @@ import io.justina.h106javareact.adapters.dtos.patient.CreateDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
 import io.justina.h106javareact.application.services.PatientService;
+import io.justina.h106javareact.application.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class PatientController {
 
     private final PatientService patientService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<ReadDtoPatient> registerPatient(
@@ -29,13 +31,13 @@ public class PatientController {
     @GetMapping("/id/{id}/{active}")
     public ResponseEntity<ReadDtoPatient> findPatientById(
             @PathVariable String id, @PathVariable Boolean active){
-        return ResponseEntity.ok(patientService.readPatientById(id, active));
+        return ResponseEntity.ok(userService.readById(id, active));
     }
 
     @GetMapping("/email/{email}/{active}")
     public ResponseEntity<ReadDtoPatient>  findPatientByEmail(
             @PathVariable String email, @PathVariable Boolean active){
-        return ResponseEntity.ok(patientService.readPatientByEmail(email, active));
+        return ResponseEntity.ok(userService.readByEmail(email, active));
     }
 
     @PutMapping("/update")
@@ -46,7 +48,7 @@ public class PatientController {
 
     @DeleteMapping("/toggle/{id}")
     public ResponseEntity<Boolean> togglePatient(@PathVariable String id){
-        return ResponseEntity.ok(patientService.togglePatient(id));
+        return ResponseEntity.ok(userService.toggle(id));
     }
 }
 

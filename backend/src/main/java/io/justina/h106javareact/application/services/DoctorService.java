@@ -9,8 +9,5 @@ import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
 
 public interface DoctorService {
     ReadDtoDoctor createDoctor(CreateDtoDoctor createDtoDoctor);
-    ReadDtoDoctor readDoctorById(String id, Boolean active);
-    ReadDtoDoctor readDoctorByEmail(String email, Boolean active);
-    ReadDtoDoctor updateDoctor(UpdateDtoDoctor updateDtoDoctor);
-    Boolean toggleDoctor(String id);
+   ReadDtoDoctor updateDoctor(UpdateDtoDoctor updateDtoDoctor);
 }
