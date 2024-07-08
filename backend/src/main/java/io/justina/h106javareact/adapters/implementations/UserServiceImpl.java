@@ -13,7 +13,6 @@ import io.justina.h106javareact.adapters.repositories.DoctorDataRepository;
 import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
 import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
-import io.justina.h106javareact.application.services.UserService;
 import io.justina.h106javareact.application.validations.SelfValidation;
 import io.justina.h106javareact.domain.entities.DoctorData;
 import io.justina.h106javareact.domain.entities.PatientData;
@@ -29,7 +28,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PatientDataRepository patientDataRepository;
