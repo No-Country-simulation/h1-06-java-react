@@ -1,9 +1,14 @@
+/* eslint-disable react/prop-types */
+import "./Buttons.css";
+const ButtonVariants = {
+  primary: "primary-button",
+  secondary: "secondary-button",
+};
 
+const Buttons = ({ variant = "primary", label, onClick, style }) => (
+  <button className={ButtonVariants[variant]} onClick={onClick} style={style}>
+    {label}
+  </button>
+);
 
-function Buttons() {
-  return (
-    <div>Buttons</div>
-  )
-}
-
-export default Buttons
+export default Buttons;
