@@ -12,6 +12,6 @@ public record ReadDtoRelative(
         String email,
         LocalDate dateOfBirth,
         Gender gender,
-        String assistedPatientId
+        String assistedEmail
 ) {
 }
