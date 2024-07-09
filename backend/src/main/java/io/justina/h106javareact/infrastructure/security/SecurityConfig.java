@@ -30,72 +30,90 @@ public class SecurityConfig {
 
     private static final String[] FREE_ENDPOINTS = {
             // -- Swagger UI v3 (OpenAPI)
-        "/api/v1/company/create",
-        "/v2/api-docs",
-        "/swagger-resources",
-        "/swagger-resources/**",
-        "/configuration/ui",
-        "/configuration/security",
-        "/swagger-ui.html",
-        "/webjars/**",
-        "/v3/api-docs/**",
-        "/swagger-ui/**",
+            "/api/v1/company/create",
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
             // -- REGISTER & LOGIN
             "/login",
-            "/patient/register"
-};
-
-    private static final String[] AUTH_ENDPOINTS = {
-            // REGARDING PACIENTE
-            "patient/id/{id}/{active}",
-            "patient/email/{email}/{active}"
+            "/patient/register",
+            "/doctor/register",
+            "/relative/register",
+            "/doctor/specialties"
     };
 
-private static final String[] DOCTOR_ENDPOINTS = {
-};
+    private static final String[] AUTH_ENDPOINTS = {
+            // REGARDING PATIENT
+            "patient/id/{id}/{active}",
+            "patient/email/{email}/{active}",
+            // REGARDING DOCTOR
+            "doctor/id/{id}/{active}",
+            "doctor/email/{email}/{active}",
+            // REGARDING RELATIVE
+            "relative/id/{id}/{active}",
+            "relative/email/{email}/{active}"
+    };
 
-private static final String[] PATIENT_ENDPOINTS = {
-        // REGARDING SELF
-        "patient/update",
-        "patient/toggle/{id}"
-};
+    private static final String[] PATIENT_ENDPOINTS = {
+            // REGARDING SELF
+            "patient/update",
+            "patient/toggle/{id}"
+    };
+
+    private static final String[] DOCTOR_ENDPOINTS = {
+            // REGARDING SELF
+            "doctor/update",
+            "doctor/toggle/{id}"
+    };
+
+    private static final String[] RELATIVE_ENDPOINTS = {
+            // REGARDING SELF
+            "relative/update",
+            "relative/toggle/{id}"
+    };
 
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
-            .csrf(AbstractHttpConfigurer::disable).cors((cors) -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(request ->
-                    request.requestMatchers(FREE_ENDPOINTS).permitAll()
-                            .requestMatchers(AUTH_ENDPOINTS).hasAnyRole("DOCTOR", "PACIENTE")
-                            .requestMatchers(DOCTOR_ENDPOINTS).hasRole("DOCTOR")
-                            .requestMatchers(PATIENT_ENDPOINTS).hasRole("PACIENTE")
-                            .anyRequest().permitAll()
-            )
-            .sessionManagement(sessionManager ->
-                    sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
-}
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable).cors((cors) -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers(FREE_ENDPOINTS).permitAll()
+                                .requestMatchers(AUTH_ENDPOINTS).hasAnyRole("DOCTOR", "PACIENTE", "TUTOR")
+                                .requestMatchers(PATIENT_ENDPOINTS).hasAnyRole("PACIENTE", "TUTOR")
+                                .requestMatchers(DOCTOR_ENDPOINTS).hasRole("DOCTOR")
+                                .requestMatchers(RELATIVE_ENDPOINTS).hasRole("TUTOR")
+                                .anyRequest().permitAll()
+                )
+                .sessionManagement(sessionManager ->
+                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
-@Bean
-public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-        throws Exception {
-    return config.getAuthenticationManager();
-}
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
+        return config.getAuthenticationManager();
+    }
 
-@Bean
-CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("*"));
-    configuration.setAllowedMethods(Arrays.asList("*"));
-    configuration.setAllowedHeaders(Arrays.asList("*"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-}
-
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 }
