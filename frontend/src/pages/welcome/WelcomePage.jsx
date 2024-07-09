@@ -22,7 +22,7 @@ function WelcomePage() {
     const nextImageIndex = (currentIndex + 1) % images.length;
     setImageSelection(images[nextImageIndex]);
     if (nextImageIndex === 0) {
-        navigateTo("/login");
+        navigateTo("/welcome");
       }
   };
 
