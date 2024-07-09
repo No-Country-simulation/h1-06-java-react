@@ -1,0 +1,23 @@
+#register {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+#register-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputLayout {
+  width: 300px;
+  height: Fixed (56px) px;
+  padding: 15px;
+  border-radius: 10px;
+  opacity: 0px;
+  background: #f9fafb;
+  border: none;
+}

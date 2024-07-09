@@ -1,3 +1,6 @@
+#welcome-title{
+  margin-top: -30px;
+}
 #welcome-title h1 {
   color: var(--Color-Primary-Purple, #5664c4);
   text-shadow: 2px 4px 8px 0px #00000040;
@@ -24,7 +27,7 @@
 }
 
 .inputMarginBottom{
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .input-div {
