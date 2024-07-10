@@ -7,6 +7,7 @@ import checkBirthDate from "../../hooks/checkBirthDate";
 import ModalAdvice from "./components/ModalAdvice";
 import Buttons from "../../components/Buttons/Buttons";
 function PatientForm({ ...props }) {
+  const [isGenderSelectionShown, setIsGenderSelectionShown] = useState(false);
   function birthDateHandler(e) {
     if (checkBirthDate(e.target.value)) {
       props.setRegisterForm({
@@ -84,17 +85,46 @@ function PatientForm({ ...props }) {
         </div>
         <div className="flex-column">
           <label>Sexo</label>
-          <input
-            type="text"
-            value={props.registerForm.gender}
-            onChange={(e) =>
-              props.setRegisterForm({
-                ...props.registerForm,
-                gender: e.target.value,
-              })
-            }
-            className="inputLayout"
-          />
+          <div className="inputLayout">
+            <div
+              type="text"
+              value={props.registerForm.gender}
+              className="gender-select"
+              onClick={() => setIsGenderSelectionShown(!isGenderSelectionShown)}
+            >
+              {props.registerForm.gender
+                ? props.registerForm.gender
+                : "Selecciona tu sexo"}
+            </div>
+          </div>
+          {isGenderSelectionShown && (
+            <div id="gender-box">
+              <div className="gender-selection">
+                <button
+                  value="Masculino"
+                  onClick={(e) =>
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      gender: e.target.value,
+                    })
+                  }
+                >
+                  Masculino
+                </button>
+                <button
+                  value="Femenino"
+                  onClick={(e) =>
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      gender: e.target.value,
+                    })
+                  }
+                >
+                  Femenino
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex-column">
           <label>Email</label>
