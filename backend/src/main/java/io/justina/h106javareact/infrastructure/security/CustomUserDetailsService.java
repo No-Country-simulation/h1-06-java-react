@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (found.isPresent()) {
             var user = User.builder()
                     .username(email)
-                    .roles(Role.PACIENTE.name())
+                    .roles(found.get().getRole().name())
                     .password(found.get().getPassword())
                     .build();
             return user;

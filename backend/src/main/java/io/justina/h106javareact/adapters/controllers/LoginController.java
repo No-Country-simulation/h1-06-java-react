@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @SuppressWarnings("unused")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/login")
+@RequestMapping("/api/v1/login")
 @SecurityRequirement(name = "Bearer Authentication")
 public class LoginController {
 
