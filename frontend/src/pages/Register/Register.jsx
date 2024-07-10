@@ -13,19 +13,20 @@ function Register() {
     gender: "",
     password: "",
     confirmPersonalData: false,
+    tutor: false,
   });
   return (
     <div id="register">
-      <div id="register-container">
+      <div id="register-container" className="interFont">
         <div id="register-title">
-          <h1>Regístro</h1>
+          <h1 className="just-another-hand-regular">Regístro</h1>
         </div>
         <div id="profile-selection">
           <div>
             <label>Seleccione su perfil</label>
             <ul>
               <select className="inputLayout">
-                <option>Selecciones su perfil</option>
+                <option className="interFont">Selecciones su perfil</option>
                 <option
                   value="paciente"
                   onClick={() => setProfileSelection("paciente")}

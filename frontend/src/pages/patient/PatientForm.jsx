@@ -1,9 +1,28 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+import { useState } from "react";
+import "./PatientForm.css";
+import { Link } from "react-router-dom";
+import checkBirthDate from "../../hooks/checkBirthDate";
+import ModalAdvice from "./components/ModalAdvice";
+import Buttons from "../../components/Buttons/Buttons";
 function PatientForm({ ...props }) {
+  function birthDateHandler(e) {
+    if (checkBirthDate(e.target.value)) {
+      props.setRegisterForm({
+        ...props.registerForm,
+        birthDate: e.target.value,
+      });
+    } else {
+      setIsShownModal(true);
+      return false;
+    }
+  }
+  const [isShownModal, setIsShownModal] = useState(false);
+  const [isModalFormSelect, setIsModalFormSelect] = useState(undefined);
   return (
     <div id="patient-form">
-      <div id="patient-form-container">
+      <div id="patient-form-container" className="flex-column-center">
         <div className="flex-column">
           <label>Nombre</label>
           <input
@@ -46,17 +65,20 @@ function PatientForm({ ...props }) {
             className="inputLayout"
           />
         </div>
+        {birthDateHandler && (
+          <ModalAdvice
+            isShownModal={isShownModal}
+            setIsShownModal={setIsShownModal}
+            isModalFormSelect={isModalFormSelect}
+            setIsModalFormSelect={setIsModalFormSelect}
+          />
+        )}
         <div className="flex-column">
           <label>Fecha de Nacimiento</label>
           <input
-            type="text"
+            type="date"
             value={props.registerForm.birthDate}
-            onChange={(e) =>
-              props.setRegisterForm({
-                ...props.registerForm,
-                birthDate: e.target.value,
-              })
-            }
+            onInput={birthDateHandler}
             className="inputLayout"
           />
         </div>
@@ -101,6 +123,51 @@ function PatientForm({ ...props }) {
             }
             className="inputLayout"
           />
+        </div>
+        <div id="checkbox-questions" className="flex-column">
+          <div>
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              value={props.registerForm.tutor}
+              onChange={(e) =>
+                props.setRegisterForm({
+                  ...props.registerForm,
+                  tutor: e.target.value,
+                })
+              }
+              onClick={() => setIsShownModal(!isShownModal)}
+              {...(props.registerForm.tutor ? "checked" : "")}
+            />
+            Estás diligenciando para laguien más?
+          </div>
+          <div>
+            <Link to={"#"} target="_blank">
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                value={props.registerForm.confirmPersonalData}
+                onChange={(e) =>
+                  props.setRegisterForm({
+                    ...props.registerForm,
+                    confirmPersonalData: e.target.value,
+                  })
+                }
+              />
+            </Link>
+            Tratamiento de Datos Personales
+          </div>
+        </div>
+        <div>
+          <Buttons variant="primary" label={"Crear Cuenta"}></Buttons>
+        </div>
+      </div>
+      <div>
+        <div className="flex-row-evenly marginTop-20">
+          <span>Ya tiene una cuenta?</span>
+          <Link to="/login">Inicie Sesión</Link>
         </div>
       </div>
     </div>
