@@ -12,6 +12,7 @@ function Register() {
     birthDate: "",
     gender: "",
     password: "",
+    bloodType: "",
     confirmPersonalData: false,
     tutor: false,
   });

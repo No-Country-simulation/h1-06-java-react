@@ -8,6 +8,7 @@ import ModalAdvice from "./components/ModalAdvice";
 import Buttons from "../../components/Buttons/Buttons";
 function PatientForm({ ...props }) {
   const [isGenderSelectionShown, setIsGenderSelectionShown] = useState(false);
+  const [isBloodTypeShown, setIsBloodTypeShown] = useState(false);
   function birthDateHandler(e) {
     if (checkBirthDate(e.target.value)) {
       props.setRegisterForm({
@@ -102,25 +103,144 @@ function PatientForm({ ...props }) {
               <div className="gender-selection">
                 <button
                   value="Masculino"
-                  onClick={(e) =>
+                  onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
                       gender: e.target.value,
-                    })
-                  }
+                    }),
+                      setIsGenderSelectionShown(false);
+                  }}
                 >
                   Masculino
                 </button>
                 <button
                   value="Femenino"
-                  onClick={(e) =>
+                  onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
                       gender: e.target.value,
-                    })
-                  }
+                    }),
+                      setIsGenderSelectionShown(false);
+                  }}
                 >
                   Femenino
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="flex-column">
+          <label>Seleciona tu grupo sanguineo</label>
+          <div className="inputLayout">
+            <div
+              type="text"
+              value={props.registerForm.bloodType}
+              className="gender-select"
+              onClick={() => setIsBloodTypeShown(!isBloodTypeShown)}
+            >
+              {props.registerForm.bloodType
+                ? props.registerForm.bloodType
+                : "Selecciona tu grupo sanguineo"}
+            </div>
+          </div>
+          {isBloodTypeShown && (
+            <div id="bloodType-box">
+              <div className="bloodType-selection">
+                <button
+                  value="A+"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  A+
+                </button>
+                <button
+                  value="B+"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  B+
+                </button>
+                <button
+                  value="AB+"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  AB+
+                </button>
+                <button
+                  value="0+"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  0+
+                </button>
+                <button
+                  value="A-"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  A-
+                </button>
+                <button
+                  value="B-"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  B-
+                </button>
+                <button
+                  value="AB-"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  AB-
+                </button>
+                <button
+                  value="0-"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      bloodType: e.target.value,
+                    }),
+                      setIsBloodTypeShown(false);
+                  }}
+                >
+                  0-
                 </button>
               </div>
             </div>

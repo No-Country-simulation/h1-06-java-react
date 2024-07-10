@@ -25,7 +25,9 @@ function ModalAdvice({ ...props }) {
           </div>
         </div>
       ) : (
-        props.isModalFormSelect && <ModalForm setIsModalFormSelect={props.setIsModalFormSelect}/>
+        props.isModalFormSelect && (
+          <ModalForm setIsModalFormSelect={props.setIsModalFormSelect} />
+        )
       )}
     </div>
   );
