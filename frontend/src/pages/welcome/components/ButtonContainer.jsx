@@ -8,7 +8,7 @@ function ButtonContainer() {
         <Link to={"/login"}>
           <Buttons label="Iniciar Sesión" variant="primary" value="login" />
         </Link>
-        <Link to={"/signup"}>
+        <Link to={"/register"}>
           <Buttons label="Regístrese" variant="secondary" />
         </Link>
       </div>

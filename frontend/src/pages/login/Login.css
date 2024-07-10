@@ -10,8 +10,8 @@
 }
 
 #login {
-  height: 100vh;
-  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 #login-form label {
@@ -23,8 +23,8 @@
   text-align: left;
 }
 
-.inputMarginBottom{
-    margin-bottom: 20px;
+.inputMarginBottom {
+  margin-bottom: 5px;
 }
 
 .input-div {
@@ -48,7 +48,10 @@
   text-align: left;
 }
 
+.inputMarginTop {
+  margin-top: 20px;
+}
 
-.inputMarginTop{
-    margin-top: 20px;
+#signup {
+  width: 100vw;
 }

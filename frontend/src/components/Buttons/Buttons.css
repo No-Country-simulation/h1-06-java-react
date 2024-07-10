@@ -5,7 +5,7 @@
   align-items: center;
   padding: 18px 20px;
   gap: 8px;
-  width: 323px;
+  width: 18rem;
   height: 48px;
   background: #5664c4;
   border-radius: 999px;
@@ -30,7 +30,7 @@
   align-items: center;
   padding: 18px 20px;
   gap: 8px;
-  width: 323px;
+  width: 18rem;
   height: 48px;
   border-radius: 999px;
   flex: none;
