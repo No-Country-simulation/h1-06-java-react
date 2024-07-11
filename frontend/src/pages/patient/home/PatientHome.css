@@ -76,7 +76,6 @@
     justify-content: center;
     gap: 15px;
     width: 100%;
-    margin-bottom: 100px;
 }
 
 
@@ -85,7 +84,6 @@
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    margin-bottom: 100px;
 }
 
 #patientNotifications h1 {
