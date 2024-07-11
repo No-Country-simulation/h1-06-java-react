@@ -290,7 +290,7 @@ function PatientForm({ ...props }) {
               onClick={() => setIsShownModal(!isShownModal)}
               {...(props.registerForm.tutor ? "checked" : "")}
             />
-            Estás diligenciando para laguien más?
+            Estás diligenciando para alguien más?
           </div>
           <div>
             <Link to={"#"} target="_blank">

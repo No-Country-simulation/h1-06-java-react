@@ -21,9 +21,11 @@ public class Treatment {
     private String code;
     private String name;
     @ManyToMany(fetch = FetchType.EAGER)
+    private List<Pathology> pathologyList;
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Medicine> medicineList;
     private String frequency; //TODO. Change it to an entity when coding reminder feature!
-    private String dosage;
+    private String dosage; //TODO. TreatmentData table with medId, freq, dosage and adminDetails...
     private String administrationDetails;
     private String doctorId;
     private TreatmentStatus treatmentStatus; //It replaces active property.
