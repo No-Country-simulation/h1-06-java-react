@@ -7,7 +7,7 @@ import "./NavBar.css";
 function NavBar() {
   return (
     <div id="navBar">
-      <div id="navBar-container" className="navBarContainerinterFont">
+      <div id="navBar-container" className="navBarContainer interFont">
         <Link to={"/"} id="navBar-inicio" className="flex-column-center">
           <img src={homeImage} />
           Inicio
