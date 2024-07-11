@@ -7,6 +7,7 @@
     background: linear-gradient(180deg, #5664c4 0%, #7897bf 50%, #9acaba 100%),
       linear-gradient(180deg, #ffffff 0%, #999999 100%);
     background-blend-mode: hard-light, normal;
+    overflow-x: hidden;
   }
 
   .roboto-thin {
@@ -95,29 +96,16 @@
     text-align: left;
   }
 
-  a .classHidden {
-    display: none;
-  }
 
+  .classHidden {
+    display: none !important;
+  }
+  
   .classShow {
-    display: flex;
+    display: flex !important;
   }
-
-  a:link {
-    text-decoration: none;
-  }
-
-  a:visited {
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: none;
-  }
-
-  a:active {
-    text-decoration: none;
-  }
+  
+ 
 
   .flex-column-center {
     display: flex;
@@ -143,6 +131,7 @@
   button:focus {
     outline: none !important;
   }
+
   input {
     border: none;
   }
@@ -165,6 +154,6 @@
 }
 
 
-.marginTop-20{
+.marginTop-20 {
   margin-top: 20px;
 }
