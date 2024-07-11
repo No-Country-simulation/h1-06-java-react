@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
-    private Role role = Role.PACIENTE;
+    private Role role;
     private String doctorDataId;
     private String patientDataId;
     private String relativeDataId;
