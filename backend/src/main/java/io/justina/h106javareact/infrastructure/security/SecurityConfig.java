@@ -41,41 +41,49 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             // -- REGISTER & LOGIN
-            "/login",
-            "/patient/register",
-            "/doctor/register",
-            "/relative/register",
-            "/doctor/specialties"
+            "/api/v1/login",
+            "/api/v1/patient/register",
+            "/api/v1/doctor/register",
+            "/api/v1/relative/register",
+            "/api/v1/doctor/specialties",
+            // MOVE THESE TWO TO AUTH ENDPOINTS!
+            "/api/v1/pathology",
+            "/api/v1/medicine",
+            //MEDICINE AND PATHOLOGY SCRAPING, SHOULD NOT BE FREE IN PROD! USE ONCE ONLY!
+            "/api/v1/medicine/scraping",
+            "/api/v1/pathology/scraping"
     };
 
     private static final String[] AUTH_ENDPOINTS = {
             // REGARDING PATIENT
-            "patient/id/{id}/{active}",
-            "patient/email/{email}/{active}",
+            "/api/v1/patient/id/{id}/{active}",
+            "/api/v1/patient/email/{email}/{active}",
             // REGARDING DOCTOR
-            "doctor/id/{id}/{active}",
-            "doctor/email/{email}/{active}",
+            "/api/v1/doctor/id/{id}/{active}",
+            "/api/v1/doctor/email/{email}/{active}",
             // REGARDING RELATIVE
-            "relative/id/{id}/{active}",
-            "relative/email/{email}/{active}"
+            "/api/v1/relative/id/{id}/{active}",
+            "/api/v1/relative/email/{email}/{active}"
+
     };
 
     private static final String[] PATIENT_ENDPOINTS = {
             // REGARDING SELF
-            "patient/update",
-            "patient/toggle/{id}"
+            "/api/v1/patient/update",
+            "/api/v1/patient/toggle/{id}"
     };
 
     private static final String[] DOCTOR_ENDPOINTS = {
             // REGARDING SELF
-            "doctor/update",
-            "doctor/toggle/{id}"
+            "/api/v1/doctor/update",
+            "/api/v1/doctor/toggle/{id}",
+            "/api/v1/treatment/create"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {
             // REGARDING SELF
-            "relative/update",
-            "relative/toggle/{id}"
+            "/api/v1/relative/update",
+            "/api/v1/relative/toggle/{id}"
     };
 
 
@@ -89,7 +97,7 @@ public class SecurityConfig {
                                 .requestMatchers(PATIENT_ENDPOINTS).hasAnyRole("PACIENTE", "TUTOR")
                                 .requestMatchers(DOCTOR_ENDPOINTS).hasRole("DOCTOR")
                                 .requestMatchers(RELATIVE_ENDPOINTS).hasRole("TUTOR")
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->
                         sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
