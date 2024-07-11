@@ -1,13 +1,20 @@
 #navBar {
   background-color: white;
-  padding: 15px;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 999;
 }
+
+
 
 #navBar-container {
   display: flex;
   justify-content: space-around;
-  justify-items: end;
+  justify-items: center;
   align-items: end;
+  height: 100%;
+  margin: 10px 0 10px 0;
 }
 
 .profile-profile-image{
