@@ -46,7 +46,7 @@ public class User implements UserDetails {
     private String relativeDataId;
     @OneToMany(mappedBy = "patient" , fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<MedicalRecord> medicalRecord;
+    private List<Treatment> treatmentList;
     private Boolean active = true;
 
     @Override

@@ -49,9 +49,11 @@ public class SecurityConfig {
             // MOVE THESE TWO TO AUTH ENDPOINTS!
             "/api/v1/pathology",
             "/api/v1/medicine",
+            "/api/v1/medicalProcedure",
             //MEDICINE AND PATHOLOGY SCRAPING, SHOULD NOT BE FREE IN PROD! USE ONCE ONLY!
             "/api/v1/medicine/scraping",
-            "/api/v1/pathology/scraping"
+            "/api/v1/pathology/scraping",
+            "/api/v1/medicalProcedure/scraping"
     };
 
     private static final String[] AUTH_ENDPOINTS = {
