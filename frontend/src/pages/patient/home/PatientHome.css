@@ -107,7 +107,7 @@
     box-shadow: 0px 16px 32px -4px #6B72801A;
 }
 
-.patientNotificationText{
+.patientNotificationText {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -117,4 +117,8 @@
     line-height: 24px;
     text-align: left;
     color: #6B7280;
+}
+
+#patient-home-header {
+    margin-right: 40px;
 }

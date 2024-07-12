@@ -157,3 +157,9 @@
 .marginTop-20 {
   margin-top: 20px;
 }
+
+.justify-between{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
