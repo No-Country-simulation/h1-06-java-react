@@ -28,6 +28,8 @@ public record CreateDtoPatient(
         @NotNull(message = "El género no puede ser nulo.")
         Gender gender,
         BloodType bloodType,
+        @NotNull(message = "El municipio no puede ser nulo.")
+        String address,
         String healthcareProviderId,
         String socialSecurityNumber,
         @NotNull(message = "El status de donante no puede ser nulo.")

@@ -2,6 +2,7 @@ package io.justina.h106javareact.adapters.dtos.doctor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.justina.h106javareact.domain.entities.enums.Gender;
+import io.justina.h106javareact.domain.entities.enums.MedicalLicense;
 import io.justina.h106javareact.domain.entities.enums.Specialty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -27,8 +28,12 @@ public record CreateDtoDoctor(
         LocalDate dateOfBirth,
         @NotNull(message = "El género no puede ser nulo.")
         Gender gender,
+        @NotNull(message = "El municipio no puede ser nulo.")
+        String address,
         @NotNull(message = "La especialidad no puede ser nula.")
         Specialty specialty,
+        @NotNull(message = "El tipo de matrícula no puede ser nulo.")
+        MedicalLicense licensePlace,
         @NotNull(message = "El número de matrícula no puede ser nulo.")
         String medicalLicense
 ) {

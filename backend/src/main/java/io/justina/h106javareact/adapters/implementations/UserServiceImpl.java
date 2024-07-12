@@ -9,7 +9,7 @@ import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
 import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.UserService;
-import io.justina.h106javareact.application.validations.SelfValidation;
+import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.DoctorData;
 import io.justina.h106javareact.domain.entities.PatientData;
 import io.justina.h106javareact.domain.entities.RelativeData;
@@ -32,29 +32,25 @@ public class UserServiceImpl implements UserService {
     private final PatientDataRepository patientDataRepository;
     private final RelativeDataRepository relativeDataRepository;
     private final UserMapper userMapper;
-    public final SelfValidation selfValidation;
+    public final Validations validations;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Override
     @Transactional
     public ResponseLogin login(RequestLogin data) {
+        var patient = userRepository.findByEmail(data.email())
+                .orElseThrow(() -> new EntityNotFoundException("Email y/o contraseña incorrectos"));
 
-        String role = "";
-        String id = "";
-        String token = "";
-        String name = "";
-        String surname = "";
-
-        var patient = userRepository.findByEmail(data.email());
-        if (patient.isPresent()) {
-            role = patient.get().getAuthorities().toString();
-            id = patient.get().getId();
-            token = jwtService.getToken(patient.get());
-            name = patient.get().getName();
-            surname = patient.get().getSurname();
-        } else throw new EntityNotFoundException("No se puede encontrar el usuario con el email " + data.email());
-
+        if (!patient.getActive()) {
+            throw new EntityNotFoundException(
+                    "El usuario correspondiente al email " + data.email() + " se encuentra dado de baja.");
+        }
+            var role = patient.getAuthorities().toString();
+            var id = patient.getId();
+            var token = jwtService.getToken(patient);
+            var name = patient.getName();
+            var surname = patient.getSurname();
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(data.email(),
@@ -126,7 +122,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Boolean toggle(String id) {
-        selfValidation.checkSelfValidation(id);
+        validations.checkSelfValidation(id);
         User userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el usuario con el id " + id));
         userEntity.setActive(!userEntity.getActive());

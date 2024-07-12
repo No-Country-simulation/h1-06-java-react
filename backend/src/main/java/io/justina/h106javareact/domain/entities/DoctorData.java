@@ -1,5 +1,6 @@
 package io.justina.h106javareact.domain.entities;
 
+import io.justina.h106javareact.domain.entities.enums.MedicalLicense;
 import io.justina.h106javareact.domain.entities.enums.Specialty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,5 +19,6 @@ public class DoctorData {
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
     private String medicalLicense;
+    private MedicalLicense licensePlace;
 
 }
