@@ -3,12 +3,14 @@ package io.justina.h106javareact.adapters.implementations;
 import io.justina.h106javareact.adapters.dtos.doctor.CreateDtoDoctor;
 import io.justina.h106javareact.adapters.dtos.doctor.ReadDtoDoctor;
 import io.justina.h106javareact.adapters.dtos.doctor.UpdateDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.pathology.ReadDtoPathology;
 import io.justina.h106javareact.adapters.mappers.UserMapper;
 import io.justina.h106javareact.adapters.repositories.DoctorDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.DoctorService;
 import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.DoctorData;
+import io.justina.h106javareact.domain.entities.Pathology;
 import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.MedicalLicense;
 import io.justina.h106javareact.domain.entities.enums.Role;
@@ -18,6 +20,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -102,6 +106,5 @@ public class DoctorServiceImpl implements DoctorService {
         this.userRepository.save(user);
         return userMapper.entityToReadDtoDoctor(user, doctorData);
     }
-
 
 }

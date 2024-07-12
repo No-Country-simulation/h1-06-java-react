@@ -4,16 +4,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.justina.h106javareact.domain.entities.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 public record CreateDtoRelative(
         @NotNull(message = "El nombre no puede ser nulo.")
+        @Pattern(regexp = "^[a-zA-Z ]+$", message = "El nombre solo debe contener letras mayúsculas, minúsculas y espacios")
         String name,
         @NotNull(message = "El apellido no puede ser nulo.")
+        @Pattern(regexp = "^[a-zA-Z ]+$", message = "El apellido solo debe contener letras mayúsculas, minúsculas y espacios")
         String surname,
         @NotNull(message = "El dni no puede ser nulo.")
+        @Pattern(regexp = "^[A-Z0-9]+$", message = "El DNI solo debe contener letras mayúsculas y números")
         String dni,
         @Email
         @NotNull(message = "El email no puede ser nulo.")
