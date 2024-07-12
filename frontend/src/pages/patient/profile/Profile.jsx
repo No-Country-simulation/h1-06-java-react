@@ -10,7 +10,9 @@ function Profile() {
       <div id="profile-container">
         <ProfileImage />
         <PersonalData />
+        <hr className="profile-hr" />
         <MedicalData />
+        <hr className="profile-hr" />
         <AccountOptions />
       </div>
     </div>

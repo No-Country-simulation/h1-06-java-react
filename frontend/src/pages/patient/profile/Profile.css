@@ -7,6 +7,7 @@
     font-family: "Inter";
     font-style: normal;
     background-color: #FAFAFA;
+    min-height: 100%;
 }
 
 #profile-container {
@@ -86,4 +87,28 @@
     line-height: 24px;
     text-align: left;
     color: #999999;
+}
+
+.profile-hr {
+    left: 1px;
+    border: 1px;
+    border: 1px solid #9CA3AF4D
+}
+
+#medical-data-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#medical-data-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#medical-data-content{
+    gap: 20px;
 }
