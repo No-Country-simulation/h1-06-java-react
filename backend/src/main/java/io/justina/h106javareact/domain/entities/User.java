@@ -47,6 +47,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "patient" , fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Treatment> treatmentList;
+    private String address;
     private Boolean active = true;
 
     @Override

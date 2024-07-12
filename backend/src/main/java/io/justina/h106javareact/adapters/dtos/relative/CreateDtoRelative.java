@@ -26,6 +26,8 @@ public record CreateDtoRelative(
         LocalDate dateOfBirth,
         @NotNull(message = "El género no puede ser nulo.")
         Gender gender,
+        @NotNull(message = "El municipio no puede ser nulo.")
+        String address,
         @Email
         @NotNull(message = "El email del paciente a cargo no puede ser nulo.")
         String assistedEmail

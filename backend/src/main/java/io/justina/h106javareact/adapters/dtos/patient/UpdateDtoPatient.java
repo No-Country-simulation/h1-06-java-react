@@ -11,10 +11,12 @@ public record UpdateDtoPatient(
         String id,
         String name,
         String surname,
+        String email,
         String dni,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dateOfBirth,
         Gender gender,
+        String address,
         String healthcareProviderId,
         String socialSecurityNumber
 ) {

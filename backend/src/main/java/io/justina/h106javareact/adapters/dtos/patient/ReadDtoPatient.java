@@ -13,6 +13,7 @@ public record ReadDtoPatient(
         String email,
         LocalDate dateOfBirth,
         Gender gender,
+        String address,
         BloodType bloodType,
         String healthcareProviderId,
         String socialSecurityNumber,

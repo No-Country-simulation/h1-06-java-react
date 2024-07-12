@@ -1,6 +1,7 @@
 package io.justina.h106javareact.adapters.dtos.doctor;
 
 import io.justina.h106javareact.domain.entities.enums.Gender;
+import io.justina.h106javareact.domain.entities.enums.MedicalLicense;
 import io.justina.h106javareact.domain.entities.enums.Specialty;
 import java.time.LocalDate;
 
@@ -12,7 +13,9 @@ public record ReadDtoDoctor(
         String email,
         LocalDate dateOfBirth,
         Gender gender,
+        String address,
         Specialty specialty,
+        MedicalLicense licensePlace,
         String medicalLicense
 ) {
 }
