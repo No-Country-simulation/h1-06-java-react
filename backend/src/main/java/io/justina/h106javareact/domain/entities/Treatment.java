@@ -36,6 +36,6 @@ public class Treatment {
     @JoinColumn(name = "patient_id")
     @JsonBackReference
     private User patient;
-    private LocalDateTime date = LocalDateTime.now();
+    private LocalDateTime date = LocalDateTime.now().withSecond(0).withNano(0);
 
 }
