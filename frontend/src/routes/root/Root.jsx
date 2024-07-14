@@ -1,5 +1,5 @@
-import { Outlet, ScrollRestoration } from "react-router-dom";
-import NavBar from "../../components/NavBar/NavBar";
+import { Outlet, ScrollRestoration } from 'react-router-dom'
+import NavBar from '../../components/NavBar/NavBar'
 
 function Root() {
   return (
@@ -8,7 +8,7 @@ function Root() {
       <ScrollRestoration />
       <NavBar />
     </div>
-  );
+  )
 }
 
-export default Root;
+export default Root
