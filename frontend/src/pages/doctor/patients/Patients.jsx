@@ -1,4 +1,4 @@
-function Pacientes() {
+function Patients() {
   return (
     <div>
       <h2>Pacientes</h2>
@@ -6,4 +6,4 @@ function Pacientes() {
   )
 }
 
-export default Pacientes
+export default Patients
