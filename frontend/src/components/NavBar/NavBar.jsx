@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
-import homeImage from "../../../public/assets/icons/house.svg";
-import saludImage from "../../../public/assets/icons/salud.svg";
-import calendarImage from "../../../public/assets/icons/calendar.svg";
-import profileImage from "../../../public/assets/images/profile.png";
-import "./NavBar.css";
+import { Link } from 'react-router-dom'
+import homeImage from '../../../public/assets/icons/house.svg'
+import saludImage from '../../../public/assets/icons/salud.svg'
+import calendarImage from '../../../public/assets/icons/calendar.svg'
+import profileImage from '../../../public/assets/images/profile.png'
+import './NavBar.css'
 function NavBar() {
   return (
     <div id="navBar">
       <div id="navBar-container" className="navBarContainer interFont">
-        <Link to={"/"} id="navBar-inicio" className="flex-column-center">
+        <Link to={'/'} id="navBar-inicio" className="flex-column-center">
           <img src={homeImage} />
           Inicio
         </Link>
@@ -17,7 +17,7 @@ function NavBar() {
           Salud
         </Link>
         <Link
-          to={"/calendar"}
+          to={'/calendar'}
           id="navBar-calendar"
           className="flex-column-center"
         >
@@ -25,7 +25,7 @@ function NavBar() {
           Cita
         </Link>
         <Link
-          to={"/profile"}
+          to={'/profile'}
           id="navBar-profile"
           className="flex-column-center"
         >
@@ -34,7 +34,7 @@ function NavBar() {
         </Link>
       </div>
     </div>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar
