@@ -109,6 +109,38 @@
     align-items: center;
 }
 
-#medical-data-content{
+#medical-data-content {
     gap: 20px;
+}
+
+#account-data {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    min-height: 200px;
+}
+
+#account-data-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 200px;
+    margin-top: 30px;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.profile-header h2 {
+    font-size: 1.2rem;
+}
+
+.profile-header-back {
+    margin-left: 10px;
+    margin-right: -20px;
 }

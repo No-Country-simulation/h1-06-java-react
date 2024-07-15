@@ -6,6 +6,7 @@ import Welcome from "../pages/welcome/Welcome";
 import Register from "../pages/Register/Register";
 import PatientHome from "../pages/patient/home/PatientHome";
 import Profile from "../pages/patient/profile/Profile";
+import EditPersonalData from "../pages/patient/profile/editPersonalData/EditPersonalData";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,11 @@ const router = createBrowserRouter([
       {
         path: "/patient/profile",
         element: <Profile />,
+        //errorElement: <ErrorPage />,
+      },
+      {
+        path: "/patient/profile/edit-personal-data",
+        element: <EditPersonalData />,
         //errorElement: <ErrorPage />,
       },
     ],

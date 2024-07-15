@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import editIcon from "../../../../../public/assets/icons/editIcon.svg";
+
 function PersonalData() {
   return (
     <div id="personal-data">
@@ -6,9 +9,9 @@ function PersonalData() {
           <div id="personal-data-title">
             <h2>Datos personales</h2>
           </div>
-          <div id="personal-data-edit">
-            <button>Editar</button>
-          </div>
+          <Link to={"/patient/profile/edit-personal-data"} id="personal-data-edit">
+            <img src={editIcon} />
+          </Link>
         </div>
         <div id="personal-data-content" className="flex-column">
           <div className="flex-column">

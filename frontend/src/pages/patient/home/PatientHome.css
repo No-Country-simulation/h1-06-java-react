@@ -122,3 +122,29 @@
 #patient-home-header {
     margin-right: 40px;
 }
+
+
+.menu-icon {
+    color: #5664c4;
+    background-color: #6B72801A;
+}
+
+.flex-row-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.cardMenu-titleCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 50px;
+}
+
+.cardMenu-titleCard h2 {
+    font-weight: bold;
+    color: black;
+}
