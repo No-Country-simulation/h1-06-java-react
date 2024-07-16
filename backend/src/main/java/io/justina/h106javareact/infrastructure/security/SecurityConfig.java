@@ -82,7 +82,8 @@ public class SecurityConfig {
     private static final String[] PATIENT_ENDPOINTS = {
             // REGARDING SELF
             "/api/v1/patient/update",
-            "/api/v1/patient/toggle/{id}"
+            "/api/v1/patient/toggle/{id}",
+            "/api/v1/appointment/create"
     };
 
     private static final String[] DOCTOR_ENDPOINTS = {
