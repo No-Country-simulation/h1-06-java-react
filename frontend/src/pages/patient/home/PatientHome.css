@@ -63,58 +63,33 @@
     text-align: center;
 }
 
-#patient-notifications-container {
-    display: flex;
-    width: 100%;
-    margin-bottom: 100px;
-}
 
-.patient-notifications {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
+#patient-home-header {
+    margin-right: 40px;
 }
 
 
-#patientNotifications {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
+.menu-icon {
+    color: #5664c4;
+    background-color: #6B72801A;
 }
 
-#patientNotifications h1 {
-    padding-left: 30px;
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 24px;
-    text-align: left;
-}
-
-.cardNotification {
-    width: 80%;
-    height: Hug (68px)px;
-    padding: 9px;
-    gap: 72px;
-    border-radius: 12px;
-    border: 0px 0px 0px 4px;
-    border: 1px solid #6B72801A;
-    border-left: 4px solid var(--Color-Secundary-Yellow, #E8CD54);
-    box-shadow: 0px 2px 4px 0px #6B72800A;
-    box-shadow: 0px 16px 32px -4px #6B72801A;
-}
-
-.patientNotificationText{
+.flex-row-icon {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     align-items: center;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 24px;
-    text-align: left;
-    color: #6B7280;
+    gap: 5px;
+}
+
+.cardMenu-titleCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 50px;
+}
+
+.cardMenu-titleCard h2 {
+    font-weight: bold;
+    color: black;
 }

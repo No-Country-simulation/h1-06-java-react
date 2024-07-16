@@ -1,0 +1,11 @@
+.personalDataInput {
+    display: flex;
+    flex-direction: column;
+}
+
+#edit-personal-data {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-height: 100vh;
+}
