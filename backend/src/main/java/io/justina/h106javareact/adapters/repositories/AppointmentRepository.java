@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
-/*
+
     @Query(value = "SELECT * FROM appointment WHERE doctor_id = :doctorId " +
             "AND active = :active AND date BETWEEN :startDate AND :endDate",
             nativeQuery = true)
@@ -19,7 +19,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, String
             @Param("active") Boolean active
     );
 
-    @Query(value = "SELECT * FROM appointment WHERE assistent_id = :assistentId " +
+    @Query(value = "SELECT * FROM appointment WHERE patient_id = :patientId " +
             "AND active = :active AND date BETWEEN :startDate AND :endDate",
             nativeQuery = true)
     List<Appointment> findAppointmentsByPatientIdAndDateRange(
@@ -28,7 +28,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, String
             @Param("endDate") LocalDateTime endDate,
             @Param("active") Boolean active
     );
-
+/*
     @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.active = :active")
     List<Appointment> findAppointmentsByDoctorId(String doctorId, Boolean active);
 

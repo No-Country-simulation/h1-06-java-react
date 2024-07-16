@@ -20,5 +20,8 @@ public class DoctorData {
     private Specialty specialty;
     private String medicalLicense;
     private MedicalLicense licensePlace;
+    private Boolean morning;
+    private Boolean afternoon;
+    private Boolean evening;
 
 }

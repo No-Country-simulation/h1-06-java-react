@@ -35,6 +35,8 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.update(updateAppointment));
     }
 
+    //@GetMapping("/doctorId/{id}/{startDate}/{endDate}")
+
 
 
 }
