@@ -26,6 +26,9 @@ public record UpdateDtoDoctor(
         String address,
         Specialty specialty,
         MedicalLicense licensePlace,
-        String medicalLicense
+        String medicalLicense,
+        Boolean morning,
+        Boolean afternoon,
+        Boolean evening
 ) {
 }

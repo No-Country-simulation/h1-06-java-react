@@ -3,9 +3,11 @@ package io.justina.h106javareact.adapters.implementations;
 import io.justina.h106javareact.adapters.dtos.appointment.CreateDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.ReadDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.UpdateDtoAppointment;
+import io.justina.h106javareact.adapters.exceptions.AppointmentAvailabilityException;
 import io.justina.h106javareact.adapters.mappers.AppointmentMapper;
 import io.justina.h106javareact.adapters.repositories.*;
 import io.justina.h106javareact.application.services.AppointmentService;
+import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.Appointment;
 import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.Role;
@@ -14,8 +16,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +31,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final RelativeDataRepository relativeDataRepository;
     private final DoctorDataRepository doctorDataRepository;
     private final AppointmentMapper appointmentMapper;
+    private final Validations validations;
 
     @Transactional
     @Override
     public ReadDtoAppointment create(CreateDtoAppointment createDtoAppointment) {
-        Appointment appointment = appointmentMapper.createAppointmentToEntity(createDtoAppointment);
+        if (validations.checkDoctorHourRange(createDtoAppointment.doctorId(),
+                createDtoAppointment.date())){
+            validations.checkPatientAvailability(createDtoAppointment.patientId(), createDtoAppointment.date());
+            validations.checkDoctorAvailability(createDtoAppointment.doctorId(), createDtoAppointment.date());
+        } else {
+            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario"); }
+
+        Appointment appointment = appointmentMapper.createAppointmentToEntity(
+                createDtoAppointment);
 
         User patient = userRepository.findByIdAndActive(createDtoAppointment.patientId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id "
@@ -51,15 +64,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         }
 
+        appointment.setActive(true);
         var savedAppointment = appointmentRepository.save(appointment);
         return appointmentMapper.entityToReadAppointment(savedAppointment);
     }
 
     @Override
-    public ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment) throws BadRequestException {
+    public ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment) 
+            throws BadRequestException {
         Appointment appointment = appointmentRepository.findById(updateDtoAppointment.id())
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id "
                         + updateDtoAppointment.id()));
+
+        if (validations.checkDoctorHourRange(appointment.getDoctor().getId(), updateDtoAppointment.date())){
+            validations.checkPatientAvailability(appointment.getPatient().getId(), updateDtoAppointment.date());
+            validations.checkDoctorAvailability(appointment.getDoctor().getId(), updateDtoAppointment.date());
+        } else { throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario"); }
 
         if (appointment.getDate().plusDays(1).isAfter(LocalDateTime.now())) {
             appointment.setDate(updateDtoAppointment.date());
@@ -67,6 +87,18 @@ public class AppointmentServiceImpl implements AppointmentService {
             return appointmentMapper.entityToReadAppointment(savedAppointment);
         }
 
-        throw new BadRequestException("No puede cambiar la fecha del turno dado que el mismo será en menos de 24hs. Deberá abonar el turno actual y solicitar un nuevo turno.");
+        throw new BadRequestException("No puede cambiar la fecha del turno dado que el mismo " +
+                "será en menos de 24hs. Deberá abonar el turno actual y solicitar un nuevo turno.");
+    }
+
+    @Override
+    public List<ReadDtoAppointment> findByDoctorIdAndDateRange(
+            String doctorId, LocalDateTime startDate, LocalDateTime endDate, Boolean active){
+        return null;
+    }
+
+    @Override
+    public List<ReadDtoAppointment> findByPatientIdAndDateRange(String patientId, LocalDateTime startDate, LocalDateTime endDate, Boolean active) {
+        return null;
     }
 }

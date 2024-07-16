@@ -8,6 +8,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,16 @@ public class ApplicationExceptionHandler {
         errorMap.add(exception.getMessage());
         ApiException apiException = new ApiException(errorMap);
         return ResponseEntity.status(unauthorized).body(apiException);
+    }
+
+    @ExceptionHandler(value = AppointmentAvailabilityException.class)
+    public ResponseEntity<ApiException> handleBadRequestExceptions(
+            Exception exception) {
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        List<String> errorMap = new ArrayList<>();
+        errorMap.add(exception.getMessage());
+        ApiException apiException = new ApiException(errorMap);
+        return ResponseEntity.status(badRequest).body(apiException);
     }
 
     //Maneja cualquier otra excepción que no haya sido considerada en los casos anteriores.

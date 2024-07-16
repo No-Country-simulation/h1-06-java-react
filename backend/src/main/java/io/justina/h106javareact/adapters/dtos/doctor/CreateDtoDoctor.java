@@ -37,6 +37,12 @@ public record CreateDtoDoctor(
         @NotNull(message = "El tipo de matrícula no puede ser nulo.")
         MedicalLicense licensePlace,
         @NotNull(message = "El número de matrícula no puede ser nulo.")
-        String medicalLicense
+        String medicalLicense,
+        @NotNull(message = "Debe especificar si el profesional atiende por la mañana.")
+        Boolean morning,
+        @NotNull(message = "Debe especificar si el profesional atiende por la tarde.")
+        Boolean afternoon,
+        @NotNull(message = "Debe especificar si el profesional atiende por la noche.")
+        Boolean evening
 ) {
 }
