@@ -1,0 +1,217 @@
+.contentHome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 3em;
+}
+
+/* TITLE */
+
+.contentTitle {
+  padding-top: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgTitle {
+  width: 5em;
+  height: 5em;
+  border: 1px solid gray;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+/* SEARCH */
+
+.contentSearch {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputSearch {
+  height: 2em;
+  width: 20em;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+}
+
+.imgSearch {
+  position: absolute;
+  right: 0.3em;
+}
+
+/* Schedule */
+
+.contentSchedule {
+  margin-top: 2em;
+  background-color: #fafaf9;
+  width: 90%;
+  height: 20em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  border: 1px solid #d3d1d1;
+}
+
+.contentTitlesSchedule {
+  margin: 0 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dateSchedule {
+  margin: 0 0.5em;
+}
+
+.contentPatientsDate {
+  margin-top: 1em;
+  background-color: #d4d8d767;
+  display: flex;
+}
+
+.contentHourDate {
+  background-color: #d1d0d0;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+  width: 3em;
+  height: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.hourDate {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  font-weight: bold;
+}
+
+.contentPatientCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5em;
+  width: 80%;
+  background-color: #f7f7f3;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+}
+
+.contentImgAndInfoPatientCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imgPatientCard {
+  width: 3em;
+  height: 3em;
+}
+
+.contentInfoPatientCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1em;
+}
+
+.namePatientCard {
+  margin-bottom: -0.5em;
+}
+
+.arrowPatientCard {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* Events */
+
+.contentEvents {
+  margin: 2em 0;
+  background-color: #e7e7e7;
+  width: 90%;
+  height: 20em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  border: 1px solid #d3d1d1;
+}
+
+.titleEvents {
+  margin: 0 0.5em;
+}
+
+.contentCardsEvents {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.contentEventCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5em;
+  width: 95%;
+  background-color: #f7f7f3;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+}
+
+.contentImgAndInfoEventCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imgEventCard {
+  width: 3em;
+  height: 3em;
+}
+
+.contentTextsEventCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1em;
+}
+
+.nameEventCard {
+  margin-bottom: -0.5em;
+}
+
+.arrowEventCard {
+  width: 1.5em;
+  height: 1.5em;
+}

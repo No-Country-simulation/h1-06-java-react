@@ -7,6 +7,10 @@ import Register from "../pages/Register/Register";
 import PatientHome from "../pages/patient/home/PatientHome";
 import Profile from "../pages/patient/profile/Profile";
 import EditPersonalData from "../pages/patient/profile/editPersonalData/EditPersonalData";
+import Turnos from "../pages/doctor/turnos/Turnos";
+import Pacientes from "../pages/doctor/patients/Patients";
+import Perfil from "../pages/doctor/perfil/Perfil";
+import DoctorHome from "../pages/doctor/home/HomeDoctor";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +50,25 @@ const router = createBrowserRouter([
       {
         path: "/patient/profile/edit-personal-data",
         element: <EditPersonalData />,
+      },
+      {
+        path: "/doctor/home",
+        element: <DoctorHome />,
+        //errorElement: <ErrorPage />,
+      },
+      {
+        path: "/doctor/turnos",
+        element: <Turnos />,
+        //errorElement: <ErrorPage />,
+      },
+      {
+        path: "/doctor/pacientes",
+        element: <Pacientes />,
+        //errorElement: <ErrorPage />,
+      },
+      {
+        path: "/doctor/perfil",
+        element: <Perfil />,
         //errorElement: <ErrorPage />,
       },
     ],
