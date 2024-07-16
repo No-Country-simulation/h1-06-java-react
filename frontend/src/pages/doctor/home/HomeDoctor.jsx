@@ -2,7 +2,7 @@ import Dates from './components/Dates'
 import EventCard from './components/EventCard'
 import Search from './components/Search'
 import Title from './components/Title'
-import './HomeDoctor.css'
+import './homeDoctor.css'
 
 function homeDoctor() {
   return (
