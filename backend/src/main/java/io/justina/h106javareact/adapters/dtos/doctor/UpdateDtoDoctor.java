@@ -4,6 +4,7 @@ import io.justina.h106javareact.domain.entities.enums.Gender;
 import io.justina.h106javareact.domain.entities.enums.MedicalLicense;
 import io.justina.h106javareact.domain.entities.enums.Specialty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public record UpdateDtoDoctor(
         String dni,
         String email,
         @JsonFormat(pattern = "yyyy-MM-dd")
+        @Past(message = "La fecha de nacimiento debe haber sucedido ya.")
         LocalDate dateOfBirth,
         Gender gender,
         String address,

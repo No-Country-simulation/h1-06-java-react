@@ -3,10 +3,7 @@ package io.justina.h106javareact.adapters.dtos.patient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.justina.h106javareact.domain.entities.enums.BloodType;
 import io.justina.h106javareact.domain.entities.enums.Gender;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -28,6 +25,7 @@ public record CreateDtoPatient(
         String password,
         @JsonFormat(pattern = "yyyy-MM-dd")
         @NotNull(message = "La fecha de nacimiento no puede ser nula.")
+        @Past(message = "La fecha de nacimiento debe haber sucedido ya.")
         LocalDate dateOfBirth,
         @NotNull(message = "El género no puede ser nulo.")
         Gender gender,
