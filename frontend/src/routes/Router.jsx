@@ -11,6 +11,7 @@ import Turnos from "../pages/doctor/turnos/Turnos";
 import Pacientes from "../pages/doctor/patients/Patients";
 import Perfil from "../pages/doctor/perfil/Perfil";
 import DoctorHome from "../pages/doctor/home/HomeDoctor";
+import Appointment from "../pages/appointment/Appointment";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/patient/profile/edit-personal-data",
         element: <EditPersonalData />,
+      },
+      {
+        path: "/patient/appointment",
+        element: <Appointment />,
       },
       {
         path: "/doctor/home",
