@@ -46,12 +46,14 @@ public class SecurityConfig {
             "/api/v1/doctor/register",
             "/api/v1/relative/register",
             "/api/v1/doctor/specialties",
-            // MOVE THESE TWO TO AUTH ENDPOINTS!
+            // MOVE THESE THREE TO AUTH ENDPOINTS!
             "/api/v1/pathology",
             "/api/v1/medicine",
+            "/api/v1/medicalProcedure",
             //MEDICINE AND PATHOLOGY SCRAPING, SHOULD NOT BE FREE IN PROD! USE ONCE ONLY!
             "/api/v1/medicine/scraping",
-            "/api/v1/pathology/scraping"
+            "/api/v1/pathology/scraping",
+            "/api/v1/medicalProcedure/scraping"
     };
 
     private static final String[] AUTH_ENDPOINTS = {
@@ -63,21 +65,33 @@ public class SecurityConfig {
             "/api/v1/doctor/email/{email}/{active}",
             // REGARDING RELATIVE
             "/api/v1/relative/id/{id}/{active}",
-            "/api/v1/relative/email/{email}/{active}"
+            "/api/v1/relative/email/{email}/{active}",
+            // REGARDING TREATMENT
+            "/api/v1/treatment/id/{id}",
+            "/api/v1/treatment/medicalProcedureCode/{code}",
+            "/api/v1/treatment/medicalProcedureName/{name}",
+            "/api/v1/treatment/patient/{id}",
+            "/api/v1/treatment/doctor/{id}",
+            "/api/v1/treatment/date/{date}",
+            "/api/v1/treatment/status/{status}",
+            "/api/v1/treatment/pathology/{code}",
+            "/api/v1/treatment/medicine/{code}",
 
     };
 
     private static final String[] PATIENT_ENDPOINTS = {
             // REGARDING SELF
             "/api/v1/patient/update",
-            "/api/v1/patient/toggle/{id}"
+            "/api/v1/patient/toggle/{id}",
+            "/api/v1/appointment/create"
     };
 
     private static final String[] DOCTOR_ENDPOINTS = {
             // REGARDING SELF
             "/api/v1/doctor/update",
             "/api/v1/doctor/toggle/{id}",
-            "/api/v1/treatment/create"
+            "/api/v1/treatment/create",
+            "/api/v1/treatment/update"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {

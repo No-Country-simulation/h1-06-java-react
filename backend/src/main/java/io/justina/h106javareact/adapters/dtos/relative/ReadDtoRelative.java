@@ -1,6 +1,7 @@
 package io.justina.h106javareact.adapters.dtos.relative;
 
 import io.justina.h106javareact.domain.entities.enums.Gender;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -12,6 +13,7 @@ public record ReadDtoRelative(
         String email,
         LocalDate dateOfBirth,
         Gender gender,
+        String address,
         String assistedEmail
 ) {
 }

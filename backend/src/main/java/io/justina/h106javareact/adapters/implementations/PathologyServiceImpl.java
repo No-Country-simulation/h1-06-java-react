@@ -7,7 +7,6 @@ import io.justina.h106javareact.adapters.dtos.pathology.ReadDtoPathology;
 import io.justina.h106javareact.adapters.mappers.PathologyMapper;
 import io.justina.h106javareact.adapters.repositories.PathologyRepository;
 import io.justina.h106javareact.application.services.PathologyService;
-import io.justina.h106javareact.domain.entities.Medicine;
 import io.justina.h106javareact.domain.entities.Pathology;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
