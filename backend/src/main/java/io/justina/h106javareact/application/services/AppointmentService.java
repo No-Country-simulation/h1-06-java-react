@@ -19,4 +19,5 @@ public interface AppointmentService {
     List<ReadDtoAppointment> findByPatientIdAndDate(String id, LocalDateTime date, Boolean active);
     List<ReadDtoAppointment> findByDoctorIdAndDateRange(String id, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
     List<ReadDtoAppointment> findByPatientIdAndDateRange(String id, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
+    Boolean toggle(String id) throws BadRequestException;
 }
