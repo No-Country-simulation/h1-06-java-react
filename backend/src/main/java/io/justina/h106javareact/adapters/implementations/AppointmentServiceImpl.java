@@ -37,11 +37,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public ReadDtoAppointment create(CreateDtoAppointment createDtoAppointment) {
         if (validations.checkDoctorHourRange(createDtoAppointment.doctorId(),
-                createDtoAppointment.date())){
+                createDtoAppointment.date())) {
             validations.checkPatientAvailability(createDtoAppointment.patientId(), createDtoAppointment.date());
             validations.checkDoctorAvailability(createDtoAppointment.doctorId(), createDtoAppointment.date());
         } else {
-            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario"); }
+            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario");
+        }
 
         Appointment appointment = appointmentMapper.createAppointmentToEntity(
                 createDtoAppointment);
@@ -49,18 +50,24 @@ public class AppointmentServiceImpl implements AppointmentService {
         User patient = userRepository.findByIdAndActive(createDtoAppointment.patientId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id "
                         + createDtoAppointment.patientId()));
-        if (patient.getRole().equals(Role.PACIENTE)){ appointment.setPatient(patient); }
+        if (patient.getRole().equals(Role.PACIENTE)) {
+            appointment.setPatient(patient);
+        }
 
         User doctor = userRepository.findByIdAndActive(createDtoAppointment.doctorId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el doctor con el id "
                         + createDtoAppointment.doctorId()));
-        if (doctor.getRole().equals(Role.DOCTOR)){ appointment.setDoctor(doctor); }
+        if (doctor.getRole().equals(Role.DOCTOR)) {
+            appointment.setDoctor(doctor);
+        }
 
         if (createDtoAppointment.relativeId() != null) {
             User relative = userRepository.findByIdAndActive(createDtoAppointment.relativeId(), true)
                     .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el tutor con el id "
                             + createDtoAppointment.relativeId()));
-            if (relative.getRole().equals(Role.TUTOR)) {appointment.setRelative(relative); }
+            if (relative.getRole().equals(Role.TUTOR)) {
+                appointment.setRelative(relative);
+            }
 
         }
 
@@ -76,10 +83,12 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id "
                         + updateDtoAppointment.id()));
 
-        if (validations.checkDoctorHourRange(appointment.getDoctor().getId(), updateDtoAppointment.date())){
+        if (validations.checkDoctorHourRange(appointment.getDoctor().getId(), updateDtoAppointment.date())) {
             validations.checkPatientAvailability(appointment.getPatient().getId(), updateDtoAppointment.date());
             validations.checkDoctorAvailability(appointment.getDoctor().getId(), updateDtoAppointment.date());
-        } else { throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario"); }
+        } else {
+            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario");
+        }
 
         if (appointment.getDate().plusDays(1).isAfter(LocalDateTime.now())) {
             appointment.setDate(updateDtoAppointment.date());
@@ -131,7 +140,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<ReadDtoAppointment> findByDoctorIdAndDateRange(
-            String doctorId, LocalDateTime startDate, LocalDateTime endDate, Boolean active){
+            String doctorId, LocalDateTime startDate, LocalDateTime endDate, Boolean active) {
         validations.checkSelfValidation(doctorId);
         var appointmentList = appointmentRepository.findAppointmentsByDoctorIdAndDateRange(
                 doctorId, startDate, endDate, active);
@@ -141,10 +150,36 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<ReadDtoAppointment> findByPatientIdAndDateRange(
             String patientId, LocalDateTime startDate, LocalDateTime endDate, Boolean active) {
-            var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndDateRange(
-                    patientId, startDate, endDate, active);
-            return appointmentMapper.entityListToReadAppointmentList(appointmentList);
+        var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndDateRange(
+                patientId, startDate, endDate, active);
+        return appointmentMapper.entityListToReadAppointmentList(appointmentList);
     }
 
+    @Override
+    public Boolean toggle(String id) throws BadRequestException {
+        var appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id " + id));
 
-}
+        LocalDateTime appointmentDate = appointment.getDate();
+        LocalDateTime requiredDifference = LocalDateTime.now().plusHours(23).plusMinutes(59);
+
+        if (appointment.getActive() == true) {
+            if (appointmentDate.isAfter(requiredDifference)) {
+                validations.checkSelfValidation(appointment.getPatient().getId());
+                appointment.setActive(false);
+                appointmentRepository.save(appointment);
+                return true;
+            } else {
+                throw new BadRequestException("No puede cancelar un turno con menos de 24hs" +
+                        " de antelación. Deberá abonarlo y volver a programar otro turno, de ser necesario.");
+            }
+        }
+            else{
+                appointment.setActive(true);
+                appointmentRepository.save(appointment);
+                return true;
+            }
+        }
+
+
+    }
