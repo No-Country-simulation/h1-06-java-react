@@ -12,6 +12,7 @@ import Pacientes from "../pages/doctor/patients/Patients";
 import Perfil from "../pages/doctor/perfil/Perfil";
 import DoctorHome from "../pages/doctor/home/HomeDoctor";
 import Appointment from "../pages/appointment/Appointment";
+import { ProtectedRoutes } from "./ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -39,42 +40,47 @@ const router = createBrowserRouter([
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/patient/home",
-        element: <PatientHome />,
-        //errorElement: <ErrorPage />,
-      },
-      {
-        path: "/patient/profile",
-        element: <Profile />,
-        //errorElement: <ErrorPage />,
-      },
-      {
-        path: "/patient/profile/edit-personal-data",
-        element: <EditPersonalData />,
-      },
-      {
-        path: "/patient/appointment",
-        element: <Appointment />,
-      },
-      {
-        path: "/doctor/home",
-        element: <DoctorHome />,
-        //errorElement: <ErrorPage />,
-      },
-      {
-        path: "/doctor/turnos",
-        element: <Turnos />,
-        //errorElement: <ErrorPage />,
-      },
-      {
-        path: "/doctor/pacientes",
-        element: <Pacientes />,
-        //errorElement: <ErrorPage />,
-      },
-      {
-        path: "/doctor/perfil",
-        element: <Perfil />,
-        //errorElement: <ErrorPage />,
+        element: <ProtectedRoutes />,
+        children: [
+          {
+            path: "/patient/home",
+            element: <PatientHome />,
+            //errorElement: <ErrorPage />,
+          },
+          {
+            path: "/patient/profile",
+            element: <Profile />,
+            //errorElement: <ErrorPage />,
+          },
+          {
+            path: "/patient/profile/edit-personal-data",
+            element: <EditPersonalData />,
+          },
+          {
+            path: "/patient/appointment",
+            element: <Appointment />,
+          },
+          {
+            path: "/doctor/home",
+            element: <DoctorHome />,
+            //errorElement: <ErrorPage />,
+          },
+          {
+            path: "/doctor/turnos",
+            element: <Turnos />,
+            //errorElement: <ErrorPage />,
+          },
+          {
+            path: "/doctor/pacientes",
+            element: <Pacientes />,
+            //errorElement: <ErrorPage />,
+          },
+          {
+            path: "/doctor/perfil",
+            element: <Perfil />,
+            //errorElement: <ErrorPage />,
+          },
+        ],
       },
     ],
   },
