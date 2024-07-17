@@ -76,6 +76,11 @@ public class SecurityConfig {
             "/api/v1/treatment/status/{status}",
             "/api/v1/treatment/pathology/{code}",
             "/api/v1/treatment/medicine/{code}",
+            //REGARDING APPOINTMENT
+            "api/v1/appointment/{id}",
+            "api/v1/appointment/patient/{id}/{active}",
+            "api/v1/appointment/patient/{id}/{date}/{active}",
+            "api/v1/appointment/patient/{id}/{startDate}/{endDate}/{active}"
 
     };
 
@@ -91,7 +96,11 @@ public class SecurityConfig {
             "/api/v1/doctor/update",
             "/api/v1/doctor/toggle/{id}",
             "/api/v1/treatment/create",
-            "/api/v1/treatment/update"
+            "/api/v1/treatment/update",
+            //REGARDING THEIR APPOINTMENTS
+            "api/v1/appointment/doctor/{id}/{active}",
+            "api/v1/appointment/doctor/{id}/{date}/{active}",
+            "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {
