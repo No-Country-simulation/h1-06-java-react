@@ -70,7 +70,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment) 
+    public ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment)
             throws BadRequestException {
         Appointment appointment = appointmentRepository.findById(updateDtoAppointment.id())
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id "
@@ -92,13 +92,59 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<ReadDtoAppointment> findByDoctorIdAndDateRange(
-            String doctorId, LocalDateTime startDate, LocalDateTime endDate, Boolean active){
-        return null;
+    public ReadDtoAppointment findByIdAndActive(String id, Boolean active) {
+        var appointment = appointmentRepository.findByIdAndActive(id, active);
+        return appointmentMapper.entityToReadAppointment(appointment);
     }
 
     @Override
-    public List<ReadDtoAppointment> findByPatientIdAndDateRange(String patientId, LocalDateTime startDate, LocalDateTime endDate, Boolean active) {
-        return null;
+    public List<ReadDtoAppointment> findByDoctorId(String doctorId, Boolean active) {
+        validations.checkSelfValidation(doctorId);
+        var appointmentList = appointmentRepository.findAppointmentsByDoctorIdAndActive(
+                doctorId, active);
+        return appointmentMapper.entityListToReadAppointmentList(appointmentList);
     }
+
+    @Override
+    public List<ReadDtoAppointment> findByPatientId(String patientId, Boolean active) {
+        var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndActive(
+                patientId, active);
+        return appointmentMapper.entityListToReadAppointmentList(appointmentList);
+    }
+
+    @Override
+    public List<ReadDtoAppointment> findByDoctorIdAndDate(
+            String doctorId, LocalDateTime date, Boolean active) {
+        validations.checkSelfValidation(doctorId);
+        var appointmentList = appointmentRepository.findAppointmentsByDoctorIdAndDate(
+                doctorId, date, active);
+        return appointmentMapper.entityListToReadAppointmentList(appointmentList);
+    }
+
+    @Override
+    public List<ReadDtoAppointment> findByPatientIdAndDate(
+            String patientId, LocalDateTime date, Boolean active) {
+        var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndDate(
+                patientId, date, active);
+        return appointmentMapper.entityListToReadAppointmentList(appointmentList);
+    }
+
+    @Override
+    public List<ReadDtoAppointment> findByDoctorIdAndDateRange(
+            String doctorId, LocalDateTime startDate, LocalDateTime endDate, Boolean active){
+        validations.checkSelfValidation(doctorId);
+        var appointmentList = appointmentRepository.findAppointmentsByDoctorIdAndDateRange(
+                doctorId, startDate, endDate, active);
+        return appointmentMapper.entityListToReadAppointmentList(appointmentList);
+    }
+
+    @Override
+    public List<ReadDtoAppointment> findByPatientIdAndDateRange(
+            String patientId, LocalDateTime startDate, LocalDateTime endDate, Boolean active) {
+            var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndDateRange(
+                    patientId, startDate, endDate, active);
+            return appointmentMapper.entityListToReadAppointmentList(appointmentList);
+    }
+
+
 }
