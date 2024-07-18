@@ -2,6 +2,10 @@ package io.justina.h106javareact.application.services;
 import io.justina.h106javareact.adapters.dtos.treatment.CreateDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.ReadDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.io.IOException;
 import java.util.List;
 
 public interface TreatmentService {
@@ -17,4 +21,5 @@ public interface TreatmentService {
     List<ReadDtoTreatment> findByPathologyCode (String pathologyCode);
     List<ReadDtoTreatment> findByMedicineCode (String medicineCode);
     ReadDtoTreatment update(UpdateDtoTreatment updateDtoTreatment);
+    InputStreamResource downloadMedicalRecordPDF(String id) throws IOException;
 }
