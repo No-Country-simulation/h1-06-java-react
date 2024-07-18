@@ -18,6 +18,4 @@ public class Medicine {
     private String id;
     private String name;
     private String code;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Pharmacy> pharmacyList;
 }

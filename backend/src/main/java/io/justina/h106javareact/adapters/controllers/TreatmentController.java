@@ -100,27 +100,7 @@ public class TreatmentController {
     @GetMapping("/patient/{id}/medicalRecordPdf")
     public ResponseEntity<InputStreamResource> downloadPDF
             (@PathVariable String id) throws IOException {
-        List<ReadDtoTreatment> medicalRecord = treatmentService.findByPatientId(id);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        PdfWriter writer = new PdfWriter(out);
-        com.itextpdf.kernel.pdf.PdfDocument pdfDoc = new com.itextpdf.kernel.pdf.PdfDocument(writer);
-        Document document = new Document(pdfDoc);
-
-        for (var treatment : medicalRecord) {
-            document.add(new Paragraph("Fecha de consulta: " + treatment.date().toString()));
-            document.add(new Paragraph("Práctica médica: " + treatment.medicalProcedureCode().toString()));
-            document.add(new Paragraph("Patología/s: " + treatment.pathologyList().toString()));
-            document.add(new Paragraph("Medicamentos asociados: " + treatment.medicineList().toString()));
-            document.add(new Paragraph("Estado del tratamiento: " +treatment.treatmentStatus()));
-            document.add(new Paragraph("Profesional a cargo: " + treatment.doctorId()));
-            document.add(new Paragraph(" "));
-        }
-
-        document.close();
-
-        ByteArrayInputStream bis = new ByteArrayInputStream(out.toByteArray());
+        var pdfResource = treatmentService.downloadMedicalRecordPDF(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=medicalRecord.pdf");
@@ -128,7 +108,7 @@ public class TreatmentController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
+                .body(pdfResource);
     }
 }
 
