@@ -32,30 +32,6 @@
   -o-border-radius: 50%;
 }
 
-/* SEARCH */
-
-.contentSearch {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.inputSearch {
-  height: 2em;
-  width: 20em;
-  border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -ms-border-radius: 0.5em;
-  -o-border-radius: 0.5em;
-}
-
-.imgSearch {
-  position: absolute;
-  right: 0.3em;
-}
-
 /* Schedule */
 
 .contentSchedule {
