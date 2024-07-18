@@ -1,12 +1,11 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
 import { Navigate } from "react-router-dom";
-/*import { useAuth } from "../context/AuthProvider";*/
 
 export const ProtectedRoutes = ({ children }) => {
-  const [user, setUser] = useState(undefined);
-  // const { user } = useAuth();
-
-  if (!user) {
+  const getUserLocalStorage = localStorage.getItem("user");
+  const userLocalStorage = JSON.parse(getUserLocalStorage);
+  const userLocal = userLocalStorage;
+  if (!userLocal.id) {
     return <Navigate to="/login" />;
   }
 

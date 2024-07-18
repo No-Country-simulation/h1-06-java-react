@@ -1,18 +1,18 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import NavbarDoctor from "../../components/NavBar/NavbarDoctor";
-import { useState } from "react";
+import { useUserLogin } from "../../store/UserLogin";
 
 function Root() {
-  const [role, setRole] = useState(undefined);
+  const { user } = useUserLogin();
 
   return (
     <div>
       <Outlet />
       <ScrollRestoration />
-      {role === "doctor" ? (
+      {user.role === "[ROLE_DOCTOR]" ? (
         <NavbarDoctor />
-      ) : role === "patient" ? (
+      ) : user.role === "[ROLE_PACIENTE]" ? (
         <NavBar />
       ) : null}
     </div>
