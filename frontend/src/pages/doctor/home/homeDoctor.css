@@ -59,7 +59,6 @@
 /* Schedule */
 
 .contentSchedule {
-  margin-top: 2em;
   background-color: #fafaf9;
   width: 90%;
   min-height: 20em;
@@ -84,7 +83,6 @@
 
 .contentPatientsDate {
   margin-top: 1em;
-  background-color: #d4d8d767;
   display: flex;
 }
 
@@ -125,8 +123,8 @@
   justify-content: space-between;
   align-items: center;
   height: 5em;
-  width: 80%;
-  background-color: #f7f7f3;
+  width: 100%;
+  background-color: #eaeae4;
   border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
@@ -138,6 +136,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 0.5em;
 }
 
 .imgPatientCard {

@@ -13,6 +13,7 @@ import Perfil from '../pages/doctor/perfil/Perfil'
 import DoctorHome from '../pages/doctor/home/HomeDoctor'
 import Appointment from '../pages/appointment/Appointment'
 import HistoryPatient from '../pages/doctor/historyPatient/HistoryPatient'
+import Cancel from '../pages/doctor/turnos/cancel/Cancel'
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,11 @@ const router = createBrowserRouter([
       {
         path: '/doctor/historialPaciente',
         element: <HistoryPatient />,
+        //errorElement: <ErrorPage />,
+      },
+      {
+        path: '/doctor/turnos/cancel',
+        element: <Cancel />,
         //errorElement: <ErrorPage />,
       },
     ],

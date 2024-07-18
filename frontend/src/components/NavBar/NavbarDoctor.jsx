@@ -12,7 +12,7 @@ function NavBar() {
         <Link
           to="/doctor/home"
           id="navBar-inicio"
-          className="flex-column-center"
+          className="flex-column-center linkNavBar"
         >
           <img src={homeImage} />
           Inicio
@@ -20,7 +20,7 @@ function NavBar() {
         <Link
           to="/doctor/turnos"
           id="navBar-salud"
-          className="flex-column-center"
+          className="flex-column-center linkNavBar"
         >
           <img src={turnosImage} />
           Turnos
@@ -28,7 +28,7 @@ function NavBar() {
         <Link
           to="/doctor/pacientes"
           id="navBar-calendar"
-          className="flex-column-center"
+          className="flex-column-center linkNavBar"
         >
           <img src={pacientesImage} />
           Pacientes
@@ -36,7 +36,7 @@ function NavBar() {
         <Link
           to="/doctor/perfil"
           id="navBar-profile"
-          className="flex-column-center"
+          className="flex-column-center linkNavBar"
         >
           <img src={profileImage} className="profile-profile-image" />
           Perfil
