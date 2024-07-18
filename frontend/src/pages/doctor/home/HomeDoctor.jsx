@@ -1,5 +1,4 @@
 import Dates from './components/Dates'
-import Search from './components/Search'
 import Title from './components/Title'
 import './homeDoctor.css'
 
@@ -7,7 +6,6 @@ function homeDoctor() {
   return (
     <div className="contentHome">
       <Title />
-      <Search />
       <section className="contentSchedule">
         <div className="contentTitlesSchedule">
           <h3 className="titleSchedule">Agenda del día</h3>
