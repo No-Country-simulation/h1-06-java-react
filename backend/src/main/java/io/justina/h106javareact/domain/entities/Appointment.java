@@ -33,6 +33,8 @@ public class Appointment {
 
     private LocalDateTime date = LocalDateTime.now().withSecond(0).withNano(0);
 
+    private String observations;
+
     private Boolean active;
 
 }

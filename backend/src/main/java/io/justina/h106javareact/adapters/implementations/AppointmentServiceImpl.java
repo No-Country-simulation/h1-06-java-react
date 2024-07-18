@@ -27,9 +27,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
-    private final PatientDataRepository patientDataRepository;
-    private final RelativeDataRepository relativeDataRepository;
-    private final DoctorDataRepository doctorDataRepository;
     private final AppointmentMapper appointmentMapper;
     private final Validations validations;
 
@@ -83,21 +80,28 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id "
                         + updateDtoAppointment.id()));
 
-        if (validations.checkDoctorHourRange(appointment.getDoctor().getId(), updateDtoAppointment.date())) {
-            validations.checkPatientAvailability(appointment.getPatient().getId(), updateDtoAppointment.date());
-            validations.checkDoctorAvailability(appointment.getDoctor().getId(), updateDtoAppointment.date());
-        } else {
-            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario");
+        if (updateDtoAppointment.date() != null) {
+            if (validations.checkDoctorHourRange(appointment.getDoctor().getId(), updateDtoAppointment.date())) {
+                validations.checkPatientAvailability(appointment.getPatient().getId(), updateDtoAppointment.date());
+                validations.checkDoctorAvailability(appointment.getDoctor().getId(), updateDtoAppointment.date());
+            } else {
+                throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario");
+            }
+
+            if (appointment.getDate().plusDays(1).isAfter(LocalDateTime.now())) {
+                appointment.setDate(updateDtoAppointment.date());
+            }
+
+            throw new BadRequestException("No puede cambiar la fecha del turno dado que el mismo " +
+                    "será en menos de 24hs. Deberá abonar el turno actual y solicitar un nuevo turno.");
+        }
+        if (updateDtoAppointment.observations() != null){
+            appointment.setObservations(updateDtoAppointment.observations());
         }
 
-        if (appointment.getDate().plusDays(1).isAfter(LocalDateTime.now())) {
-            appointment.setDate(updateDtoAppointment.date());
-            var savedAppointment = appointmentRepository.save(appointment);
-            return appointmentMapper.entityToReadAppointment(savedAppointment);
-        }
+        var savedAppointment = appointmentRepository.save(appointment);
+        return appointmentMapper.entityToReadAppointment(savedAppointment);
 
-        throw new BadRequestException("No puede cambiar la fecha del turno dado que el mismo " +
-                "será en menos de 24hs. Deberá abonar el turno actual y solicitar un nuevo turno.");
     }
 
     @Override
@@ -173,13 +177,12 @@ public class AppointmentServiceImpl implements AppointmentService {
                 throw new BadRequestException("No puede cancelar un turno con menos de 24hs" +
                         " de antelación. Deberá abonarlo y volver a programar otro turno, de ser necesario.");
             }
+        } else {
+            appointment.setActive(true);
+            appointmentRepository.save(appointment);
+            return true;
         }
-            else{
-                appointment.setActive(true);
-                appointmentRepository.save(appointment);
-                return true;
-            }
-        }
-
-
     }
+
+
+}
