@@ -9,6 +9,7 @@ import io.justina.h106javareact.adapters.repositories.*;
 import io.justina.h106javareact.application.services.AppointmentService;
 import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.Appointment;
+import io.justina.h106javareact.domain.entities.DoctorData;
 import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,7 +19,10 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +31,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
+    private final DoctorDataRepository doctorDataRepository;
     private final AppointmentMapper appointmentMapper;
     private final Validations validations;
 
@@ -160,6 +165,62 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<LocalDateTime> findByDoctorIdAndDateAvailable(String id, LocalDateTime startDate, LocalDateTime endDate) {
+        User doctor = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el doctor con el id " + id));
+        String dataId = doctor.getDoctorDataId();
+        DoctorData doctorData = doctorDataRepository.findById(dataId)
+                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el doctor con el id " + id));
+        var notAvailableAppointments = appointmentRepository.findAppointmentsByDoctorIdAndDateRange(
+                id, startDate, endDate, true);
+
+        List<LocalDateTime> notAvailableList = new ArrayList<>();
+        for (Appointment appointment : notAvailableAppointments) {
+            notAvailableList.add(appointment.getDate());
+        }
+
+        LocalDate dateWithoutTime = startDate.toLocalDate();
+        List<LocalDateTime> totalList = new ArrayList<>();
+        List<LocalDateTime> availableList = new ArrayList<>();
+
+        if (doctorData.getMorning()) {
+            LocalTime startTime = LocalTime.of(8, 0);
+            LocalTime endTime = LocalTime.of(11, 45);
+            for (LocalTime time = startTime; !time.isAfter(endTime); time = time.plusMinutes(15)) {
+                totalList.add(LocalDateTime.of(dateWithoutTime, time));
+            }
+        }
+        if (doctorData.getAfternoon()){
+            LocalTime startTime = LocalTime.of(12, 0);
+            LocalTime endTime = LocalTime.of(16, 45);
+            for (LocalTime time = startTime; !time.isAfter(endTime); time = time.plusMinutes(15)) {
+                totalList.add(LocalDateTime.of(dateWithoutTime, time));
+            }
+        }
+        if (doctorData.getEvening()){
+            LocalTime startTime = LocalTime.of(17, 0);
+            LocalTime endTime = LocalTime.of(21, 45);
+            for (LocalTime time = startTime; !time.isAfter(endTime); time = time.plusMinutes(15)) {
+                totalList.add(LocalDateTime.of(dateWithoutTime, time));
+            }
+        }
+
+        for (LocalDateTime time : totalList) {
+            boolean isBusy = false;
+            for (LocalDateTime busy : notAvailableList) {
+                if (time.equals(busy)) {
+                    isBusy = true;
+                    break;
+                }
+            }
+            if (!isBusy && !availableList.contains(time)) {
+                availableList.add(time);
+            }
+        }
+        return availableList;
+        }
+
+    @Override
     public Boolean toggle(String id) throws BadRequestException {
         var appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id " + id));
@@ -183,6 +244,5 @@ public class AppointmentServiceImpl implements AppointmentService {
             return true;
         }
     }
-
 
 }
