@@ -125,6 +125,13 @@
 			<version>1.8</version>
 		</dependency>
 
+		<!-- PARA PASAR A PDF REGISTROS DE LA DB -> iText -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext7-core</artifactId>
+			<version>7.1.15</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
