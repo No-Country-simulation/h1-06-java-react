@@ -33,5 +33,4 @@ public interface UserMapper {
 
     @Mapping(source = "user.id", target = "id")
     ReadDtoRelative entityToReadDtoRelative (User user, RelativeData relativeData);
-
 }
