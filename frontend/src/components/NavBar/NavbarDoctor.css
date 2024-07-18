@@ -19,3 +19,14 @@
   width: 25px;
   border-radius: 50%;
 }
+
+.linkNavBar {
+  text-decoration: none;
+  color: black;
+  width: 100%;
+}
+
+.linkNavBar:hover {
+  background-color: #5664c4;
+  color: #ffffff;
+}

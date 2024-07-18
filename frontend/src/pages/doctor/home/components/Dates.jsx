@@ -6,7 +6,11 @@ function Dates() {
       <div className="contentHourDate">
         <p className="hourDate">8:00 am</p>
       </div>
-      <PatientCard />
+      <div className="contentPatientsCard">
+        <PatientCard />
+        <PatientCard />
+        <PatientCard />
+      </div>
     </section>
   )
 }

@@ -3,7 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 3em;
+  padding-bottom: 6em;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
 }
 
 /* TITLE */
@@ -54,10 +59,10 @@
 /* Schedule */
 
 .contentSchedule {
-  margin-top: 2em;
   background-color: #fafaf9;
   width: 90%;
-  height: 20em;
+  min-height: 20em;
+  padding-bottom: 1em;
   border-radius: 1em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
@@ -78,8 +83,14 @@
 
 .contentPatientsDate {
   margin-top: 1em;
-  background-color: #d4d8d767;
   display: flex;
+}
+
+.contentPatientsCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 80%;
 }
 
 .contentHourDate {
@@ -90,7 +101,7 @@
   -ms-border-radius: 0.5em;
   -o-border-radius: 0.5em;
   width: 3em;
-  height: 10em;
+  min-height: 10em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,8 +123,8 @@
   justify-content: space-between;
   align-items: center;
   height: 5em;
-  width: 80%;
-  background-color: #f7f7f3;
+  width: 100%;
+  background-color: #eaeae4;
   border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
@@ -125,6 +136,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 0.5em;
 }
 
 .imgPatientCard {
@@ -144,74 +156,6 @@
 }
 
 .arrowPatientCard {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-/* Events */
-
-.contentEvents {
-  margin: 2em 0;
-  background-color: #e7e7e7;
-  width: 90%;
-  height: 20em;
-  border-radius: 1em;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  border: 1px solid #d3d1d1;
-}
-
-.titleEvents {
-  margin: 0 0.5em;
-}
-
-.contentCardsEvents {
-  margin-top: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.contentEventCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 5em;
-  width: 95%;
-  background-color: #f7f7f3;
-  border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -ms-border-radius: 0.5em;
-  -o-border-radius: 0.5em;
-}
-
-.contentImgAndInfoEventCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.imgEventCard {
-  width: 3em;
-  height: 3em;
-}
-
-.contentTextsEventCard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 1em;
-}
-
-.nameEventCard {
-  margin-bottom: -0.5em;
-}
-
-.arrowEventCard {
   width: 1.5em;
   height: 1.5em;
 }
