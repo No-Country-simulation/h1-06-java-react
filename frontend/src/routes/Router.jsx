@@ -1,87 +1,93 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "../pages/login/Login";
-import Root from "./root/Root";
-import WelcomePage from "../pages/welcome/WelcomePage";
-import Welcome from "../pages/welcome/Welcome";
-import Register from "../pages/Register/Register";
-import PatientHome from "../pages/patient/home/PatientHome";
-import Profile from "../pages/patient/profile/Profile";
-import EditPersonalData from "../pages/patient/profile/editPersonalData/EditPersonalData";
-import Turnos from "../pages/doctor/turnos/Turnos";
-import Pacientes from "../pages/doctor/patients/Patients";
-import Perfil from "../pages/doctor/perfil/Perfil";
-import DoctorHome from "../pages/doctor/home/HomeDoctor";
-import Appointment from "../pages/appointment/Appointment";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Login from '../pages/login/Login'
+import Root from './root/Root'
+import WelcomePage from '../pages/welcome/WelcomePage'
+import Welcome from '../pages/welcome/Welcome'
+import Register from '../pages/Register/Register'
+import PatientHome from '../pages/patient/home/PatientHome'
+import Profile from '../pages/patient/profile/Profile'
+import EditPersonalData from '../pages/patient/profile/editPersonalData/EditPersonalData'
+import Turnos from '../pages/doctor/turnos/Turnos'
+import Pacientes from '../pages/doctor/patients/Patients'
+import Perfil from '../pages/doctor/perfil/Perfil'
+import DoctorHome from '../pages/doctor/home/HomeDoctor'
+import Appointment from '../pages/appointment/Appointment'
+import HistoryPatient from '../pages/doctor/historyPatient/HistoryPatient'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Root />,
     children: [
       {
-        path: "/",
+        path: '/',
         element: <WelcomePage />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/welcome",
+        path: '/welcome',
         element: <Welcome />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/login",
+        path: '/login',
         element: <Login />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/register",
+        path: '/register',
         element: <Register />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/patient/home",
+        path: '/patient/home',
         element: <PatientHome />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/patient/profile",
+        path: '/patient/profile',
         element: <Profile />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/patient/profile/edit-personal-data",
+        path: '/patient/profile/edit-personal-data',
         element: <EditPersonalData />,
       },
       {
-        path: "/patient/appointment",
+        path: '/patient/appointment',
         element: <Appointment />,
       },
       {
-        path: "/doctor/home",
+        path: '/doctor/home',
         element: <DoctorHome />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/doctor/turnos",
+        path: '/doctor/turnos',
         element: <Turnos />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/doctor/pacientes",
+        path: '/doctor/pacientes',
         element: <Pacientes />,
         //errorElement: <ErrorPage />,
       },
       {
-        path: "/doctor/perfil",
+        path: '/doctor/perfil',
         element: <Perfil />,
+        //errorElement: <ErrorPage />,
+      },
+      {
+        path: '/doctor/historialPaciente',
+        element: <HistoryPatient />,
         //errorElement: <ErrorPage />,
       },
     ],
   },
-]);
+])
 
 const Router = () => {
-  return <RouterProvider router={router} />;
-};
+  return <RouterProvider router={router} />
+}
 
-export default Router;
+export default Router
