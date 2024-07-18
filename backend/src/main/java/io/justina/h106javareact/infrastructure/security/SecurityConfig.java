@@ -77,7 +77,6 @@ public class SecurityConfig {
             "/api/v1/treatment/pathology/{code}",
             "/api/v1/treatment/medicine/{code}",
             //REGARDING APPOINTMENT
-            "api/v1/specialty/{specialty}",
             "api/v1/appointment/{id}",
             "api/v1/appointment/patient/{id}/{active}",
             "api/v1/appointment/patient/{id}/{date}/{active}",
@@ -90,6 +89,8 @@ public class SecurityConfig {
             "/api/v1/patient/update",
             "/api/v1/patient/toggle/{id}",
             "/api/v1/appointment/create",
+            "api/v1/specialty/{specialty}",
+            "api/v1/doctor/{id}/{date}/available",
             "/api/v1/appointment/toggle/{id}"
     };
 

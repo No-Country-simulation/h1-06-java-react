@@ -88,6 +88,12 @@ public class AppointmentController {
                 .findByPatientIdAndDateRange(id, startDate, endDate, active));
     }
 
+    @GetMapping("/doctor/{id}/{startDate}/{endDate}/available")
+    public ResponseEntity<List<LocalDateTime>> findAvailableAppointmentsByDoctorIdAndDate(
+            @PathVariable String id, @PathVariable LocalDateTime startDate, @PathVariable LocalDateTime endDate ){
+        return ResponseEntity.ok(appointmentService
+                .findByDoctorIdAndDateAvailable(id, startDate, endDate));
+    }
     @DeleteMapping("/toggle/{id}")
     public ResponseEntity<Boolean> toggle(@PathVariable String id) throws BadRequestException {
         return ResponseEntity.ok(appointmentService.toggle(id));
