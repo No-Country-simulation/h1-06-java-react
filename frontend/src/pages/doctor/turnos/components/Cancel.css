@@ -1,0 +1,4 @@
+.contentCancel {
+  display: flex;
+  flex-direction: column;
+}

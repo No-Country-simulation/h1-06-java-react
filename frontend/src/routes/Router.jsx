@@ -15,6 +15,10 @@ import DoctorHome from "../pages/doctor/home/HomeDoctor";
 import Appointment from "../pages/appointment/Appointment";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { useUserLogin } from "../store/UserLogin";
+import HistoryPatient from '../pages/doctor/historyPatient/HistoryPatient'
+import Cancel from '../pages/doctor/turnos/components/Cancel'
+import ResultPatient from '../pages/doctor/patients/ResultPatient/ResultPatient'
+
 
 const Router = () => {
   const { user } = useUserLogin();
@@ -66,6 +70,15 @@ const Router = () => {
           path: "/doctor/perfil",
           element: <Perfil />,
           //errorElement: <ErrorPage />,
+        },{
+          path: '/doctor/historialPaciente',
+          element: <HistoryPatient />,
+          //errorElement: <ErrorPage />,
+        },
+        {
+          path: '/doctor/turnos/cancel',
+          element: <Cancel />,
+          //errorElement: <ErrorPage />,
         },
       ],
     },
@@ -94,4 +107,4 @@ const Router = () => {
   return <RouterProvider router={router} />;
 };
 
-export default Router;
+export default Router
