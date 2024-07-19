@@ -8,9 +8,9 @@ function Register() {
   const [registerForm, setRegisterForm] = useState({
     name: '',
     email: '',
-    lastName: '',
+    surname: '',
     dni: '',
-    birthDate: '',
+    dateOfBirth: '',
     gender: '',
     password: '',
     bloodType: '',
