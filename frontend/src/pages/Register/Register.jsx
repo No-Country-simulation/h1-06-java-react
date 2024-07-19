@@ -1,38 +1,42 @@
-import { useState } from 'react'
-import PatientForm from '../patient/PatientForm'
-import './Register.css'
-import DoctorForm from '../doctor/DoctorForm'
+import { useState } from "react";
+import PatientForm from "../patient/PatientForm";
+import "./Register.css";
+import DoctorForm from "../doctor/DoctorForm";
 
 function Register() {
-  const [profileSelection, setProfileSelection] = useState(undefined)
+  const [profileSelection, setProfileSelection] = useState(undefined);
   const [registerForm, setRegisterForm] = useState({
-    name: '',
-    email: '',
-    surname: '',
-    dni: '',
-    dateOfBirth: '',
-    gender: '',
-    password: '',
-    bloodType: '',
+    name: "",
+    surname: "",
+    dni: "",
+    email: "",
+    password: "",
+    dateOfBirth: "",
+    gender: "",
+    bloodType: "",
+    healthcareProviderId: "0",
+    socialSecurityNumber: "0",
+    address: "",
+    isDonor: false,
     confirmPersonalData: false,
     tutor: false,
-  })
+  });
 
   const [registerDoctor, setRegisterDoctor] = useState({
-    name: '',
-    lastName: '',
-    professionalRegistration: '',
-    specialty: '', //guarda la propiedad seleccionada
-    specialties: ['cardiología', 'pediatría', 'oncología'],
-    email: '',
-    password: '',
+    name: "",
+    lastName: "",
+    professionalRegistration: "",
+    specialty: "", //guarda la propiedad seleccionada
+    specialties: ["cardiología", "pediatría", "oncología"],
+    email: "",
+    password: "",
     readTreatment: false,
     confirmPersonalData: false,
-  })
+  });
 
   const handleProfileChange = (e) => {
-    setProfileSelection(e.target.value)
-  }
+    setProfileSelection(e.target.value);
+  };
 
   return (
     <div id="register">
@@ -64,13 +68,13 @@ function Register() {
           </div>
         </div>
 
-        {profileSelection === 'paciente' ? (
+        {profileSelection === "paciente" ? (
           <PatientForm
             profileSelection={profileSelection}
             registerForm={registerForm}
             setRegisterForm={setRegisterForm}
           />
-        ) : profileSelection === 'medico' ? (
+        ) : profileSelection === "medico" ? (
           <DoctorForm
             profileSelection={profileSelection}
             registerDoctor={registerDoctor}
@@ -79,10 +83,10 @@ function Register() {
         ) : null}
       </div>
     </div>
-  )
+  );
 }
 
-export default Register
+export default Register;
 
 // import { useState } from "react";
 // import PatientForm from "../patient/PatientForm";
