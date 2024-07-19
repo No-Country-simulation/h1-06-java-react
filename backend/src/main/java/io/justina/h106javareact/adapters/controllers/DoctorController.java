@@ -45,12 +45,6 @@ public class DoctorController {
         return ResponseEntity.ok(userService.readByEmail(email, active));
     }
 
-    @GetMapping("/specialty/{specialty}")
-    public ResponseEntity<List<ReadDtoDoctor>>  findDoctorsBySpecialty(
-            @PathVariable String specialty){
-        return ResponseEntity.ok(doctorService.readBySpecialty(specialty));
-    }
-
     @PutMapping("/update")
     public ResponseEntity<ReadDtoDoctor> updateDoctor(
             @RequestBody @Valid UpdateDtoDoctor updateDoctor){

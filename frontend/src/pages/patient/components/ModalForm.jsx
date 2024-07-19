@@ -2,25 +2,42 @@
 import { useState } from "react";
 import Buttons from "../../../components/Buttons/Buttons";
 import arrowLeft from "../../../../public/assets/icons/chevronLeft.svg";
+import { RegisterRelative } from "../../../services/Patient/RegisterRelative";
 
 function ModalForm({ ...props }) {
   const [registerForm, setRegisterForm] = useState({
     name: "",
     email: "",
-    lastName: "",
+    surname: "",
     dni: "",
-    birthDate: "",
+    dateOfBirth: "",
     gender: "",
     password: "",
     confirmPersonalData: false,
     tutor: false,
+    assistedEmail: "",
+    address: "",
   });
+
+  const registerRelative = async (e) => {
+    e.preventDefault();
+    const response = await RegisterRelative(registerForm);
+    if (response) {
+      props.setIsModalFormSelect(false);
+    }
+  };
+
+  console.log(registerForm);
   return (
     <div id="tutor-form">
       <div onClick={() => props.setIsModalFormSelect(false)}>
         <img src={arrowLeft} />
       </div>
-      <div id="tutor-form-container" className="flex-column-center">
+      <form
+        id="tutor-form-container"
+        className="flex-column-center"
+        onSubmit={registerRelative}
+      >
         <div className="flex-column">
           <label>Nombre</label>
           <input
@@ -39,11 +56,25 @@ function ModalForm({ ...props }) {
           <label>Apellido</label>
           <input
             type="text"
-            value={registerForm.lastName}
+            value={registerForm.surname}
             onChange={(e) =>
               setRegisterForm({
                 ...registerForm,
-                lastName: e.target.value,
+                surname: e.target.value,
+              })
+            }
+            className="inputLayout"
+          />
+        </div>
+        <div className="flex-column">
+          <label>Municipio</label>
+          <input
+            type="text"
+            value={registerForm.address}
+            onChange={(e) =>
+              setRegisterForm({
+                ...registerForm,
+                address: e.target.value,
               })
             }
             className="inputLayout"
@@ -67,28 +98,33 @@ function ModalForm({ ...props }) {
           <label>Fecha de Nacimiento</label>
           <input
             type="date"
-            value={registerForm.birthDate}
+            value={registerForm.dateOfBirth}
             className="inputLayout"
+            onChange={(e) =>
+              setRegisterForm({
+                ...registerForm,
+                dateOfBirth: e.target.value,
+              })
+            }
           />
         </div>
         <div className="flex-column">
           <label>Sexo</label>
-          <input
-            type="text"
-            value={registerForm.gender}
-            onChange={(e) =>
-              setRegisterForm({
-                ...registerForm,
-                gender: e.target.value,
-              })
-            }
+          <select
             className="inputLayout"
-          />
+            onChange={(e) =>
+              setRegisterForm({ ...registerForm, gender: e.target.value })
+            }
+          >
+            <option value="">Selecciones su sexo</option>
+            <option value="MASCULINO">Masculino</option>
+            <option value="FEMENINO">Femenino</option>
+          </select>
         </div>
         <div className="flex-column">
           <label>Email</label>
           <input
-            type="text"
+            type="email"
             value={registerForm.email}
             onChange={(e) =>
               setRegisterForm({
@@ -113,10 +149,28 @@ function ModalForm({ ...props }) {
             className="inputLayout"
           />
         </div>
-        <div>
-          <Buttons variant="primary" label={"Confirmar"}></Buttons>
+        <div className="flex-column">
+          <label>Mail del paciente</label>
+          <input
+            type="email"
+            value={registerForm.assistedEmail}
+            onChange={(e) =>
+              setRegisterForm({
+                ...registerForm,
+                assistedEmail: e.target.value,
+              })
+            }
+            className="inputLayout"
+          />
         </div>
-      </div>
+        <div>
+          <Buttons
+            variant="primary"
+            label={"Confirmar"}
+            type="submit"
+          ></Buttons>
+        </div>
+      </form>
     </div>
   );
 }

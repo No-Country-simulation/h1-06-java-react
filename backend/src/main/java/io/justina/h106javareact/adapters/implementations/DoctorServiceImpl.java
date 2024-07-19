@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -106,23 +105,6 @@ public class DoctorServiceImpl implements DoctorService {
         this.doctorDataRepository.save(doctorData);
         this.userRepository.save(user);
         return userMapper.entityToReadDtoDoctor(user, doctorData);
-    }
-
-    @Override
-    public List<ReadDtoDoctor> readBySpecialty(String specialty) {
-        var doctors = userRepository.findByRoleAndActive(Role.DOCTOR, true);
-        List<ReadDtoDoctor> specialistDto = new ArrayList<>();
-
-        for (User user : doctors){
-            var doctorDataId = user.getDoctorDataId();
-            var doctorData = doctorDataRepository.findById(doctorDataId).get();
-            if (doctorData.getSpecialty().toString().equals(specialty)){
-                var doctorDto = userMapper.entityToReadDtoDoctor(user, doctorData);
-                specialistDto.add(doctorDto);
-            }
-        }
-
-        return specialistDto;
     }
 
 }

@@ -118,7 +118,7 @@ public class Validations {
         LocalDateTime beforeStartValidation = newDateStarts.minusMinutes(14).minusSeconds(59);
 
         List<Appointment> appointmentList = appointmentRepository.
-                findAppointmentsByDoctorIdAndDateRange(doctorId,
+                findAppointmentsByPatientIdAndDateRange(doctorId,
                         beforeStartValidation, newDateEnds.minusSeconds(1), true);
 
         if(appointmentList.size() > 0){

@@ -5,19 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Medicine {
+public class Pharmacy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
-    private String code;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Pharmacy> pharmacyList;
+    private String address;
+    private boolean active;
+
+
 }

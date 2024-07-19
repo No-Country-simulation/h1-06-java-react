@@ -11,7 +11,6 @@ public record ReadDtoAppointment(
         ReadDtoDoctor doctorId,
         ReadDtoRelative relativeId,
         ReadDtoPatient patientId,
-        LocalDateTime date,
-        String observations
+        LocalDateTime date
 ) {
 }
