@@ -1,4 +1,6 @@
 package io.justina.h106javareact.adapters.controllers;
+import io.justina.h106javareact.adapters.dtos.relative.ReadDtoRelative;
+import io.justina.h106javareact.adapters.dtos.relative.UpdateDtoRelative;
 import io.justina.h106javareact.adapters.dtos.treatment.CreateDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.ReadDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
@@ -8,10 +10,7 @@ import io.justina.h106javareact.infrastructure.security.JwtService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
@@ -128,14 +127,8 @@ public class TreatmentController {
         validations.checkRelativeValidation(id);
         var pdfResource = treatmentService.downloadMedicalRecordPDF(id);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=medicalRecord.pdf");
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfResource);
-    }
+
 }
 
 

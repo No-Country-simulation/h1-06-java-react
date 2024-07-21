@@ -12,13 +12,6 @@ public interface AppointmentService {
 
     ReadDtoAppointment create(CreateDtoAppointment createDtoAppointment);
     ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment) throws BadRequestException;
-    ReadDtoAppointment findByIdAndActive(String id, Boolean active);
-    List<ReadDtoAppointment> findByDoctorId(String id, Boolean active);
-    List<ReadDtoAppointment> findByPatientId(String id, Boolean active);
-    List<ReadDtoAppointment> findByDoctorIdAndDate(String id, LocalDateTime date, Boolean active);
-    List<ReadDtoAppointment> findByPatientIdAndDate(String id, LocalDateTime date, Boolean active);
-    List<ReadDtoAppointment> findByDoctorIdAndDateRange(String id, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
-    List<ReadDtoAppointment> findByPatientIdAndDateRange(String id, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
-    List<LocalDateTime> findByDoctorIdAndDateAvailable(String id, LocalDateTime startDate, LocalDateTime endDate);
-    Boolean toggle(String id) throws BadRequestException;
+    List<ReadDtoAppointment> findByDoctorIdAndDateRange(String doctorId, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
+    List<ReadDtoAppointment> findByPatientIdAndDateRange(String patientId, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
 }

@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DoctorDataRepository extends JpaRepository<DoctorData, String> {
     DoctorData findByLicensePlaceAndMedicalLicense(MedicalLicense licensePlace, String medicalLicense);
-
 }

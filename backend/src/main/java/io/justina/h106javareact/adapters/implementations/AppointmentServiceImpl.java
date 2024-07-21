@@ -9,7 +9,6 @@ import io.justina.h106javareact.adapters.repositories.*;
 import io.justina.h106javareact.application.services.AppointmentService;
 import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.Appointment;
-import io.justina.h106javareact.domain.entities.DoctorData;
 import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,10 +18,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +27,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
+    private final PatientDataRepository patientDataRepository;
+    private final RelativeDataRepository relativeDataRepository;
     private final DoctorDataRepository doctorDataRepository;
     private final AppointmentMapper appointmentMapper;
     private final Validations validations;
@@ -41,12 +39,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         validations.checkRelativeValidation(createDtoAppointment.patientId());
 
         if (validations.checkDoctorHourRange(createDtoAppointment.doctorId(),
-                createDtoAppointment.date())) {
+                createDtoAppointment.date())){
             validations.checkPatientAvailability(createDtoAppointment.patientId(), createDtoAppointment.date());
             validations.checkDoctorAvailability(createDtoAppointment.doctorId(), createDtoAppointment.date());
         } else {
-            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario");
-        }
+            throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario"); }
 
         Appointment appointment = appointmentMapper.createAppointmentToEntity(
                 createDtoAppointment);
@@ -54,24 +51,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         User patient = userRepository.findByIdAndActive(createDtoAppointment.patientId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id "
                         + createDtoAppointment.patientId()));
-        if (patient.getRole().equals(Role.PACIENTE)) {
-            appointment.setPatient(patient);
-        }
+        if (patient.getRole().equals(Role.PACIENTE)){ appointment.setPatient(patient); }
 
         User doctor = userRepository.findByIdAndActive(createDtoAppointment.doctorId(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el doctor con el id "
                         + createDtoAppointment.doctorId()));
-        if (doctor.getRole().equals(Role.DOCTOR)) {
-            appointment.setDoctor(doctor);
-        }
+        if (doctor.getRole().equals(Role.DOCTOR)){ appointment.setDoctor(doctor); }
 
         if (createDtoAppointment.relativeId() != null) {
             User relative = userRepository.findByIdAndActive(createDtoAppointment.relativeId(), true)
                     .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el tutor con el id "
                             + createDtoAppointment.relativeId()));
-            if (relative.getRole().equals(Role.TUTOR)) {
-                appointment.setRelative(relative);
-            }
+            if (relative.getRole().equals(Role.TUTOR)) {appointment.setRelative(relative); }
 
         }
 
@@ -81,7 +72,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment)
+    public ReadDtoAppointment update(UpdateDtoAppointment updateDtoAppointment) 
             throws BadRequestException {
         Appointment appointment = appointmentRepository.findById(updateDtoAppointment.id())
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id "
@@ -97,15 +88,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                 throw new AppointmentAvailabilityException("El doctor no trabaja en ese horario");
             }
 
-            if (appointment.getDate().plusDays(1).isAfter(LocalDateTime.now())) {
-                appointment.setDate(updateDtoAppointment.date());
-            }
-
-            throw new BadRequestException("No puede cambiar la fecha del turno dado que el mismo " +
-                    "será en menos de 24hs. Deberá abonar el turno actual y solicitar un nuevo turno.");
-        }
-        if (updateDtoAppointment.observations() != null){
-            appointment.setObservations(updateDtoAppointment.observations());
+        if (appointment.getDate().plusDays(1).isAfter(LocalDateTime.now())) {
+            appointment.setDate(updateDtoAppointment.date());
+            var savedAppointment = appointmentRepository.save(appointment);
+            return appointmentMapper.entityToReadAppointment(savedAppointment);
         }
 
         var savedAppointment = appointmentRepository.save(appointment);
