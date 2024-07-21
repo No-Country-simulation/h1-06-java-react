@@ -13,6 +13,7 @@ public record CreateDtoAppointment(
         String doctorId,
         @NotNull(message = "La fecha no puede ser nula.")
         @Future(message = "La fecha debe ser a futuro.")
-        LocalDateTime date
+        LocalDateTime date,
+        String observations
 ) {
 }
