@@ -12,14 +12,14 @@ public interface TreatmentService {
 
     ReadDtoTreatment create(CreateDtoTreatment createTreatment);
     ReadDtoTreatment findById (String id);
-    List<ReadDtoTreatment> findByMedicalProcedureCode (String code);
-    List<ReadDtoTreatment> findByMedicalProcedureName (String name);
+    List<ReadDtoTreatment> findByMedicalProcedureCode (String code, String patientId);
+    List<ReadDtoTreatment> findByMedicalProcedureName (String name, String patientId);
     List<ReadDtoTreatment> findByPatientId (String patientId);
     List<ReadDtoTreatment> findByDoctorId (String doctorId);
-    List<ReadDtoTreatment> findByDate (String date);
-    List<ReadDtoTreatment> findByTreatmentStatus (String treatmentStatus);
-    List<ReadDtoTreatment> findByPathologyCode (String pathologyCode);
-    List<ReadDtoTreatment> findByMedicineCode (String medicineCode);
+    List<ReadDtoTreatment> findByDate (String date, String patientId);
+    List<ReadDtoTreatment> findByTreatmentStatus (String treatmentStatus, String patientId);
+    List<ReadDtoTreatment> findByPathologyCode (String pathologyCode, String patientId);
+    List<ReadDtoTreatment> findByMedicineCode (String medicineCode, String patientId);
     ReadDtoTreatment update(UpdateDtoTreatment updateDtoTreatment);
     InputStreamResource downloadMedicalRecordPDF(String id) throws IOException;
 }

@@ -26,6 +26,7 @@ public interface UserMapper {
     RelativeData createRelativeDtoToData (CreateDtoRelative createDtoRelative);
 
     @Mapping(source = "user.id", target = "id")
+    @Mapping(source = "patientData.relativeDataId", target = "relativeDataId")
     ReadDtoPatient entityToReadDtoPatient (User user, PatientData patientData);
 
     @Mapping(source = "user.id", target = "id")

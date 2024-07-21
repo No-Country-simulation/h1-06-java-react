@@ -38,6 +38,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Transactional
     @Override
     public ReadDtoAppointment create(CreateDtoAppointment createDtoAppointment) {
+        validations.checkRelativeValidation(createDtoAppointment.patientId());
+
         if (validations.checkDoctorHourRange(createDtoAppointment.doctorId(),
                 createDtoAppointment.date())) {
             validations.checkPatientAvailability(createDtoAppointment.patientId(), createDtoAppointment.date());
@@ -85,6 +87,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id "
                         + updateDtoAppointment.id()));
 
+        validations.checkRelativeValidation(appointment.getPatient().getId());
+
         if (updateDtoAppointment.date() != null) {
             if (validations.checkDoctorHourRange(appointment.getDoctor().getId(), updateDtoAppointment.date())) {
                 validations.checkPatientAvailability(appointment.getPatient().getId(), updateDtoAppointment.date());
@@ -125,6 +129,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<ReadDtoAppointment> findByPatientId(String patientId, Boolean active) {
+        validations.checkRelativeValidation(patientId);
         var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndActive(
                 patientId, active);
         return appointmentMapper.entityListToReadAppointmentList(appointmentList);
@@ -142,6 +147,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<ReadDtoAppointment> findByPatientIdAndDate(
             String patientId, LocalDateTime date, Boolean active) {
+        validations.checkRelativeValidation(patientId);
         var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndDate(
                 patientId, date, active);
         return appointmentMapper.entityListToReadAppointmentList(appointmentList);
@@ -159,13 +165,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<ReadDtoAppointment> findByPatientIdAndDateRange(
             String patientId, LocalDateTime startDate, LocalDateTime endDate, Boolean active) {
+        validations.checkRelativeValidation(patientId);
         var appointmentList = appointmentRepository.findAppointmentsByPatientIdAndDateRange(
                 patientId, startDate, endDate, active);
         return appointmentMapper.entityListToReadAppointmentList(appointmentList);
     }
 
     @Override
-    public List<LocalDateTime> findByDoctorIdAndDateAvailable(String id, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<LocalDateTime> findByDoctorIdAndDateAvailable(
+            String id, LocalDateTime startDate,LocalDateTime endDate) {
         User doctor = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el doctor con el id " + id));
         String dataId = doctor.getDoctorDataId();
@@ -224,7 +232,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Boolean toggle(String id) throws BadRequestException {
         var appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el turno con el id " + id));
-
+        validations.checkRelativeValidation(appointment.getPatient().getId());
         LocalDateTime appointmentDate = appointment.getDate();
         LocalDateTime requiredDifference = LocalDateTime.now().plusHours(23).plusMinutes(59);
 
@@ -245,4 +253,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
+
+    // TODO. CANCEL APPOINTMENTS BY DOCTOR AND ARRAY DATE (FOR DOCTOR).
 }

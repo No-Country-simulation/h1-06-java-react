@@ -63,7 +63,7 @@ public class JwtService {
 
     public String getRoles(String token){
         var claims = getAllClaims(token);
-        return claims.get("roles").toString();
+        return claims.get("role").toString();
     }
 
     private Date getExpiration(String token)

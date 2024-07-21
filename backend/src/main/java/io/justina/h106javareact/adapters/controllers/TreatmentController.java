@@ -1,12 +1,10 @@
 package io.justina.h106javareact.adapters.controllers;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 import io.justina.h106javareact.adapters.dtos.treatment.CreateDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.ReadDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
 import io.justina.h106javareact.application.services.TreatmentService;
-import io.justina.h106javareact.domain.entities.Treatment;
+import io.justina.h106javareact.application.validations.Validations;
+import io.justina.h106javareact.infrastructure.security.JwtService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,6 +24,8 @@ import java.util.List;
 public class TreatmentController {
 
     private final TreatmentService treatmentService;
+    private final JwtService jwtService;
+    private final Validations validations;
 
     @PostMapping("/create")
     public ResponseEntity<ReadDtoTreatment> createTreatment(
@@ -37,22 +34,34 @@ public class TreatmentController {
                 this.treatmentService.create(createTreatment));
     }
 
+
     @GetMapping("/id/{id}")
     public ResponseEntity<ReadDtoTreatment> findTreatmentById(
-            @PathVariable String id){
+            @PathVariable String id, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
         return ResponseEntity.ok(treatmentService.findById(id));
     }
 
-    @GetMapping("/medicalProcedureCode/{code}")
+    @GetMapping("/medicalProcedureCode/{code}/{patientId}")
     public ResponseEntity<List<ReadDtoTreatment>> findTreatmentByProcedureCode(
-            @PathVariable String code){
-        return ResponseEntity.ok(treatmentService.findByMedicalProcedureCode(code));
+            @PathVariable String code, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
+        return ResponseEntity.ok(treatmentService.findByMedicalProcedureCode(code, patientId));
     }
 
-    @GetMapping("/medicalProcedureName/{name}")
+    @GetMapping("/medicalProcedureName/{name}/{patientId}")
     public ResponseEntity<List<ReadDtoTreatment>> findTreatmentByProcedureName(
-            @PathVariable String name){
-        return ResponseEntity.ok(treatmentService.findByMedicalProcedureName(name));
+            @PathVariable String name, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
+        return ResponseEntity.ok(treatmentService.findByMedicalProcedureName(name, patientId));
     }
 
     @GetMapping("/patient/{id}")
@@ -67,28 +76,44 @@ public class TreatmentController {
         return ResponseEntity.ok(treatmentService.findByDoctorId(id));
     }
 
-    @GetMapping("/date/{date}")
+    @GetMapping("/date/{date}/{patientId}")
     public ResponseEntity<List<ReadDtoTreatment>> findTreatmentByDate(
-            @PathVariable String date){
-        return ResponseEntity.ok(treatmentService.findByDate(date));
+            @PathVariable String date, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
+        return ResponseEntity.ok(treatmentService.findByDate(date, patientId));
     }
 
-    @GetMapping("/status/{status}")
+    @GetMapping("/status/{status}/{patientId}")
     public ResponseEntity<List<ReadDtoTreatment>> findTreatmentByStatus(
-            @PathVariable String status){
-        return ResponseEntity.ok(treatmentService.findByTreatmentStatus(status));
+            @PathVariable String status, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
+        return ResponseEntity.ok(treatmentService.findByTreatmentStatus(status, patientId));
     }
 
-    @GetMapping("/pathology/{code}")
+    @GetMapping("/pathology/{code}/{patientId}")
     public ResponseEntity<List<ReadDtoTreatment>> findTreatmentByPathologyCode(
-            @PathVariable String code){
-        return ResponseEntity.ok(treatmentService.findByPathologyCode(code));
+            @PathVariable String code, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
+        return ResponseEntity.ok(treatmentService.findByPathologyCode(code, patientId));
     }
 
-    @GetMapping("/medicine/{code}")
+    @GetMapping("/medicine/{code}/{patientId}")
     public ResponseEntity<List<ReadDtoTreatment>> findTreatmentByMedicineCode(
-            @PathVariable String code){
-        return ResponseEntity.ok(treatmentService.findByMedicineCode(code));
+            @PathVariable String code, @PathVariable String patientId,
+            @RequestHeader("Authorization") String token){
+        token = token.substring(7);
+        String role = jwtService.getRoles(token);
+        validations.checkRelativeOrDoctorValidation(patientId, role);
+        return ResponseEntity.ok(treatmentService.findByMedicineCode(code, patientId));
     }
 
     @PutMapping("/update")
@@ -100,6 +125,7 @@ public class TreatmentController {
     @GetMapping("/patient/{id}/medicalRecordPdf")
     public ResponseEntity<InputStreamResource> downloadPDF
             (@PathVariable String id) throws IOException {
+        validations.checkRelativeValidation(id);
         var pdfResource = treatmentService.downloadMedicalRecordPDF(id);
 
         HttpHeaders headers = new HttpHeaders();

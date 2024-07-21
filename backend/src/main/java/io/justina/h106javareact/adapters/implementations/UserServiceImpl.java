@@ -46,11 +46,11 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException(
                     "El usuario correspondiente al email " + data.email() + " se encuentra dado de baja.");
         }
-            var role = patient.getAuthorities().toString();
-            var id = patient.getId();
-            var token = jwtService.getToken(patient);
-            var name = patient.getName();
-            var surname = patient.getSurname();
+        var role = patient.getAuthorities().toString();
+        var id = patient.getId();
+        var token = jwtService.getToken(patient);
+        var name = patient.getName();
+        var surname = patient.getSurname();
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(data.email(),
@@ -122,9 +122,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Boolean toggle(String id) {
-        validations.checkSelfValidation(id);
+
         User userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el usuario con el id " + id));
+
+        if (userEntity.getRelativeDataId() != null) { validations.checkRelativeValidation(id);
+        } else { validations.checkSelfValidation(id); }
+
         userEntity.setActive(!userEntity.getActive());
         userRepository.save(userEntity);
         return true;

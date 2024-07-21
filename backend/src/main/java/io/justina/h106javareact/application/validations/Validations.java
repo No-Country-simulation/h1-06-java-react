@@ -3,10 +3,12 @@ package io.justina.h106javareact.application.validations;
 import io.justina.h106javareact.adapters.exceptions.AppointmentAvailabilityException;
 import io.justina.h106javareact.adapters.repositories.AppointmentRepository;
 import io.justina.h106javareact.adapters.repositories.DoctorDataRepository;
+import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.domain.entities.Appointment;
 import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.MedicalLicense;
+import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import java.util.List;
 public class Validations {
 
     private final UserRepository userRepository;
+    private final PatientDataRepository patientDataRepository;
     private final DoctorDataRepository doctorDataRepository;
     private final AppointmentRepository appointmentRepository;
 
@@ -125,6 +128,39 @@ public class Validations {
             throw new AppointmentAvailabilityException("El profesional con el id: " + doctorId +
                     " tiene otro turno en el mismo horario.");
         }
+    }
+
+    public boolean checkRelativeValidation(String patientId) {
+        String userLogged = SecurityContextHolder.getContext().getAuthentication().getName();
+        var patient = userRepository.findById(patientId);
+        var patientData = patientDataRepository.findById(patient.get().getPatientDataId());
+        User relative = null;
+        if (patientData.get().getRelativeDataId() != null) {
+            var relativeId = patientData.get().getRelativeDataId();
+            relative = userRepository.findById(relativeId).get();
+        }
+        if (patient.isPresent() && userLogged.equals(patient.get().getEmail())) { return true; }
+        if (relative == null || !userLogged.equals(relative.getEmail())) {
+            throw new IllegalArgumentException("¡El usuario no tiene permiso para esta acción!");
+        }
+        return true;
+    }
+
+    public boolean checkRelativeOrDoctorValidation(String patientId, String role) {
+        String userLogged = SecurityContextHolder.getContext().getAuthentication().getName();
+        var patient = userRepository.findById(patientId);
+        var patientData = patientDataRepository.findById(patient.get().getPatientDataId());
+        User relative = null;
+        if (patientData.get().getRelativeDataId() != null) {
+            var relativeId = patientData.get().getRelativeDataId();
+            relative = userRepository.findById(relativeId).get();
+        }
+        if (role.equals("ROLE_" + Role.DOCTOR.name())) { return true; }
+        if (patient.isPresent() && userLogged.equals(patient.get().getEmail())) { return true; }
+        if (relative == null || !userLogged.equals(relative.getEmail())) {
+            throw new IllegalArgumentException("¡El usuario no tiene permiso para esta acción!");
+        }
+        return true;
     }
 
     }

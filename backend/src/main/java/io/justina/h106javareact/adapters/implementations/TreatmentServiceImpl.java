@@ -9,6 +9,7 @@ import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
 import io.justina.h106javareact.adapters.mappers.TreatmentMapper;
 import io.justina.h106javareact.adapters.repositories.*;
 import io.justina.h106javareact.application.services.TreatmentService;
+import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.*;
 import io.justina.h106javareact.domain.entities.enums.TreatmentStatus;
 import jakarta.persistence.EntityNotFoundException;
@@ -40,6 +41,7 @@ public class TreatmentServiceImpl implements TreatmentService {
     private final MedicalProcedureRepository medicalProcedureRepository;
     private final UserRepository userRepository;
     private final TreatmentMapper treatmentMapper;
+    private final Validations validations;
 
     @Transactional
     @Override
@@ -89,16 +91,18 @@ public class TreatmentServiceImpl implements TreatmentService {
     }
 
     @Override
-    public List<ReadDtoTreatment> findByMedicalProcedureCode(String code) {
-        List<Treatment> foundTreatments = treatmentRepository.findByMedicalProcedureCode(code)
+    public List<ReadDtoTreatment> findByMedicalProcedureCode(String code, String patientId) {
+        List<Treatment> foundTreatments = treatmentRepository
+                .findByMedicalProcedureCodeAndPatientId(code, patientId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar ningún tratamiento con el código " + code));
         return treatmentMapper.entityListToReadTreatmentList(foundTreatments);
     }
 
     @Override
-    public List<ReadDtoTreatment> findByMedicalProcedureName(String name) {
-        List<Treatment> foundTreatments = treatmentRepository.findByMedicalProcedureName(name)
+    public List<ReadDtoTreatment> findByMedicalProcedureName(String name, String patientId) {
+        List<Treatment> foundTreatments = treatmentRepository
+                .findByMedicalProcedureNameAndPatientId(name, patientId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar ningún tratamiento con el nombre " + name));
         return treatmentMapper.entityListToReadTreatmentList(foundTreatments);
@@ -121,18 +125,18 @@ public class TreatmentServiceImpl implements TreatmentService {
     }
 
     @Override
-    public List<ReadDtoTreatment> findByDate(String date) {
+    public List<ReadDtoTreatment> findByDate(String date, String patientId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime entity = LocalDateTime.parse(date, formatter);
 
-        List<Treatment> foundTreatments = treatmentRepository.findByDate(entity)
+        List<Treatment> foundTreatments = treatmentRepository.findByDateAndPatientId(entity, patientId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar ningún tratamiento con fecha de " + date));
         return treatmentMapper.entityListToReadTreatmentList(foundTreatments);
     }
 
     @Override
-    public List<ReadDtoTreatment> findByTreatmentStatus(String treatmentStatus) {
+    public List<ReadDtoTreatment> findByTreatmentStatus(String treatmentStatus, String patientId) {
         var entity = TreatmentStatus.valueOf(treatmentStatus);
         List<Treatment> foundTreatments = treatmentRepository.findByTreatmentStatus(entity)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -141,24 +145,24 @@ public class TreatmentServiceImpl implements TreatmentService {
     }
 
     @Override
-    public List<ReadDtoTreatment> findByPathologyCode(String pathologyCode) {
+    public List<ReadDtoTreatment> findByPathologyCode(String pathologyCode, String patientId) {
         Pathology entity = pathologyRepository.findByCode(pathologyCode)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar la patología con el código " + pathologyCode));
 
-        List<Treatment> foundTreatments = treatmentRepository.findByPathology(entity)
+        List<Treatment> foundTreatments = treatmentRepository.findByPathologyAndPatientId(entity, patientId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar ningún tratamiento para la patología " + pathologyCode));
         return treatmentMapper.entityListToReadTreatmentList(foundTreatments);
     }
 
     @Override
-    public List<ReadDtoTreatment> findByMedicineCode(String medicineCode) {
+    public List<ReadDtoTreatment> findByMedicineCode(String medicineCode, String patientId) {
         Medicine entity = medicineRepository.findByCode(medicineCode)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar el medicamento con el código " + medicineCode));
 
-        List<Treatment> foundTreatments = treatmentRepository.findByMedicine(entity)
+        List<Treatment> foundTreatments = treatmentRepository.findByMedicineAndPatientId(entity, patientId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "No se puede encontrar ningún tratamiento que tenga el medicamento " + medicineCode + " recetado."));
         return treatmentMapper.entityListToReadTreatmentList(foundTreatments);
