@@ -6,25 +6,37 @@ import { Link } from "react-router-dom";
 import checkBirthDate from "../../hooks/checkBirthDate";
 import ModalAdvice from "./components/ModalAdvice";
 import Buttons from "../../components/Buttons/Buttons";
+import { RegisterPatient } from "../../services/Patient/RegisterPatient";
 function PatientForm({ ...props }) {
   const [isGenderSelectionShown, setIsGenderSelectionShown] = useState(false);
   const [isBloodTypeShown, setIsBloodTypeShown] = useState(false);
+  const [isShownModal, setIsShownModal] = useState(false);
+  const [isModalFormSelect, setIsModalFormSelect] = useState(undefined);
   function birthDateHandler(e) {
     if (checkBirthDate(e.target.value)) {
       props.setRegisterForm({
         ...props.registerForm,
-        birthDate: e.target.value,
+        dateOfBirth: e.target.value,
       });
     } else {
       setIsShownModal(true);
       return false;
     }
   }
-  const [isShownModal, setIsShownModal] = useState(false);
-  const [isModalFormSelect, setIsModalFormSelect] = useState(undefined);
+
+  function submitHandler(e) {
+    e.preventDefault();
+    RegisterPatient(props.registerForm);
+  }
+
+  console.log(props.registerForm);
   return (
     <div id="patient-form">
-      <div id="patient-form-container" className="flex-column-center">
+      <form
+        id="patient-form-container"
+        className="flex-column-center"
+        onSubmit={submitHandler}
+      >
         <div className="flex-column">
           <label>Nombre</label>
           <input
@@ -43,11 +55,11 @@ function PatientForm({ ...props }) {
           <label>Apellido</label>
           <input
             type="text"
-            value={props.registerForm.lastName}
+            value={props.registerForm.surname}
             onChange={(e) =>
               props.setRegisterForm({
                 ...props.registerForm,
-                lastName: e.target.value,
+                surname: e.target.value,
               })
             }
             className="inputLayout"
@@ -79,7 +91,7 @@ function PatientForm({ ...props }) {
           <label>Fecha de Nacimiento</label>
           <input
             type="date"
-            value={props.registerForm.birthDate}
+            value={props.registerForm.dateOfBirth}
             onInput={birthDateHandler}
             className="inputLayout"
           />
@@ -102,7 +114,7 @@ function PatientForm({ ...props }) {
             <div id="gender-box">
               <div className="gender-selection">
                 <button
-                  value="Masculino"
+                  value="MASCULINO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -114,7 +126,7 @@ function PatientForm({ ...props }) {
                   Masculino
                 </button>
                 <button
-                  value="Femenino"
+                  value="FEMENINO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -124,10 +136,36 @@ function PatientForm({ ...props }) {
                   }}
                 >
                   Femenino
+                </button>{" "}
+                <button
+                  value="OTRO"
+                  onClick={(e) => {
+                    props.setRegisterForm({
+                      ...props.registerForm,
+                      gender: e.target.value,
+                    }),
+                      setIsGenderSelectionShown(false);
+                  }}
+                >
+                  Otro
                 </button>
               </div>
             </div>
           )}
+        </div>
+        <div className="flex-column">
+          <label>address</label>
+          <input
+            type="text"
+            value={props.registerForm.address}
+            onChange={(e) =>
+              props.setRegisterForm({
+                ...props.registerForm,
+                address: e.target.value,
+              })
+            }
+            className="inputLayout"
+          />
         </div>
         <div className="flex-column">
           <label>Seleciona tu grupo sanguineo</label>
@@ -147,7 +185,7 @@ function PatientForm({ ...props }) {
             <div id="bloodType-box">
               <div className="bloodType-selection">
                 <button
-                  value="A+"
+                  value="A_POSITIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -159,7 +197,7 @@ function PatientForm({ ...props }) {
                   A+
                 </button>
                 <button
-                  value="B+"
+                  value="B_POSITIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -171,7 +209,7 @@ function PatientForm({ ...props }) {
                   B+
                 </button>
                 <button
-                  value="AB+"
+                  value="AB_POSITIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -183,7 +221,7 @@ function PatientForm({ ...props }) {
                   AB+
                 </button>
                 <button
-                  value="0+"
+                  value="0_POSITIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -195,7 +233,7 @@ function PatientForm({ ...props }) {
                   0+
                 </button>
                 <button
-                  value="A-"
+                  value="A_NEGATIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -207,7 +245,7 @@ function PatientForm({ ...props }) {
                   A-
                 </button>
                 <button
-                  value="B-"
+                  value="_NEGATIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -219,7 +257,7 @@ function PatientForm({ ...props }) {
                   B-
                 </button>
                 <button
-                  value="AB-"
+                  value="AB_NEGATIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -231,7 +269,7 @@ function PatientForm({ ...props }) {
                   AB-
                 </button>
                 <button
-                  value="0-"
+                  value="0_NEGATIVO"
                   onClick={(e) => {
                     props.setRegisterForm({
                       ...props.registerForm,
@@ -311,9 +349,13 @@ function PatientForm({ ...props }) {
           </div>
         </div>
         <div>
-          <Buttons variant="primary" label={"Crear Cuenta"}></Buttons>
+          <Buttons
+            variant="primary"
+            label={"Crear Cuenta"}
+            type="submit"
+          ></Buttons>
         </div>
-      </div>
+      </form>
       <div>
         <div className="flex-row-evenly marginTop-20">
           <span>Ya tiene una cuenta?</span>
