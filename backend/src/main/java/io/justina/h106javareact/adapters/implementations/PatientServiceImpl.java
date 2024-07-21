@@ -35,15 +35,15 @@ public class PatientServiceImpl implements PatientService {
     public ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient) {
         var relativeAssociatedData = relativeDataRepository.findByAssistedEmail(createDtoPatient.email());
         User relative = null;
-        if (relativeAssociatedData != null) {
+        PatientData patientData = this.userMapper.createPatientDtoToData(createDtoPatient);
+        if (!relativeAssociatedData.isEmpty()) {
             relative = userRepository.findByRelativeDataId(relativeAssociatedData.get().getId())
                     .orElseThrow(() -> new EntityNotFoundException(
                             "No se puede encontrar el tutor para este paciente"));
+            patientData.setRelativeDataId(relative.getId());
         }
 
         User isReturningToTheApp = validations.userAlreadyExistsValidation(createDtoPatient.email());
-        PatientData patientData = this.userMapper.createPatientDtoToData(createDtoPatient);
-        patientData.setRelativeDataId(relative.getId());
 
         if (isReturningToTheApp != null) {
             isReturningToTheApp.setActive(true);
