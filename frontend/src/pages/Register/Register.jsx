@@ -4,6 +4,7 @@ import "./Register.css";
 import DoctorForm from "../doctor/DoctorForm";
 
 function Register() {
+  const [registerSuccess, setRegisterSuccess] = useState(false);
   const [profileSelection, setProfileSelection] = useState(undefined);
   const [registerForm, setRegisterForm] = useState({
     name: "",
@@ -73,6 +74,8 @@ function Register() {
             profileSelection={profileSelection}
             registerForm={registerForm}
             setRegisterForm={setRegisterForm}
+            registerSuccess={registerSuccess}
+            setRegisterSuccess={setRegisterSuccess}
           />
         ) : profileSelection === "medico" ? (
           <DoctorForm

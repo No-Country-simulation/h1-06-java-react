@@ -10,6 +10,7 @@ function CardNotification({ ...props }) {
         type={props.type}
         title={props.title}
         time={props.time}
+        date={props.date}
       ></Notifications>
     </>
   );

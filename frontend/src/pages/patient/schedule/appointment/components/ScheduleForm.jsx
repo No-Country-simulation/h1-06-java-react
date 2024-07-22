@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Buttons from "../../../components/Buttons/Buttons";
+import Buttons from "../../../../../components/Buttons/Buttons";
 
 function ScheduleForm() {
   const [scheduleForm, setScheduleForm] = useState({
