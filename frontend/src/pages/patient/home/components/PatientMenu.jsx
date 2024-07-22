@@ -6,13 +6,13 @@ function PatientMenu() {
   const [optionMenu] = useState([
     {
       title: "Historia Clinica",
-      url: "/appointment",
+      url: "/patient/medical-history",
       icon: calendarIcon,
       textButton: "Ver detalle",
     },
     {
       title: "Consultas Médicas",
-      url: "/calendar",
+      url: "/patient/appointment",
       icon: MedicHistoryIcon,
       textButton: "Ir a citas",
     },

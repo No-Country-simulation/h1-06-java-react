@@ -8,6 +8,7 @@
     font-style: normal;
     background-color: #FAFAFA;
     min-height: 100%;
+    padding-bottom: 100px;
 }
 
 #profile-container {
@@ -120,11 +121,14 @@
     min-height: 200px;
 }
 
-#account-data-content {
+#account-data-content,
+#account-data-content button {
     display: flex;
     flex-direction: column;
     gap: 20px;
     min-height: 200px;
     margin-top: 30px;
+    background-color: transparent;
 }
+
 

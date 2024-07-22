@@ -1,7 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
+import { useUserLogin } from "../../../../store/UserLogin";
+
 
 
 function AccountOptions() {
+  const { setUser } = useUserLogin();
+  
+const AccountHandler = () => {
+  localStorage.clear();
+  setUser({});
+  Navigate("/login");
+}
   return (
     <div id="account-data">
     <div id="account-data-container">
@@ -14,7 +23,7 @@ function AccountOptions() {
       <div id="account-data-content" className="flex-column">
         <Link to={"/patient/prepaga"}>Ayuda</Link>
         <Link to={"/patient/help"}>Dar de baja la cuenta</Link>
-        <Link to={"/"}>Cerrar sesion</Link>
+        <div onClick={() => AccountHandler()}>Cerrar sesion</div>
       </div>
     </div>
   </div>

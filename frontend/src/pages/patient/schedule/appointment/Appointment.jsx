@@ -1,12 +1,12 @@
 import ScheduledAppointment from "./components/ScheduledAppointment";
 import "./Appointment.css";
-import Titles from "../../components/Titles/Titles";
+import Titles from "../../../../components/Titles/Titles";
 import ScheduleForm from "./components/ScheduleForm";
 
 function Appointment() {
   return (
     <div id="appointment">
-      <Titles title="Citas" url="/doctor/home"></Titles>
+      <Titles title="Citas" url="/patient/home"></Titles>
       <div id="appointment-container">
         <ScheduledAppointment />
         <div id="appointment-divider">

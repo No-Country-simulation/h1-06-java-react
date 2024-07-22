@@ -12,7 +12,7 @@ function CardMenu({ ...props }) {
           <h2>{props.cardInfo.title}</h2>
         </div>
         <div id="cardData-button-content">
-          <Link className="flex-row-icon">
+          <Link to={props.cardInfo.url} className="flex-row-icon">
             {props.cardInfo.textButton} <img src={ArrowRightIcon} />
           </Link>
         </div>

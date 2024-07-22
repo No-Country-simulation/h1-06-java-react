@@ -12,13 +12,13 @@ import Turnos from "../pages/doctor/turnos/Turnos";
 import Pacientes from "../pages/doctor/patients/Patients";
 import Perfil from "../pages/doctor/perfil/Perfil";
 import DoctorHome from "../pages/doctor/home/HomeDoctor";
-import Appointment from "../pages/appointment/Appointment";
+import Appointment from "../pages/patient/schedule/appointment/Appointment";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { useUserLogin } from "../store/UserLogin";
-import HistoryPatient from '../pages/doctor/historyPatient/HistoryPatient'
-import Cancel from '../pages/doctor/turnos/components/Cancel'
-import ResultPatient from '../pages/doctor/patients/ResultPatient/ResultPatient'
-
+import HistoryPatient from "../pages/doctor/historyPatient/HistoryPatient";
+import Cancel from "../pages/doctor/turnos/components/Cancel";
+import ResultPatient from "../pages/doctor/patients/ResultPatient/ResultPatient";
+import MedicalHistory from "../pages/patient/medicalHistory/MedicalHistory";
 
 const Router = () => {
   const { user } = useUserLogin();
@@ -52,6 +52,10 @@ const Router = () => {
           element: <Appointment />,
         },
         {
+          path: "/patient/medical-history",
+          element: <MedicalHistory />,
+        },
+        {
           path: "/doctor/home",
           element: <DoctorHome />,
           //errorElement: <ErrorPage />,
@@ -70,13 +74,14 @@ const Router = () => {
           path: "/doctor/perfil",
           element: <Perfil />,
           //errorElement: <ErrorPage />,
-        },{
-          path: '/doctor/historialPaciente',
+        },
+        {
+          path: "/doctor/historialPaciente",
           element: <HistoryPatient />,
           //errorElement: <ErrorPage />,
         },
         {
-          path: '/doctor/turnos/cancel',
+          path: "/doctor/turnos/cancel",
           element: <Cancel />,
           //errorElement: <ErrorPage />,
         },
@@ -107,4 +112,4 @@ const Router = () => {
   return <RouterProvider router={router} />;
 };
 
-export default Router
+export default Router;
