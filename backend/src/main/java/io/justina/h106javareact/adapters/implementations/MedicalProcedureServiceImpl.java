@@ -10,7 +10,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -32,11 +34,10 @@ public class MedicalProcedureServiceImpl implements MedicalProcedureService {
 
     @Override
     public Boolean scraping() throws IOException {
-        String cwd = Path.of("").toAbsolutePath().toString();
+        File file = ResourceUtils.getFile("classpath:PracticasMedicas.csv");
         List<MedicalProcedure> medicalProcedureList = new ArrayList<>();
 
-        try (CSVParser parser = new CSVParser(new FileReader(
-                cwd + "/src/main/java/io/justina/h106javareact/domain/utils/PracticasMedicas.csv"),
+        try (CSVParser parser = new CSVParser(new FileReader(file),
                 CSVFormat.DEFAULT.withHeader("code", "name").withFirstRecordAsHeader())) {
             for (CSVRecord record : parser) {
                 String code = record.get("code");
