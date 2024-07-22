@@ -1,6 +1,8 @@
 import Buttons from "../../../../../components/Buttons/Buttons";
+import { useUserLogin } from "../../../../../store/UserLogin";
 
 function EditDataForm() {
+  const { user } = useUserLogin();
   return (
     <div id="edit-personal-data">
       <div id="personal-data-container" className="flex-column">
@@ -11,11 +13,19 @@ function EditDataForm() {
         </div>
         <form id="personal-data-content" className="flex-column">
           <div className="flex-column">
-            <span className="personalDataTitle">Nombre completo</span>
+            <span className="personalDataTitle">Nombreo</span>
             <input
               className="personalDataInput"
               type="text"
-              defaultValue="Pepito Flores"
+              defaultValue={user.name}
+            />
+          </div>
+          <div className="flex-column">
+            <span className="personalDataTitle">Apellido</span>
+            <input
+              className="personalDataInput"
+              type="text"
+              defaultValue={user.surname}
             />
           </div>
           <div className="flex-column">
@@ -23,7 +33,7 @@ function EditDataForm() {
             <input
               className="personalDataInput"
               type="text"
-              defaultValue="02/09/2000"
+              defaultValue={user.dateOfBirth}
             />
           </div>
           <div className="flex-column">
@@ -31,7 +41,7 @@ function EditDataForm() {
             <input
               className="personalDataInput"
               type="text"
-              defaultValue="Masculino"
+              defaultValue={user.gender}
             />
           </div>
           <div className="flex-column">
@@ -39,20 +49,12 @@ function EditDataForm() {
             <input
               className="personalDataInput"
               type="text"
-              defaultValue="fulanito@fulanito"
+              defaultValue={user.email}
             />
           </div>
           <div className="flex-column">
             <span className="personalDataTitle">Contraseña</span>
             <input className="personalDataInput" type="text" />
-          </div>
-          <div className="flex-column">
-            <span className="personalDataTitle">Teléfono</span>
-            <input
-              className="personalDataInput"
-              type="text"
-              defaultValue="+1156546464654"
-            />
           </div>
           <Buttons variant="primary" label={"Guardar Cambios"}></Buttons>
         </form>

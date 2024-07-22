@@ -1,5 +1,5 @@
-const createSpaces = (array) => {
-    return array.map((word) => word.replace(/_/g, " "));
+const createSpaces = (word) => {
+    return word.replace(/_/g, " ");
   };
   
   export default createSpaces;

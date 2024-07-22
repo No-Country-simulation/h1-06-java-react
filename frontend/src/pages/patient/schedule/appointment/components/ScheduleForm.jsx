@@ -3,15 +3,20 @@ import Buttons from "../../../../../components/Buttons/Buttons";
 import { GetSpecialtiesFromDoctor } from "../../../../../services/Patient/GetSpecialtiesFromDoctor";
 import createSpaces from "../../../../../hooks/createSpaces";
 import { GetDoctorBySpecialty } from "../../../../../services/Patient/GetDoctorBySpecialty";
+import { useUserLogin } from "../../../../../store/UserLogin";
+import { FindAvailableAppointmentsByDr } from "../../../../../services/Patient/FindAvailableAppointmentsByDr";
+import { CreateAppointment } from "../../../../../services/Patient/CreateAppointment";
 
 function ScheduleForm() {
+  const { user } = useUserLogin();
   const [doctorBySpecialty, setDoctorBySpecialty] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   const [scheduleForm, setScheduleForm] = useState({
     specialty: "",
-    specialistName: "",
+    patientId: "",
+    doctorId: "",
     date: null,
-    time: "",
+    observations: "",
   });
 
   useEffect(() => {
@@ -19,19 +24,56 @@ function ScheduleForm() {
     GetSpecialties().then((response) => setSpecialties(response));
   }, []);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    const GetDoctorSpecialty = async () => {
-      const response = await GetDoctorBySpecialty(scheduleForm.specialty);
+    const fetchData = async () => {
+      setLoading(true);
+      const response = await GetDoctorBySpecialty(scheduleForm.specialty, user);
       setDoctorBySpecialty(response);
+      setLoading(false);
     };
 
-    GetDoctorSpecialty();
+    if (scheduleForm.specialty !== "") {
+      fetchData();
+    }
   }, [scheduleForm.specialty]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const response = await FindAvailableAppointmentsByDr(
+        doctorBySpecialty[0],
+        user,
+        scheduleForm.date
+      );
+      setScheduleForm({
+        ...scheduleForm,
+        time: response[0],
+      });
+      setLoading(false);
+    };
+  });
+
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
+
+
+  const onSubmit = async (e, id) => {
+    e.preventDefault();
+    setScheduleForm({
+      ...scheduleForm,
+      patientId: id,
+    })
+    console.log(scheduleForm);
+    const response = await CreateAppointment(scheduleForm, id);
+    console.log(response);
+  };
   return (
     <div id="schedule-form">
       <div id="schedule-form-container">
-        <form className="form">
+        <form className="form" onSubmit={(e) => onSubmit(e, user.id)}>
           <div className="flex-column">
             <label>Especialidad</label>
             <select
@@ -46,10 +88,10 @@ function ScheduleForm() {
                 });
               }}
             >
-              {specialties.length > 0
-                ? createSpaces(specialties).map((specialty) => (
+              {specialties && specialties.length > 0
+                ? specialties.map((specialty) => (
                     <option key={specialty} value={specialty}>
-                      {specialty}
+                      {createSpaces(specialty)}
                     </option>
                   ))
                 : null}
@@ -61,18 +103,20 @@ function ScheduleForm() {
               name="specialistName"
               id="specialistName"
               className="inputLayout"
-              value={scheduleForm.specialistName}
-              onChange={(e) => {
+              onChange={(e) =>
                 setScheduleForm({
                   ...scheduleForm,
-                  specialistName: e.target.value,
-                });
-              }}
+                  doctorId: e.target.value,
+                })
+              }
             >
               {doctorBySpecialty.length > 0 ? (
                 doctorBySpecialty.map((doctor) => (
-                  <option key={doctor} value={doctor}>
-                    {doctor}
+                  <option
+                    key={doctor.id}
+                    value={doctor.id}
+                  >
+                    {doctor.name} {doctor.surname}
                   </option>
                 ))
               ) : (
@@ -103,6 +147,17 @@ function ScheduleForm() {
             </div>
           )}
           <div>
+            <div className="flex-column">
+              <label>Observaciones</label>
+              <textarea
+                type="text"
+                required
+                className="inputLayout"
+                onChange={(e) =>
+                  setScheduleForm({ ...scheduleForm, observations: e.target.value })
+                }
+              />
+            </div>
             <Buttons type="submit" label="Agendar Cita"></Buttons>
           </div>
         </form>
