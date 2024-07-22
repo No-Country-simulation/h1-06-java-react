@@ -27,17 +27,14 @@ function ScheduleForm() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDoctors = async () => {
       setLoading(true);
       const response = await GetDoctorBySpecialty(scheduleForm.specialty, user);
       setDoctorBySpecialty(response);
       setLoading(false);
     };
-
-    if (scheduleForm.specialty !== "") {
-      fetchData();
-    }
-  }, [scheduleForm.specialty]);
+    fetchDoctors();
+  }, [scheduleForm.specialty, user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,21 +56,33 @@ function ScheduleForm() {
     return <p>Cargando...</p>;
   }
 
-
-  const onSubmit = async (e, id) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setScheduleForm({
+    const formattedDateTime = formatDateTime(
+      scheduleForm.date,
+      scheduleForm.time
+    );
+    const formData = {
       ...scheduleForm,
-      patientId: id,
-    })
-    console.log(scheduleForm);
-    const response = await CreateAppointment(scheduleForm, id);
+      patientId: user.id,
+      date: formattedDateTime,
+    };
+    const response = await CreateAppointment(formData, user);
+    console.log("form", formData);
     console.log(response);
   };
+
+  const formatDateTime = (date, time = "08:00") => {
+    return `${date}T${time}`;
+  };
+
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
   return (
     <div id="schedule-form">
       <div id="schedule-form-container">
-        <form className="form" onSubmit={(e) => onSubmit(e, user.id)}>
+        <form className="form" onSubmit={(e) => onSubmit(e)}>
           <div className="flex-column">
             <label>Especialidad</label>
             <select
@@ -103,6 +112,7 @@ function ScheduleForm() {
               name="specialistName"
               id="specialistName"
               className="inputLayout"
+              value={scheduleForm.doctorId}
               onChange={(e) =>
                 setScheduleForm({
                   ...scheduleForm,
@@ -112,10 +122,7 @@ function ScheduleForm() {
             >
               {doctorBySpecialty.length > 0 ? (
                 doctorBySpecialty.map((doctor) => (
-                  <option
-                    key={doctor.id}
-                    value={doctor.id}
-                  >
+                  <option key={doctor.id} value={doctor.id}>
                     {doctor.name} {doctor.surname}
                   </option>
                 ))
@@ -138,10 +145,19 @@ function ScheduleForm() {
           {scheduleForm.date && (
             <div className="flex-column">
               <label>Hora</label>
-              <select>
+              <select
+                value={scheduleForm.time}
+                onChange={(e) =>
+                  setScheduleForm({ ...scheduleForm, time: e.target.value })
+                }
+              >
                 {Array.from({ length: 24 }, (_, index) => {
                   const hour = `${index < 10 ? "0" : ""}${index}:00`;
-                  return <option key={index}>{hour}</option>;
+                  return (
+                    <option key={index} value={hour}>
+                      {hour}
+                    </option>
+                  );
                 })}
               </select>
             </div>
@@ -154,7 +170,10 @@ function ScheduleForm() {
                 required
                 className="inputLayout"
                 onChange={(e) =>
-                  setScheduleForm({ ...scheduleForm, observations: e.target.value })
+                  setScheduleForm({
+                    ...scheduleForm,
+                    observations: e.target.value,
+                  })
                 }
               />
             </div>

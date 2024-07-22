@@ -105,6 +105,10 @@
     display: flex !important;
   }
   
+
+  body{
+    padding-bottom: 10%;
+  }
  
 
   .flex-column-center {
