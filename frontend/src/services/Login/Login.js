@@ -1,8 +1,11 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 
 export const Login = async (email, password) => {
+  const apiRoute = import.meta.env.VITE_API_ROUTE;
+  const loginRoute = import.meta.env.VITE_API_LOGIN;
   try {
-    const response = await axios.post("http://localhost:7082/api/v1/login", {
+    const response = await axios.post(apiRoute + loginRoute, {
       email,
       password,
     });

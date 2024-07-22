@@ -1,11 +1,10 @@
 import axios from "axios";
 
 export const RegisterRelative = async (data) => {
+  const apiRoute = import.meta.env.VITE_API_ROUTE;
+  const registerRelative = import.meta.env.VITE_REGISTER_RELATIVE;
   try {
-    const response = await axios.post(
-      "http://localhost:7082/api/v1/relative/register",
-      data
-    );
+    const response = await axios.post(apiRoute + registerRelative, data);
     console.log(response.data);
     return response.data;
   } catch (error) {
