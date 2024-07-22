@@ -46,6 +46,7 @@ public class SecurityConfig {
             "/api/v1/doctor/register",
             "/api/v1/relative/register",
             "/api/v1/doctor/specialties",
+            "/api/v1/email/emailValidation/{token}/{email}",
             // MOVE THESE THREE TO AUTH ENDPOINTS!
             "/api/v1/pathology",
             "/api/v1/medicine",

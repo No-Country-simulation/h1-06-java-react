@@ -30,7 +30,7 @@ public class PatientServiceImpl implements PatientService {
     private final RelativeDataRepository relativeDataRepository;
     private final PasswordEncoder passwordEncoder;
     public final Validations validations;
-    //public final EmailService emailService;
+    public final EmailService emailService;
 
     @Transactional
     @Override
@@ -62,7 +62,7 @@ public class PatientServiceImpl implements PatientService {
         user.setRole(Role.PACIENTE);
         user.setPatientDataId(patientDataAdded.getId());
 
-        //emailService.emailConfirmation(user.getEmail(), user.getName());
+        emailService.emailConfirmation(user.getEmail(), user.getName());
 
         var patientAdded = userRepository.save(user);
         return userMapper.entityToReadDtoPatient(patientAdded, patientDataAdded);

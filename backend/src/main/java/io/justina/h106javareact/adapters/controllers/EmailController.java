@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/email")
+@RequestMapping("/api/v1/email")
 public class EmailController {
 
-    //public final EmailService emailService;
-/*
+    public final EmailService emailService;
+
     @GetMapping("/emailValidation/{token}/{email}")
         // /emailValidation/token=askjdajs/email=lalala@gmail.com
     String EmailValidation(@PathVariable("token") String token, @PathVariable("email") String email) throws Exception {
         emailService.validateToken(token, email);
         return emailService.validateToken(token, email);
-    }*/
+    }
 
 }

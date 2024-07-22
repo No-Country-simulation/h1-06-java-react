@@ -1,12 +1,15 @@
 package io.justina.h106javareact.adapters.implementations;
 
 import io.justina.h106javareact.adapters.repositories.AppointmentRepository;
+import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.EmailService;
 import io.justina.h106javareact.domain.entities.Appointment;
+import io.justina.h106javareact.domain.entities.User;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServlet;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,12 +24,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/*
+
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl extends HttpServlet implements EmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
+    private final UserRepository userRepository;
 
     String token = token();
     @Value("${server.root}")
@@ -161,7 +165,7 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
      * 5. compara el token con el token del servidor.
      * */
 
-/*
+
     public void emailConfirmation(String email, String userName) throws Exception {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -171,58 +175,47 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
             helper.setSubject("JUSTINA IO : Confirma tu correo.");
 
             Context context = new Context();
-            context.setVariable("nombreUsuario",userName);
+            context.setVariable("nombreUsuario", userName);
             context.setVariable("validationLink", buildEndpoint());
             String htmlBody = templateEngine.process("emailValidation", context);
 
             helper.setText(htmlBody, true);
             javaMailSender.send(message);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new Exception("Error en la validación del correo electrónico: " + e.getMessage());
         }
     }
 
-
-
-    String buildEndpoint(){
-        String urlPersonalizado= serverRoot + "/email/emailValidation/"
+    String buildEndpoint() {
+        String urlPersonalizado = serverRoot + "/api/v1/email/emailValidation/"
                 + token + "/guillermodivan@gmail.com";
         return urlPersonalizado;
     }
 
-    String token(){
+    String token() {
         String token = UUID.randomUUID().toString();
         return token;
     }
 
-    /*
     @Transactional
-    public String validateToken(String tokenController, String email){
-        if(tokenController.equals(token)){
-            //Esta función está llamada así para evitar referencia cíclica con assistentService.
-            Optional<Assistent> assistentValidating = assistentRepository.findByEmail(email);
-            if(assistentValidating.isPresent()) {
-                assistentValidating.get().setValidUser(true);
-                assistentRepository.save(assistentValidating.get());
-                return  assistentValidating.get().getFirstName() + " Confirmacion de identidad exitosa. ";
-
-            } else { Doctor doctorValidating = doctorRepository.findByEmail(email)
-                    .orElseThrow(() -> new EntityNotFoundException(email));
-                doctorValidating.setValidUser(true);
-                doctorRepository.save(doctorValidating);
-                return doctorValidating.getFirstName() + " Doctor , su confirmacion de identidad ha sido exitosa. ";
+    public String validateToken(String tokenController, String email) throws BadRequestException {
+        if (tokenController.equals(token)) {
+            Optional<User> userValidating = userRepository.findByEmail(email);
+            if (userValidating.isPresent()) {
+                userValidating.get().setValidUser(true);
+                userRepository.save(userValidating.get());
+                return userValidating.get().getName() + " Confirmacion de identidad exitosa. ";
+            } else {
+                throw new RuntimeException("Usuario no validado!");
             }
-        }else { throw new RuntimeException("Usuario no validado!");}
+        } throw new BadRequestException("¡Token no válido!");
     }
+}
 
     
 
-
+/*
     @PostConstruct
     void senMessage() throws Exception {
         emailConfirmation("juan.ortega.it@gmail.com","Juan Ortega");
-    }
-    }
-    */
-
-
+    }*/
