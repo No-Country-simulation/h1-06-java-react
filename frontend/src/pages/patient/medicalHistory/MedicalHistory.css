@@ -1,0 +1,90 @@
+#medicalHistory {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    font-family: "Inter";
+    font-style: normal;
+    background-color: #FAFAFA;
+    min-height: 100%;
+}
+
+#medicalHistory-container {
+    width: 90%;
+    padding-top: 30px;
+}
+
+#historyTitleSelector {
+    width: 100%;
+    top: 120px;
+    left: 20px;
+    gap: 0px;
+    display: flex;
+    opacity: 0px;
+    flex-direction: wrap;
+}
+
+#historyTitleSelector-container {
+    display: flex;
+    width: 100%;
+    flex-direction: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+#historyTitleSelector-container input {
+    width: Hug (205px)px;
+    height: Hug (48px)px;
+    padding: 10px;
+    border-radius: 16px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+    border: 1px solid #5664C4;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    background: #FFFFFF;
+    color: #5664C4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#medicalRecords-container{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    opacity: 0px;
+}
+
+#medicalRecords li {
+    display: flex;
+    gap: 10px
+}
+
+.record {
+    width: Fixed (390px)px;
+    height: Hug (231px)px;
+    top: 305px;
+    gap: 12px;
+    opacity: 0px;
+    width: Fill (390px)px;
+    height: Fixed (187px)px;
+    padding: 19px 15px 19px 15px;
+    gap: 20px;
+    border-radius: 16px;
+    opacity: 0px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 0px #6B72800A;
+
+    box-shadow: 0px 16px 32px -4px #6B72801A;
+    
+}
