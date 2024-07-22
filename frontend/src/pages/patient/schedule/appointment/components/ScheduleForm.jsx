@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import Buttons from "../../../../../components/Buttons/Buttons";
 import { GetSpecialtiesFromDoctor } from "../../../../../services/Patient/GetSpecialtiesFromDoctor";
 import createSpaces from "../../../../../hooks/createSpaces";
+import { GetDoctorBySpecialty } from "../../../../../services/Patient/GetDoctorBySpecialty";
 
 function ScheduleForm() {
+  const [doctorBySpecialty, setDoctorBySpecialty] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   const [scheduleForm, setScheduleForm] = useState({
     specialty: "",
@@ -13,16 +15,18 @@ function ScheduleForm() {
   });
 
   useEffect(() => {
-    const fetchSpecialties = async () => {
-      const response = await GetSpecialtiesFromDoctor();
-      return response;
+    const GetSpecialties = async () => GetSpecialtiesFromDoctor();
+    GetSpecialties().then((response) => setSpecialties(response));
+  }, []);
+
+  useEffect(() => {
+    const GetDoctorSpecialty = async () => {
+      const response = await GetDoctorBySpecialty(scheduleForm.specialty);
+      setDoctorBySpecialty(response);
     };
 
-    fetchSpecialties().then((response) => {
-      setSpecialties(createSpaces(response));
-      console.log(specialties);
-    });
-  }, []);
+    GetDoctorSpecialty();
+  }, [scheduleForm.specialty]);
 
   return (
     <div id="schedule-form">
@@ -43,7 +47,7 @@ function ScheduleForm() {
               }}
             >
               {specialties.length > 0
-                ? specialties.map((specialty) => (
+                ? createSpaces(specialties).map((specialty) => (
                     <option key={specialty} value={specialty}>
                       {specialty}
                     </option>
@@ -65,10 +69,15 @@ function ScheduleForm() {
                 });
               }}
             >
-              <option value="Dr. Juan Perez">Dr. Juan Perez</option>
-              <option value="Dr. Pedro Rodriguez">Dr. Pedro Rodriguez</option>
-              <option value="Dr. Pedro Perez">Dr. Pedro Perez</option>
-              <option value="Dr. Pedro Rodriguez">Dr. Pedro Rodriguez</option>
+              {doctorBySpecialty.length > 0 ? (
+                doctorBySpecialty.map((doctor) => (
+                  <option key={doctor} value={doctor}>
+                    {doctor}
+                  </option>
+                ))
+              ) : (
+                <option>No hay especialistas</option>
+              )}
             </select>
           </div>
           <div className="flex-column">
