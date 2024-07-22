@@ -10,6 +10,7 @@ import io.justina.h106javareact.application.services.PathologyService;
 import io.justina.h106javareact.domain.entities.Pathology;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,10 +31,10 @@ public class PathologyServiceImpl implements PathologyService {
     }
 
     public Boolean scraping() throws IOException {
-        String cwd = Path.of("").toAbsolutePath().toString();
+        File file = ResourceUtils.getFile("classpath:cie10.json");
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         List<Pathology> pathologyList= mapper.readValue(
-                new File(cwd + "/src/main/java/io/justina/h106javareact/domain/utils/cie10.json"),
+                file,
                 new TypeReference<List<Pathology>>(){});
 
         pathologyRepository.saveAll(pathologyList);
