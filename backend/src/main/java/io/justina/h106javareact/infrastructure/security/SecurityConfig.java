@@ -104,7 +104,8 @@ public class SecurityConfig {
             //REGARDING THEIR APPOINTMENTS
             "api/v1/appointment/doctor/{id}/{active}",
             "api/v1/appointment/doctor/{id}/{date}/{active}",
-            "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}"
+            "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}",
+            "api/v1/appointment/cancel/{doctorId}"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {

@@ -1,5 +1,6 @@
 package io.justina.h106javareact.adapters.controllers;
 
+import io.justina.h106javareact.adapters.dtos.appointment.CancelDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.CreateDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.ReadDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.UpdateDtoAppointment;
@@ -97,6 +98,12 @@ public class AppointmentController {
     @DeleteMapping("/toggle/{id}")
     public ResponseEntity<Boolean> toggle(@PathVariable String id) throws BadRequestException {
         return ResponseEntity.ok(appointmentService.toggle(id));
+    }
+
+    @DeleteMapping("cancel/{doctorId}")
+    public ResponseEntity<Boolean> cancelByDoctor(@PathVariable String doctorId,
+         @RequestBody @Valid CancelDtoAppointment cancelDtoAppointment) {
+        return ResponseEntity.ok(appointmentService.cancelByDoctor(doctorId, cancelDtoAppointment));
     }
 
 }
