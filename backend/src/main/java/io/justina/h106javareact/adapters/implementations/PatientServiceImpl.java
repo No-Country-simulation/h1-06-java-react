@@ -5,6 +5,7 @@ import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
 import io.justina.h106javareact.adapters.mappers.UserMapper;
 import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
+import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.PatientService;
 import io.justina.h106javareact.application.validations.Validations;
@@ -25,19 +26,30 @@ public class PatientServiceImpl implements PatientService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PatientDataRepository patientDataRepository;
+    private final RelativeDataRepository relativeDataRepository;
     private final PasswordEncoder passwordEncoder;
     public final Validations validations;
 
     @Transactional
     @Override
     public ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient) {
-        User isReturningToTheApp = validations.userAlreadyExistsValidation(createDtoPatient.email());
+        var relativeAssociatedData = relativeDataRepository.findByAssistedEmail(createDtoPatient.email());
+        User relative = null;
         PatientData patientData = this.userMapper.createPatientDtoToData(createDtoPatient);
+        if (!relativeAssociatedData.isEmpty()) {
+            relative = userRepository.findByRelativeDataId(relativeAssociatedData.get().getId())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "No se puede encontrar el tutor para este paciente"));
+            patientData.setRelativeDataId(relative.getId());
+        }
 
-        if (isReturningToTheApp != null){
+        User isReturningToTheApp = validations.userAlreadyExistsValidation(createDtoPatient.email());
+
+        if (isReturningToTheApp != null) {
             isReturningToTheApp.setActive(true);
             userRepository.save(isReturningToTheApp);
-            return userMapper.entityToReadDtoPatient(isReturningToTheApp, patientData);}
+            return userMapper.entityToReadDtoPatient(isReturningToTheApp, patientData);
+        }
 
         var patientDataAdded = patientDataRepository.save(patientData);
 
@@ -54,7 +66,7 @@ public class PatientServiceImpl implements PatientService {
     @Transactional
     @Override
     public ReadDtoPatient updatePatient(UpdateDtoPatient updateDtoPatient) {
-        validations.checkSelfValidation(updateDtoPatient.id());
+        validations.checkRelativeValidation(updateDtoPatient.id());
         User user = userRepository.findByIdAndActive(updateDtoPatient.id(), true)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + updateDtoPatient.id()));
         var patientData = patientDataRepository.findById(user.getPatientDataId())

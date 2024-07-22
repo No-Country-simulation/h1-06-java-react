@@ -19,4 +19,5 @@ public class PatientData {
     private String healthcareProviderId;
     private String socialSecurityNumber;
     private Boolean isDonor;
+    private String relativeDataId;
 }

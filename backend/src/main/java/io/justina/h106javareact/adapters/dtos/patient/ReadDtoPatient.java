@@ -17,6 +17,7 @@ public record ReadDtoPatient(
         BloodType bloodType,
         String healthcareProviderId,
         String socialSecurityNumber,
-        Boolean isDonor
+        Boolean isDonor,
+        String relativeDataId
 ) {
 }
