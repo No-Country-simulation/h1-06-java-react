@@ -55,7 +55,7 @@
     gap: 10px;
 }
 
-#medicalRecords-container{
+#medicalRecords-container {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -70,21 +70,38 @@
     gap: 10px
 }
 
+#medicalRecords h2, 
+#medicalRecords p{
+    font-family: Inter;
+    font-size: 13.1px;
+    font-weight: 400;
+    line-height: 15.86px;
+    text-align: left;
+    color: #999999;
+}
+
 .record {
+    display: flex;
+    flex-direction: column;
     width: Fixed (390px)px;
     height: Hug (231px)px;
     top: 305px;
     gap: 12px;
     opacity: 0px;
-    width: Fill (390px)px;
-    height: Fixed (187px)px;
-    padding: 19px 15px 19px 15px;
-    gap: 20px;
     border-radius: 16px;
     opacity: 0px;
     background: #FFFFFF;
     box-shadow: 0px 2px 4px 0px #6B72800A;
-
     box-shadow: 0px 16px 32px -4px #6B72801A;
-    
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: transparent;
+}
+
+.buttonContainer button img{
+    background-color: transparent;
 }

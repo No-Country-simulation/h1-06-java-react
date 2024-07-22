@@ -12,7 +12,7 @@ function MedicalData() {
         </div>
         <div id="medical-data-content" className="flex-column">
           <Link to={"/patient/prepaga"}>Prepaga</Link>
-          <Link to={"/patient/help"}>Historia clinica</Link>
+          <Link to={"/patient/medical-history"}>Historia clinica</Link>
           <Link to={"/"}>Seguimientos</Link>
         </div>
       </div>

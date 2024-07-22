@@ -1,6 +1,7 @@
 #patient-form-container {
   gap: 15px;
   margin-top: 15px;
+  padding-bottom: 100px;
 }
 
 #patient-form-container label {

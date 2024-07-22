@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GetMedicalHistory } from "../../../../services/Patient/GetMedicalHistory";
+import { useUserLogin } from "../../../../store/UserLogin";
+import downloadIcon from "../../../../../public/assets/icons/descarga.svg";
 
 function MedicalRecords({ ...props }) {
+  const { user } = useUserLogin();
   const [record, setRecord] = useState([
     {
       fecha_del_tratamiento: "23 de enero, 2024",
@@ -43,28 +46,52 @@ function MedicalRecords({ ...props }) {
       ],
     },
   ]);
+
+  /*   useEffect(() => {
+    const fetchData = async () => {
+      const response = await GetMedicalHistory(user);
+      setRecord(response);
+      console.log(response);
+    };
+    fetchData();
+  }, []); */
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await GetMedicalHistory();
+      setRecord(response);
+    };
+    fetchData();
+  }, []);
   return (
     <div id="medicalRecords">
       <div id="medicalRecords-container">
         {record.map((rec, index) => (
           <div key={index} className="record">
-            <h2>Tratamiento del {rec.fecha_del_tratamiento}</h2>
-            <p>
+            <h2>{rec.fecha_del_tratamiento}</h2>
+            <span>
               <strong>Patología:</strong> {rec.patologia}
-            </p>
-            <p>
+            </span>
+            <span>
               <strong>Tratamiento:</strong> {rec.tratamiento}
-            </p>
+            </span>
             <div>
               <h3>Medicamentos</h3>
               <ul>
                 {rec.medicamentos.map((medicamento, medIndex) => (
-                  <li key={medIndex}>
-                    <p>{medicamento.nombre} -{" "} </p>
-                    <p> {medicamento.dosaje}</p>
-                  </li>
+                  <>
+                    <li key={medIndex}>
+                      <p>{medicamento.nombre} - </p>
+                      <p> {medicamento.dosaje}</p>
+                    </li>
+                  </>
                 ))}
               </ul>
+            </div>
+            <div className="buttonContainer">
+              <button>
+                <img src={downloadIcon} />
+              </button>
             </div>
           </div>
         ))}
