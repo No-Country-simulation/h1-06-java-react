@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Buttons from "../../../../../components/Buttons/Buttons";
+import { GetSpecialtiesFromDoctor } from "../../../../../services/Patient/GetSpecialtiesFromDoctor";
+import createSpaces from "../../../../../hooks/createSpaces";
 
 function ScheduleForm() {
+  const [specialties, setSpecialties] = useState([]);
   const [scheduleForm, setScheduleForm] = useState({
     specialty: "",
     specialistName: "",
     date: null,
     time: "",
   });
+
+  useEffect(() => {
+    const fetchSpecialties = async () => {
+      const response = await GetSpecialtiesFromDoctor();
+      return response;
+    };
+
+    fetchSpecialties().then((response) => {
+      setSpecialties(createSpaces(response));
+      console.log(specialties);
+    });
+  }, []);
+
   return (
     <div id="schedule-form">
       <div id="schedule-form-container">
@@ -26,19 +42,13 @@ function ScheduleForm() {
                 });
               }}
             >
-              <option value="Cardiologia">Cardiologia</option>
-              <option value="Cirugia">Cirugia</option>
-              <option value="Dermatologia">Dermatologia</option>
-              <option value="Endocrinologia">Endocrinologia</option>
-              <option value="Ginecologia">Ginecologia</option>
-              <option value="Nefrologia">Nefrologia</option>
-              <option value="Neurologia">Neurologia</option>
-              <option value="Nutricion">Nutricion</option>
-              <option value="Oftalmologia">Oftalmologia</option>
-              <option value="Pediatria">Pediatria</option>
-              <option value="Pneumologia">Pneumologia</option>
-              <option value="Psiquiatria">Psiquiatria</option>
-              <option value="Urologia">Urologia</option>
+              {specialties.length > 0
+                ? specialties.map((specialty) => (
+                    <option key={specialty} value={specialty}>
+                      {specialty}
+                    </option>
+                  ))
+                : null}
             </select>
           </div>
           <div className="flex-column">
