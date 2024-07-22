@@ -7,6 +7,7 @@ import io.justina.h106javareact.adapters.mappers.UserMapper;
 import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
 import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
+import io.justina.h106javareact.application.services.EmailService;
 import io.justina.h106javareact.application.services.PatientService;
 import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.DoctorData;
@@ -29,10 +30,11 @@ public class PatientServiceImpl implements PatientService {
     private final RelativeDataRepository relativeDataRepository;
     private final PasswordEncoder passwordEncoder;
     public final Validations validations;
+    //public final EmailService emailService;
 
     @Transactional
     @Override
-    public ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient) {
+    public ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient) throws Exception {
         var relativeAssociatedData = relativeDataRepository.findByAssistedEmail(createDtoPatient.email());
         User relative = null;
         PatientData patientData = this.userMapper.createPatientDtoToData(createDtoPatient);
@@ -59,6 +61,9 @@ public class PatientServiceImpl implements PatientService {
         user.setActive(Boolean.TRUE);
         user.setRole(Role.PACIENTE);
         user.setPatientDataId(patientDataAdded.getId());
+
+        //emailService.emailConfirmation(user.getEmail(), user.getName());
+
         var patientAdded = userRepository.save(user);
         return userMapper.entityToReadDtoPatient(patientAdded, patientDataAdded);
     }

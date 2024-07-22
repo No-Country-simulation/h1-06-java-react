@@ -5,6 +5,6 @@ import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
 
 public interface PatientService {
-    ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient);
+    ReadDtoPatient createPatient(CreateDtoPatient createDtoPatient) throws Exception;
     ReadDtoPatient updatePatient(UpdateDtoPatient updateDtoPatient);
 }
