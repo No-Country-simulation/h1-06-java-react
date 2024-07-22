@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recordatorio de Cita</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f6ff;
+        }
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #e6f0ff;
+            border: 2px solid #2e6da4;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .content {
+            padding: 40px;
+            position: relative;
+        }
+        .header {
+            background-color: #2e6da4;
+            color: #ffffff;
+            text-align: center;
+            padding: 30px 0;
+        }
+        .title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .body {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .footer {
+            background-color: #2e6da4;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+            border-top: 2px solid #ffffff;
+        }
+        .turno-icon {
+            position: absolute;
+            top: 40px;
+            right: -50px;
+        }
+        .social-icons {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #2e6da4;
+            color: #ffffff;
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        .social-icons a:hover {
+            background-color: #1a4d7d;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="title">Recordatorio de Citas JUSTINA IO</h1>
+    </div>
+    <div class="content">
+        <p class="body">Estimado/a <span th:text="${nameUser}"></span>,</p>
+        <p class="body"> Le recordamos que tiene una cita programada con el/la Dr/a.
+            <span th:text="${appointmentDoctor}"></span></p>
+        <p class="body">
+            Fecha de la cita:
+            <span th:text="${appointmentDate}"></span>
+            <br /> Hora:
+            <span th:text="${appointmentTime}"></span>hs.
+            <br />
+            Dirección consultorio:
+            <span th:text="${appointmentAddress}"></span></p>
+        <p class="body">Por favor, asegúrese de llegar a tiempo y traer consigo cualquier documento o información relevante.</p>
+        <p class="body">¡Esperamos verlo/a pronto!</p>
+        <div class="social-icons">
+            <a href="#" title="Facebook">F</a>
+            <a href="#" title="Twitter">T</a>
+            <a href="#" title="Instagram">I</a>
+        </div>
+    </div>
+    <div class="footer">
+        <p>© 2024 JUSTINA IO. Todos los derechos reservados.</p>
+    </div>
+</div>
+</body>
+
+
+</html>

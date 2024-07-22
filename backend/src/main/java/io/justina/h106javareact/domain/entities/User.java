@@ -49,6 +49,7 @@ public class User implements UserDetails {
     private List<Treatment> treatmentList;
     private String address;
     private Boolean active = true;
+    private Boolean validUser;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
