@@ -46,6 +46,7 @@ public class SecurityConfig {
             "/api/v1/doctor/register",
             "/api/v1/relative/register",
             "/api/v1/doctor/specialties",
+            "/api/v1/email/emailValidation/{token}/{email}",
             // MOVE THESE THREE TO AUTH ENDPOINTS!
             "/api/v1/pathology",
             "/api/v1/medicine",
@@ -104,7 +105,8 @@ public class SecurityConfig {
             //REGARDING THEIR APPOINTMENTS
             "api/v1/appointment/doctor/{id}/{active}",
             "api/v1/appointment/doctor/{id}/{date}/{active}",
-            "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}"
+            "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}",
+            "api/v1/appointment/cancel/{doctorId}"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {

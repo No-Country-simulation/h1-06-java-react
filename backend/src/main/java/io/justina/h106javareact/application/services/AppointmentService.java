@@ -1,5 +1,6 @@
 package io.justina.h106javareact.application.services;
 
+import io.justina.h106javareact.adapters.dtos.appointment.CancelDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.CreateDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.ReadDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.UpdateDtoAppointment;
@@ -21,4 +22,5 @@ public interface AppointmentService {
     List<ReadDtoAppointment> findByPatientIdAndDateRange(String id, LocalDateTime startDate, LocalDateTime endDate, Boolean active);
     List<LocalDateTime> findByDoctorIdAndDateAvailable(String id, LocalDateTime startDate, LocalDateTime endDate);
     Boolean toggle(String id) throws BadRequestException;
+    Boolean cancelByDoctor(String doctorId, CancelDtoAppointment cancelDtoAppointment);
 }

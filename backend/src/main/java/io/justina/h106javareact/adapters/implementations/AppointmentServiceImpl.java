@@ -1,5 +1,6 @@
 package io.justina.h106javareact.adapters.implementations;
 
+import io.justina.h106javareact.adapters.dtos.appointment.CancelDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.CreateDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.ReadDtoAppointment;
 import io.justina.h106javareact.adapters.dtos.appointment.UpdateDtoAppointment;
@@ -253,6 +254,22 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
+    @Override
+    public Boolean cancelByDoctor(String doctorId, CancelDtoAppointment cancelDtoAppointment) {
+        validations.checkSelfValidation(doctorId);
+        List <LocalDate> datesToCancel = cancelDtoAppointment.appointmentList();
+        List <Appointment> appointmentsToCancel = appointmentRepository.findAppointmentsByDoctorIdAndActive(doctorId, true);
+        for (Appointment appointment : appointmentsToCancel) {
+            LocalDate date = appointment.getDate().toLocalDate();
+            for (LocalDate cancel : datesToCancel) {
+                if (date.toString().equals(cancel.toString())) {
+                    appointment.setActive(false);
+                    appointmentRepository.save(appointment);
+                }
+            }
+        }
+       return true;
+    }
 
-    // TODO. CANCEL APPOINTMENTS BY DOCTOR AND ARRAY DATE (FOR DOCTOR).
+    //TODO. AVISAR PAC/TUTORES QUE EL TURNO ABC CON DR LALALA FUE CANCELADO!
 }
