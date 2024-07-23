@@ -31,15 +31,47 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
     private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
 
     String token = token();
     @Value("${server.root}")
     private String serverRoot;
     private String rootPath;
 
+    // EMAIL CONFIRMATION METHODS.
+    public void emailConfirmation(String email, String userName) throws Exception {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(
+                    message, true, "UTF-8");
+            helper.setTo(email);
+            helper.setSubject("JUSTINA IO : Confirma tu correo.");
+
+            Context context = new Context();
+            context.setVariable("nombreUsuario", userName);
+            context.setVariable("validationLink", buildEndpoint());
+            String htmlBody = templateEngine.process("emailValidation", context);
+
+            helper.setText(htmlBody, true);
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            throw new Exception("Error en la validación del correo electrónico: " + e.getMessage());
+        }
+    }
+
+    private String buildEndpoint() {
+        String urlPersonalizado = serverRoot + "/api/v1/email/emailValidation/"
+                + token + "/guillermodivan@gmail.com";
+        return urlPersonalizado;
+    }
+
+    private String token() {
+        String token = UUID.randomUUID().toString();
+        return token;
+    }
+
     @Transactional
-    @Override
-    public void sendUserRegistrationMail(String email) {
+    private void sendUserRegistrationMail(String email) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -64,139 +96,6 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
         }
     }
 
-    /*
-    @Override
-    @Scheduled(cron = "0 0 0 * * *")
-    public void sendScheduledAppointments() {
-
-        getAppointmentsToSendReminders().forEach(appointment -> {
-
-            sendAppointmentEmail(appointment);
-
-        });
-    }
-
-    @Override
-    public void sendAppointmentEmail(Appointment appointment) {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setTo(appointment.getPatient().getEmail());
-            if (appointment.getRelative() != null) {
-                helper.setTo(appointment.getRelative().getEmail());
-            }
-            helper.setSubject("Recordatorio de cita medica - JUSTINA IO");
-
-            Context context = new Context();
-            // Agregar variables de contexto para la plantilla Thymeleaf
-            context.setVariable("nameUser", appointment.getPatient().getName() + " " + appointment.getPatient().getSurname());
-            context.setVariable("appointmentDate", appointment.getDate().toLocalDate());
-            context.setVariable("appointmentTime", appointment.getDate().toLocalTime());
-            context.setVariable("appointmentDoctor", appointment.getDoctor().getName() + " " + appointment.getDoctor().getSurname());
-            context.setVariable("appointmentAddress", appointment.getDoctor().getAddress());
-            // Agregar más variables según sea necesario
-
-            // Procesar la plantilla Thymeleaf
-            String htmlBody = templateEngine.process("templateScheduledAppointment", context);
-
-            // Establecer el cuerpo del mensaje como HTML
-            helper.setText(htmlBody, true);
-
-            javaMailSender.send(message);
-
-        } catch (Exception e) {
-            throw new RuntimeException(" Error " + " al enviar el correo : " + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public void sendPasswordRecoveryMail(String email) {
-
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setTo(email);
-            helper.setSubject("Recuperacion de contrasena");
-
-            Context context = new Context();
-            // Agregar variables de contexto para la plantilla Thymeleaf
-            // context.setVariable("message", "CLICK aqui para recuperar contresena " + " \"http://localhost:8080/verify-password?token=\"" + email);
-            context.setVariable("messageRecovery", "CLICK aquí para recuperar contraseña: <a href=\"http://localhost:8080/login/set-password?email=" + email + "\">Recuperar contraseña</a>");
-
-            // Procesar la plantilla Thymeleaf
-            String htmlBody = templateEngine.process("templateForgetPassword", context);
-
-            // Establecer el cuerpo del mensaje como HTML
-            helper.setText(htmlBody, true);
-
-            javaMailSender.send(message);
-
-        } catch (Exception e) {
-            throw new RuntimeException(" Error " + " al enviar el correo de recuperacion, reenvie el correo : " + e.getMessage(), e);
-        }
-    }
-
-    public List<Appointment> getAppointmentsToSendReminders() {
-
-        LocalDate today = LocalDate.now();
-
-        LocalDateTime startDataTime = today.plusDays(2).atStartOfDay();
-        LocalDateTime endDataTime = today.plusDays(3).atStartOfDay();
-
-        List<Appointment> appointmentList = appointmentRepository.findAll();
-
-        List<Appointment> newAppointmentList = appointmentList.stream().filter(appointment -> {
-
-            return appointment.getDate().isAfter(startDataTime) && appointment.getDate().isBefore(endDataTime);
-
-        }).toList();
-
-        return newAppointmentList;
-    }
-*/
-
-    /* Juan, acostumbrate a borrar los comentarios, porfa! xD
-     * 1. se registra exitosamente.
-     * 2. generar token dentro de confirmationEmail() y se manda el mail.
-     * 3. el usuario ve el email y toca el boton con un url personalizado.
-     * 4. llega a nuestro controlador con el token por parametro.
-     * 5. compara el token con el token del servidor.
-     * */
-
-
-    public void emailConfirmation(String email, String userName) throws Exception {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(
-                    message, true, "UTF-8");
-            helper.setTo(email);
-            helper.setSubject("JUSTINA IO : Confirma tu correo.");
-
-            Context context = new Context();
-            context.setVariable("nombreUsuario", userName);
-            context.setVariable("validationLink", buildEndpoint());
-            String htmlBody = templateEngine.process("emailValidation", context);
-
-            helper.setText(htmlBody, true);
-            javaMailSender.send(message);
-        } catch (Exception e) {
-            throw new Exception("Error en la validación del correo electrónico: " + e.getMessage());
-        }
-    }
-
-    String buildEndpoint() {
-        String urlPersonalizado = serverRoot + "/api/v1/email/emailValidation/"
-                + token + "/guillermodivan@gmail.com";
-        return urlPersonalizado;
-    }
-
-    String token() {
-        String token = UUID.randomUUID().toString();
-        return token;
-    }
-
     @Transactional
     public String validateToken(String tokenController, String email) throws BadRequestException {
         if (tokenController.equals(token)) {
@@ -210,12 +109,85 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
             }
         } throw new BadRequestException("¡Token no válido!");
     }
+
+    // REMEMBER APPOINTMENT METHODS.
+    @Override
+    public void sendAppointmentEmail(Appointment appointment) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(appointment.getPatient().getEmail());
+            if (appointment.getRelative() != null) {
+                helper.setTo(appointment.getRelative().getEmail());
+            }
+            helper.setSubject("Recordatorio de cita medica - JUSTINA IO");
+
+            Context context = new Context();
+            context.setVariable("nameUser", appointment.getPatient().getName() + " " + appointment.getPatient().getSurname());
+            context.setVariable("appointmentDate", appointment.getDate().toLocalDate());
+            context.setVariable("appointmentTime", appointment.getDate().toLocalTime());
+            context.setVariable("appointmentDoctor", appointment.getDoctor().getName() + " " + appointment.getDoctor().getSurname());
+            context.setVariable("appointmentAddress", appointment.getDoctor().getAddress());
+
+            String htmlBody = templateEngine.process("templateScheduledAppointment", context);
+            helper.setText(htmlBody, true);
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(" Error " + " al enviar el correo : " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * *")
+    public void sendScheduledAppointments() {
+        getAppointmentsToSendReminders().forEach(appointment -> {
+            sendAppointmentEmail(appointment);
+        });
+    }
+
+    public List<Appointment> getAppointmentsToSendReminders() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startDataTime = today.plusDays(2).atStartOfDay();
+        LocalDateTime endDataTime = today.plusDays(3).atStartOfDay();
+        List<Appointment> appointmentList = appointmentRepository.findAll();
+        List<Appointment> newAppointmentList = appointmentList.stream().filter(appointment -> {
+            return appointment.getDate().isAfter(startDataTime)
+                    && appointment.getDate().isBefore(endDataTime);
+        }).toList();
+        return newAppointmentList;
+    }
+
 }
-
-    
-
 /*
-    @PostConstruct
-    void senMessage() throws Exception {
-        emailConfirmation("juan.ortega.it@gmail.com","Juan Ortega");
+// LÓGICA DEL MAIL VALIDATION.
+ * 1. se registra exitosamente.
+ * 2. generar token dentro de confirmationEmail() y se manda el mail.
+ * 3. el usuario ve el email y toca el boton con un url personalizado.
+ * 4. llega a nuestro controlador con el token por parametro.
+ * 5. compara el token con el token del servidor.
+ * */
+
+
+ /*
+    @Override
+    public void sendPasswordRecoveryMail(String email) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(email);
+            helper.setSubject("Recuperacion de contrasena");
+
+            Context context = new Context();
+            // context.setVariable("message", "CLICK aqui para recuperar contresena " + " \"http://localhost:8080/verify-password?token=\"" + email);
+            context.setVariable("messageRecovery", "CLICK aquí para recuperar contraseña: <a href=\"http://localhost:8080/login/set-password?email=" + email + "\">Recuperar contraseña</a>");
+
+            String htmlBody = templateEngine.process("templateForgetPassword", context);
+            helper.setText(htmlBody, true);
+            javaMailSender.send(message);
+
+        } catch (Exception e) {
+            throw new RuntimeException(" Error " + " al enviar el correo de recuperacion, reenvie el correo : " + e.getMessage(), e);
+        }
     }*/
+
