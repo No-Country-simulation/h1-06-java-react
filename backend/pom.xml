@@ -143,12 +143,6 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-		<!-- QUARTZ -> Triggers the appointments remainder daily -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.3.2</version>
-		</dependency>
 	</dependencies>
 
 	<build>

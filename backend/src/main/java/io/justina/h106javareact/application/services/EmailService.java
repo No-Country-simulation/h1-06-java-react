@@ -8,9 +8,7 @@ public interface EmailService {
 
     void emailConfirmation(String email, String userName) throws Exception;
     String validateToken(String tokenController, String email) throws BadRequestException;
-
-
     void sendScheduledAppointments();
     void sendAppointmentEmail (Appointment appointment);
-    //void sendPasswordRecoveryMail(String email);
+    void sendPasswordRecoveryMail(String email, String temporalPassword);
 }

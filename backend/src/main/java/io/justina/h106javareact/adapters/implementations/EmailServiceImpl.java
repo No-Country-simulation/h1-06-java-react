@@ -107,10 +107,11 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
             } else {
                 throw new RuntimeException("Usuario no validado!");
             }
-        } throw new BadRequestException("¡Token no válido!");
+        }
+        throw new BadRequestException("¡Token no válido!");
     }
 
-    // REMEMBER APPOINTMENT METHODS.
+    // APPOINTMENT REMINDER METHODS.
     @Override
     public void sendAppointmentEmail(Appointment appointment) {
         try {
@@ -139,7 +140,7 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 8 * * ?")
     public void sendScheduledAppointments() {
         getAppointmentsToSendReminders().forEach(appointment -> {
             sendAppointmentEmail(appointment);
@@ -158,7 +159,6 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
         return newAppointmentList;
     }
 
-}
 /*
 // LÓGICA DEL MAIL VALIDATION.
  * 1. se registra exitosamente.
@@ -168,19 +168,16 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
  * 5. compara el token con el token del servidor.
  * */
 
-
- /*
     @Override
-    public void sendPasswordRecoveryMail(String email) {
+    public void sendPasswordRecoveryMail(String email, String temporalPassword) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setTo(email);
-            helper.setSubject("Recuperacion de contrasena");
+            helper.setSubject("Recuperación de contraseña");
 
             Context context = new Context();
-            // context.setVariable("message", "CLICK aqui para recuperar contresena " + " \"http://localhost:8080/verify-password?token=\"" + email);
-            context.setVariable("messageRecovery", "CLICK aquí para recuperar contraseña: <a href=\"http://localhost:8080/login/set-password?email=" + email + "\">Recuperar contraseña</a>");
+            context.setVariable("messageRecovery", "Su nueva contraseña temporal es :   " + temporalPassword);
 
             String htmlBody = templateEngine.process("templateForgetPassword", context);
             helper.setText(htmlBody, true);
@@ -189,5 +186,6 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
         } catch (Exception e) {
             throw new RuntimeException(" Error " + " al enviar el correo de recuperacion, reenvie el correo : " + e.getMessage(), e);
         }
-    }*/
+    }
+}
 

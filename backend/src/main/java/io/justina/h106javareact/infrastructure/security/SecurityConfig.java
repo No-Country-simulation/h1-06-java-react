@@ -47,6 +47,7 @@ public class SecurityConfig {
             "/api/v1/relative/register",
             "/api/v1/doctor/specialties",
             "/api/v1/email/emailValidation/{token}/{email}",
+            "/api/v1/login/password/{email}",
             // MOVE THESE THREE TO AUTH ENDPOINTS!
             "/api/v1/pathology",
             "/api/v1/medicine",
@@ -78,7 +79,7 @@ public class SecurityConfig {
             "/api/v1/treatment/pathology/{code}",
             "/api/v1/treatment/medicine/{code}",
             //REGARDING APPOINTMENT
-            "api/v1/appointment/{id}",
+            "api/v1/appointment/{id}/{active}",
             "api/v1/appointment/patient/{id}/{active}",
             "api/v1/appointment/patient/{id}/{date}/{active}",
             "api/v1/appointment/patient/{id}/{startDate}/{endDate}/{active}"
