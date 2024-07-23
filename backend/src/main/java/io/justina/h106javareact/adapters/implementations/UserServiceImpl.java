@@ -3,6 +3,7 @@ package io.justina.h106javareact.adapters.implementations;
 import io.justina.h106javareact.adapters.dtos.login.RequestLogin;
 import io.justina.h106javareact.adapters.dtos.login.ResponseLogin;
 import io.justina.h106javareact.adapters.dtos.login.UpdateDtoPassword;
+import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
 import io.justina.h106javareact.adapters.mappers.UserMapper;
 import io.justina.h106javareact.adapters.repositories.DoctorDataRepository;
 import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
@@ -22,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -119,6 +123,22 @@ public class UserServiceImpl implements UserService {
         throw new EntityNotFoundException();
     }
 
+    @Override
+    public List<ReadDtoPatient> readBySurname(String surname, Boolean active) {
+        List<ReadDtoPatient> patientList = new ArrayList<>();
+        List<User> userList = userRepository.findBySurnameAndActive(surname, active);
+
+        for (User user : userList) {
+            if (user.getRole() == Role.PACIENTE) {
+                PatientData patientData = patientDataRepository.findById(user.getPatientDataId())
+                        .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el apellido " + surname));
+                ReadDtoPatient patient = userMapper.entityToReadDtoPatient(user, patientData);
+                patientList.add(patient);
+            }
+        }
+        return patientList;
+    }
+
     @Transactional
     @Override
     public Boolean toggle(String id) {
@@ -126,8 +146,11 @@ public class UserServiceImpl implements UserService {
         User userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el usuario con el id " + id));
 
-        if (userEntity.getRelativeDataId() != null) { validations.checkRelativeValidation(id);
-        } else { validations.checkSelfValidation(id); }
+        if (userEntity.getRelativeDataId() != null) {
+            validations.checkRelativeValidation(id);
+        } else {
+            validations.checkSelfValidation(id);
+        }
 
         userEntity.setActive(!userEntity.getActive());
         userRepository.save(userEntity);

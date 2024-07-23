@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/patient")
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +40,12 @@ public class PatientController {
     public ResponseEntity<ReadDtoPatient>  findPatientByEmail(
             @PathVariable String email, @PathVariable Boolean active){
         return ResponseEntity.ok(userService.readByEmail(email, active));
+    }
+
+    @GetMapping("/surname/{surname}/{active}")
+    public ResponseEntity<List<ReadDtoPatient>> findPatientBySurname(
+            @PathVariable String surname, @PathVariable Boolean active){
+        return ResponseEntity.ok(userService.readBySurname(surname, active));
     }
 
     @PutMapping("/update")
