@@ -12,6 +12,13 @@
   gap: 1em;
 }
 
+.dateTurnos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 1em;
+}
+
 .linkCalendarTurnos {
   width: 50%;
   height: 3em;

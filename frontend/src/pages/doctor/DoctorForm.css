@@ -10,3 +10,8 @@
   line-height: 24px;
   text-align: left;
 }
+
+.contentDayRange {
+  display: flex;
+  gap: 0.5em;
+}
