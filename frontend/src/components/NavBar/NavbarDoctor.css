@@ -26,7 +26,8 @@
   width: 100%;
 }
 
-.linkNavBar:hover {
+.linkNavBar:hover,
+.linkNavBar.active {
   background-color: #5664c4;
   color: #ffffff;
 }
