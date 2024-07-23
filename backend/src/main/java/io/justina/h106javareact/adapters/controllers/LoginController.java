@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,9 @@ public class LoginController {
                 this.userService.login(requestLogin));
     }
 
-    @PutMapping("/update/password")
+    @GetMapping("/password/{email}")
     public ResponseEntity<Boolean> updatePatient(
-            @RequestBody @Valid UpdateDtoPassword updateDtoPassword){
-        return ResponseEntity.ok(userService.updatePassword(updateDtoPassword));
+            @PathVariable String email) throws BadRequestException {
+        return ResponseEntity.ok(userService.temporalPassword(email));
     }
 }

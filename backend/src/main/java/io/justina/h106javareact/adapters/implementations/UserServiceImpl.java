@@ -9,6 +9,7 @@ import io.justina.h106javareact.adapters.repositories.DoctorDataRepository;
 import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
 import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
 import io.justina.h106javareact.adapters.repositories.UserRepository;
+import io.justina.h106javareact.application.services.EmailService;
 import io.justina.h106javareact.application.services.UserService;
 import io.justina.h106javareact.application.validations.Validations;
 import io.justina.h106javareact.domain.entities.DoctorData;
@@ -20,12 +21,15 @@ import io.justina.h106javareact.infrastructure.security.JwtService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +43,8 @@ public class UserServiceImpl implements UserService {
     public final Validations validations;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -156,4 +162,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
         return true;
     }
+
+    @Transactional
+    @Override
+    public Boolean temporalPassword(String email) throws BadRequestException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el usuario con el email " + email));
+        if (!user.getActive()) { throw new BadRequestException("El usuario se encuentra dado de baja"); }
+        String randomKey = UUID.randomUUID().toString().substring(0, 7);
+        user.setPassword(passwordEncoder.encode(randomKey));
+        userRepository.save(user);
+        emailService.sendPasswordRecoveryMail(email, randomKey);
+        return true;
+    }
+
+
+
 }
