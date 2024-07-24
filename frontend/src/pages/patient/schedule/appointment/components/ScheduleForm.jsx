@@ -6,10 +6,13 @@ import { GetDoctorBySpecialty } from "../../../../../services/Patient/GetDoctorB
 import { useUserLogin } from "../../../../../store/UserLogin";
 import { FindAvailableAppointmentsByDr } from "../../../../../services/Patient/FindAvailableAppointmentsByDr";
 import { CreateAppointment } from "../../../../../services/Patient/CreateAppointment";
+import { useNavigate } from "react-router-dom";
 
 function ScheduleForm() {
+  const navigate = useNavigate();
   const { user } = useUserLogin();
   const [doctorBySpecialty, setDoctorBySpecialty] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [specialties, setSpecialties] = useState([]);
   const [scheduleForm, setScheduleForm] = useState({
     specialty: "",
@@ -68,8 +71,12 @@ function ScheduleForm() {
       date: formattedDateTime,
     };
     const response = await CreateAppointment(formData, user);
-    console.log("form", formData);
-    console.log(response);
+    
+    if (response && response.id) { 
+      navigate('/patient/home');
+    } else {
+      setShowModal(true);
+    }
   };
 
   const formatDateTime = (date, time = "08:00") => {

@@ -66,7 +66,7 @@ function LoginForm() {
             <label>Recordar</label>
           </div>
           <div className="">
-            <Link to={"/forgotPassword"}>Olvidó su contraseña?</Link>
+            <Link to={"/password-recovery"}>Olvidó su contraseña?</Link>
           </div>
         </div>
         <div id="login-button">
