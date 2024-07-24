@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
     ResponseLogin login(RequestLogin data);
-    Boolean updatePassword (UpdateDtoPassword updateDtoPassword);
+    Boolean updatePassword (UpdateDtoPassword updateDtoPassword) throws BadRequestException;
     <T> T readById(String id, Boolean active);
     <T> T readByEmail(String email, Boolean active);
     List<ReadDtoPatient> readBySurname(String surname, Boolean active);

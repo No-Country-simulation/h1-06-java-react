@@ -62,6 +62,7 @@ public class SecurityConfig {
             // REGARDING PATIENT
             "/api/v1/patient/id/{id}/{active}",
             "/api/v1/patient/email/{email}/{active}",
+            "/api/v1/login/password",
             // REGARDING DOCTOR
             "/api/v1/doctor/id/{id}/{active}",
             "/api/v1/doctor/email/{email}/{active}",
