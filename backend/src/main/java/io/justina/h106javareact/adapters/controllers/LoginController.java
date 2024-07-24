@@ -30,8 +30,16 @@ public class LoginController {
     }
 
     @GetMapping("/password/{email}")
-    public ResponseEntity<Boolean> updatePatient(
+    public ResponseEntity<Boolean> temporalPassword(
             @PathVariable String email) throws BadRequestException {
         return ResponseEntity.ok(userService.temporalPassword(email));
     }
+
+    @PutMapping ("/password")
+    public ResponseEntity<Boolean> changePassword(
+            @RequestBody UpdateDtoPassword updateDtoPassword )
+            throws BadRequestException {
+        return ResponseEntity.ok(userService.updatePassword(updateDtoPassword));
+    }
+
 }

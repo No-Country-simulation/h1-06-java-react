@@ -73,8 +73,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Boolean updatePassword(UpdateDtoPassword updateDtoPassword) {
-        return null;
+    public Boolean updatePassword(UpdateDtoPassword updateDtoPassword) throws BadRequestException {
+        validations.checkRelativeValidation(updateDtoPassword.id());
+        User user = userRepository.findById(updateDtoPassword.id())
+                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el usuario con el id " + updateDtoPassword.id()));
+        if (!user.getActive()) { throw new BadRequestException("No se puede editar un usuario dado de baja.");}
+        String newPassword = passwordEncoder.encode(updateDtoPassword.password());
+        user.setPassword(newPassword);
+        userRepository.save(user);
+        return true;
     }
 
     @Override
