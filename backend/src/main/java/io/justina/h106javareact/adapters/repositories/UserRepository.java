@@ -16,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByRelativeDataId(String relativeDataId);
 
     List<User> findByRoleAndActive(Role role, Boolean active);
+    List<User> findBySurnameAndActive(String surname, Boolean active);
 }
 

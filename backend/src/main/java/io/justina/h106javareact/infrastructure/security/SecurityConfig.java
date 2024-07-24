@@ -47,6 +47,7 @@ public class SecurityConfig {
             "/api/v1/relative/register",
             "/api/v1/doctor/specialties",
             "/api/v1/email/emailValidation/{token}/{email}",
+            "/api/v1/login/password/{email}",
             // MOVE THESE THREE TO AUTH ENDPOINTS!
             "/api/v1/pathology",
             "/api/v1/medicine",
@@ -61,6 +62,7 @@ public class SecurityConfig {
             // REGARDING PATIENT
             "/api/v1/patient/id/{id}/{active}",
             "/api/v1/patient/email/{email}/{active}",
+            "/api/v1/login/password",
             // REGARDING DOCTOR
             "/api/v1/doctor/id/{id}/{active}",
             "/api/v1/doctor/email/{email}/{active}",
@@ -78,7 +80,7 @@ public class SecurityConfig {
             "/api/v1/treatment/pathology/{code}",
             "/api/v1/treatment/medicine/{code}",
             //REGARDING APPOINTMENT
-            "api/v1/appointment/{id}",
+            "api/v1/appointment/{id}/{active}",
             "api/v1/appointment/patient/{id}/{active}",
             "api/v1/appointment/patient/{id}/{date}/{active}",
             "api/v1/appointment/patient/{id}/{startDate}/{endDate}/{active}"
@@ -106,7 +108,8 @@ public class SecurityConfig {
             "api/v1/appointment/doctor/{id}/{active}",
             "api/v1/appointment/doctor/{id}/{date}/{active}",
             "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}",
-            "api/v1/appointment/cancel/{doctorId}"
+            "api/v1/appointment/cancel/{doctorId}",
+            "api/v1/patient/surname/{surname}/{active}"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {

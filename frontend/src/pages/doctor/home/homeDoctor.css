@@ -81,7 +81,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 1em;
+  margin: 0 1em 0 0.5em;
 }
 
 .hourDate {
@@ -99,7 +99,7 @@
   justify-content: space-between;
   align-items: center;
   height: 5em;
-  width: 100%;
+  width: 95%;
   background-color: #eaeae4;
   border-radius: 0.5em;
   -webkit-border-radius: 0.5em;

@@ -1,10 +1,44 @@
+import { useEffect, useState } from 'react'
 import Card from './components/Card'
 import DataPatient from './components/DataPatient'
 import DataTutor from './components/DataTutor'
 import './HistoryPatient.css'
 import microphone from '/public/assets/icons/microphone.svg'
+import chevronLeft from '/public/assets/icons/chevronLeft.svg'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 function HistoryPatient() {
+  const [medicines, setMedicines] = useState([])
+  const [pathologies, setPathologies] = useState([])
+
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:7082/api/v1/medicine'
+        )
+        setMedicines(response.data)
+      } catch (error) {
+        console.error('Error fetching medicines:', error)
+      }
+    }
+
+    const fetchPathologies = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:7082/api/v1/pathology'
+        )
+        setPathologies(response.data)
+      } catch (error) {
+        console.error('Error fetching pathologies:', error)
+      }
+    }
+
+    fetchMedicines()
+    fetchPathologies()
+  }, [])
+
   const obj = {
     1: {
       title: 'Talla',
@@ -42,9 +76,18 @@ function HistoryPatient() {
 
   return (
     <div className="contentHistoryPatient">
-      <h3 className="titleHistoryPatient">
-        Formato de Referencia de Pacientes
-      </h3>
+      <div className="contentTitleHistoryPatient">
+        <Link to="/doctor/turnos" className="linkHistoryPatient">
+          <img
+            src={chevronLeft}
+            alt="ir hacia atras"
+            className="BackHistoryPatient"
+          />
+        </Link>
+        <h3 className="titleHistoryPatient">
+          Formato de Referencia de Pacientes
+        </h3>
+      </div>
       <DataPatient />
       <DataTutor />
       <h4>Exámen Físico</h4>
@@ -75,52 +118,60 @@ function HistoryPatient() {
             <label htmlFor="patology" className="labelDataPatient">
               Diagnósgtico
             </label>
-            <select name="genre" id="genre" className="inputDataPatient">
+            <select name="genre" id="patology" className="inputDataPatient">
               <option className="interFont" value="">
-                Patología
+                seleccione el diagnóstico
               </option>
-              <option value="femenino">Femenino</option>
-              <option value="masculino">Masculino</option>
-              <option value="otro">Otro</option>
+              {pathologies.map((pathology) => (
+                <option key={pathology.id} value={pathology.name}>
+                  {pathology.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="contentLabelAndInput">
-            <label htmlFor="patology" className="labelDataPatient">
-              Medicamento
+            <label htmlFor="medicament" className="labelDataPatient">
+              seleccione el medicamento
             </label>
-            <select name="genre" id="genre" className="inputDataPatient">
+            <select name="genre" id="medicament" className="inputDataPatient">
               <option className="interFont" value="">
-                Código
+                medicamento
               </option>
-              <option value="femenino">Femenino</option>
-              <option value="masculino">Masculino</option>
-              <option value="otro">Otro</option>
+              {medicines.map((medicine) => (
+                <option key={medicine.id} value={medicine.name}>
+                  {medicine.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="contentLabelAndInput">
-            <label htmlFor="patology" className="labelDataPatient">
+            <label htmlFor="dosis" className="labelDataPatient">
               Dosís
             </label>
-            <select name="genre" id="genre" className="inputDataPatient">
+            <select name="genre" id="dosis" className="inputDataPatient">
               <option className="interFont" value="">
-                mg
+                seleccione la disís
               </option>
-              <option value="femenino">Femenino</option>
-              <option value="masculino">Masculino</option>
-              <option value="otro">Otro</option>
+              <option value="5mg">5 mg</option>
+              <option value="10mg">10 mg</option>
+              <option value="20mg">20 mg</option>
+              <option value="50mg">50 mg</option>
+              <option value="100mg">100 mg</option>
             </select>
           </div>
           <div className="contentLabelAndInput">
-            <label htmlFor="patology" className="labelDataPatient">
+            <label htmlFor="frecuency" className="labelDataPatient">
               Frecuencia
             </label>
-            <select name="genre" id="genre" className="inputDataPatient">
+            <select name="genre" id="frecuency" className="inputDataPatient">
               <option className="interFont" value="">
-                Horas
+                seleccione la frecuencia
               </option>
-              <option value="femenino">Femenino</option>
-              <option value="masculino">Masculino</option>
-              <option value="otro">Otro</option>
+              <option value="every4hours">Cada 4 horas</option>
+              <option value="every6hours">Cada 6 horas</option>
+              <option value="every8hours">Cada 8 horas</option>
+              <option value="every12hours">Cada 12 horas</option>
+              <option value="onceaday">Una vez al día</option>
             </select>
           </div>
           <button className="btnHistoryPatient">Confirmar</button>

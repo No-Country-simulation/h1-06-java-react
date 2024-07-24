@@ -3,6 +3,22 @@
   padding-bottom: 5em;
 }
 
+.contentTitleHistoryPatient {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.BackHistoryPatient {
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+}
+
+.titleHistoryPatient {
+  margin-left: 1em;
+}
+
 /* DATA PATIENT */
 
 .contentDataPatient {
