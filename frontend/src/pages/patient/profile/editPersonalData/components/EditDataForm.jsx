@@ -4,16 +4,17 @@ import { UpdatePersonalData } from "../../../../../services/Patient/UpdatePerson
 import { useState } from "react";
 
 function EditDataForm() {
+  const { user } = useUserLogin();
   const [isGenderSelectionShown, setIsGenderSelectionShown] = useState(false);
   const [userUpdate, setUserUpdate] = useState({
-    name: "",
-    surname: "",
-    dni: "",
-    password: "",
-    dateOfBirth: "",
-    gender: "",
+    name: null,
+    surname: null,
+    dni: null,
+    password: null,
+    dateOfBirth: null,
+    gender: null,
+    id: user.id,
   });
-  const { user } = useUserLogin();
 
   const updateDataHandler = async (event) => {
     event.preventDefault();
@@ -67,62 +68,62 @@ function EditDataForm() {
             />
           </div>
           <div className="flex-column">
-          <label>Sexo</label>
-          <div className="inputLayout">
-            <div
-              type="text"
-              value={user.gender}
-              className="gender-select"
-              onClick={() => setIsGenderSelectionShown(!isGenderSelectionShown)}
-            >
-              {user.gender
-                ? userUpdate.gender
-                : "Selecciona tu sexo"}
-            </div>
-          </div>
-          {isGenderSelectionShown && (
-            <div id="gender-box">
-              <div className="gender-selection">
-                <button
-                  value="MASCULINO"
-                  onClick={(e) => {
-                    setUserUpdate({
-                      ...userUpdate,
-                      gender: e.target.value,
-                    }),
-                      setIsGenderSelectionShown(false);
-                  }}
-                >
-                  Masculino
-                </button>
-                <button
-                  value="FEMENINO"
-                  onClick={(e) => {
-                    setUserUpdate({
-                      ...userUpdate,
-                      gender: e.target.value,
-                    }),
-                      setIsGenderSelectionShown(false);
-                  }}
-                >
-                  Femenino
-                </button>{" "}
-                <button
-                  value="OTRO"
-                  onClick={(e) => {
-                    setUserUpdate({
-                      ...userUpdate,
-                      gender: e.target.value,
-                    }),
-                      setIsGenderSelectionShown(false);
-                  }}
-                >
-                  Otro
-                </button>
+            <label>Sexo</label>
+            <div className="inputLayout">
+              <div
+                type="text"
+                value={user.gender}
+                className="gender-select"
+                onClick={() =>
+                  setIsGenderSelectionShown(!isGenderSelectionShown)
+                }
+              >
+                {user.gender ? userUpdate.gender : "Selecciona tu sexo"}
               </div>
             </div>
-          )}
-        </div>
+            {isGenderSelectionShown && (
+              <div id="gender-box">
+                <div className="gender-selection">
+                  <button
+                    value="MASCULINO"
+                    onClick={(e) => {
+                      setUserUpdate({
+                        ...userUpdate,
+                        gender: e.target.value,
+                      }),
+                        setIsGenderSelectionShown(false);
+                    }}
+                  >
+                    Masculino
+                  </button>
+                  <button
+                    value="FEMENINO"
+                    onClick={(e) => {
+                      setUserUpdate({
+                        ...userUpdate,
+                        gender: e.target.value,
+                      }),
+                        setIsGenderSelectionShown(false);
+                    }}
+                  >
+                    Femenino
+                  </button>{" "}
+                  <button
+                    value="OTRO"
+                    onClick={(e) => {
+                      setUserUpdate({
+                        ...userUpdate,
+                        gender: e.target.value,
+                      }),
+                        setIsGenderSelectionShown(false);
+                    }}
+                  >
+                    Otro
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="flex-column">
             <span className="personalDataTitle">Email</span>
             <input

@@ -6,55 +6,17 @@ import downloadIcon from "../../../../../public/assets/icons/descarga.svg";
 
 function MedicalRecords({ ...props }) {
   const { user } = useUserLogin();
-  const [record, setRecord] = useState([
-    {
-      fecha_del_tratamiento: "23 de enero, 2024",
-      patologia: "Hipertensión",
-      tratamiento: "87.65.00",
-      medicamentos: [
-        {
-          nombre: "Losartan",
-          dosaje: "50mg cada 24 horas",
-        },
-        {
-          nombre: "Hidroclorotiazida",
-          dosaje: "25mg cada 24 horas",
-        },
-        {
-          nombre: "Amlodipino",
-          dosaje: "10mg cada 24 horas",
-        },
-      ],
-    },
-    {
-      fecha_del_tratamiento: "15 de julio, 2024",
-      patologia: "Diabetes Tipo 2",
-      tratamiento: "45.15.00",
-      medicamentos: [
-        {
-          nombre: "Metformina",
-          dosaje: "500mg cada 12 horas",
-        },
-        {
-          nombre: "Glibenclamida",
-          dosaje: "5mg cada 24 horas",
-        },
-        {
-          nombre: "Insulina glargina",
-          dosaje: "10 unidades cada 24 horas",
-        },
-      ],
-    },
-  ]);
+  const [record, setRecord] = useState([]);
+  const [recordByDate, setRecordByDate] = useState([]);
 
-  /*   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const response = await GetMedicalHistory(user);
       setRecord(response);
       console.log(response);
     };
     fetchData();
-  }, []); */
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,38 +27,43 @@ function MedicalRecords({ ...props }) {
   }, []);
   return (
     <div id="medicalRecords">
-      <div id="medicalRecords-container">
-        {record.map((rec, index) => (
-          <div key={index} className="record">
-            <h2>{rec.fecha_del_tratamiento}</h2>
+    <div id="medicalRecords-container">
+      {record?.length > 0 ? (
+        record?.map((rec, index) => (
+          <div key={rec.id} className="record">
+            <h2>{new Date(rec.date).toLocaleDateString()}</h2>
             <span>
-              <strong>Patología:</strong> {rec.patologia}
+              <strong>Patología:</strong>{" "}
+              {rec.pathologyList.map((pathology) => pathology.name).join(", ")}
             </span>
             <span>
-              <strong>Tratamiento:</strong> {rec.tratamiento}
+              <strong>Tratamiento:</strong> {rec.medicalProcedureName}
             </span>
             <div>
               <h3>Medicamentos</h3>
               <ul>
-                {rec.medicamentos.map((medicamento, medIndex) => (
-                  <>
-                    <li key={medIndex}>
-                      <p>{medicamento.nombre} - </p>
-                      <p> {medicamento.dosaje}</p>
-                    </li>
-                  </>
+                {record.medicineList?.map((medicine, medIndex) => (
+                  <li key={medicine.id}>
+                    <p>{medicine.name} - </p>
+                    <p>{record.frequency}</p>
+                  </li>
                 ))}
               </ul>
             </div>
             <div className="buttonContainer">
               <button>
-                <img src={downloadIcon} />
+                <img src={downloadIcon} alt="Download" />
               </button>
             </div>
           </div>
-        ))}
-      </div>
+        ))
+      ) : (
+        <div className="flex-column fullScreen">
+          No se han encontrado historias clínicas
+        </div>
+      )}
     </div>
+  </div>
   );
 }
 

@@ -7,11 +7,18 @@ import checkBirthDate from "../../hooks/checkBirthDate";
 import ModalAdvice from "./components/ModalAdvice";
 import Buttons from "../../components/Buttons/Buttons";
 import { RegisterPatient } from "../../services/Patient/RegisterPatient";
+import ModalRegisterSuccess from "./components/ModalRegisterSuccess";
 function PatientForm({ ...props }) {
   const [isGenderSelectionShown, setIsGenderSelectionShown] = useState(false);
   const [isBloodTypeShown, setIsBloodTypeShown] = useState(false);
   const [isShownModal, setIsShownModal] = useState(false);
   const [isModalFormSelect, setIsModalFormSelect] = useState(undefined);
+  const [registerSuccessModalVisible, setRegisterSuccessModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    message: null,
+    linkTo: null,
+    buttonLabel: null,
+  });
   function birthDateHandler(e) {
     if (checkBirthDate(e.target.value)) {
       props.setRegisterForm({
@@ -24,10 +31,31 @@ function PatientForm({ ...props }) {
     }
   }
 
-  function submitHandler(e) {
-    e.preventDefault();
-    RegisterPatient(props.registerForm);
-  }
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await RegisterPatient(props.registerForm);
+      if (response && response.id) {
+        // Verifica que response no sea undefined
+        setRegisterSuccessModalVisible(true);
+        setModalContent({
+          message: "Registro exitoso",
+          linkTo: "/login",
+          buttonLabel: "Continuar",
+        });
+      } else {
+        setRegisterSuccessModalVisible(true);
+        setModalContent({
+          message: `${response.errorMessages[0]}`,
+          linkTo: "",
+          buttonLabel: "Volver",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to register patient:", error);
+
+    }
+  };
 
   console.log(props.registerForm);
   return (
@@ -356,6 +384,14 @@ function PatientForm({ ...props }) {
           ></Buttons>
         </div>
       </form>
+      {registerSuccessModalVisible ? (
+        <ModalRegisterSuccess
+          message={modalContent.message}
+          buttonLabel={modalContent.buttonLabel}
+          linkTo={modalContent.linkTo}
+          onClick={() => setRegisterSuccessModalVisible(false)}
+        ></ModalRegisterSuccess>
+      ) : null}
       <div>
         <div className="flex-row-evenly marginTop-20">
           <span>Ya tiene una cuenta?</span>

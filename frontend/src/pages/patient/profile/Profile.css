@@ -68,6 +68,15 @@
     gap: 10px;
 }
 
+#personal-data-content input {
+    width: Fill (391px)px;
+    height: Fixed (56px)px;
+    padding: 16px;
+    gap: 10px;
+    border-radius: 16px;
+    border: 1px;
+}
+
 .personalDataTitle {
     font-family: Roboto;
     font-size: 17px;
@@ -131,4 +140,13 @@
     background-color: transparent;
 }
 
-
+.modalContainer {
+    width: Fixed (352px)px;
+    height: Hug (297px)px;
+    top: 358px;
+    left: 39px;
+    padding: 13px;
+    gap: 10px;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+}

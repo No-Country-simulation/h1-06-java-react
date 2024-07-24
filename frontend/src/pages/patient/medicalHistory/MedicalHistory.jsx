@@ -12,7 +12,7 @@ function MedicalHistory() {
         <div id="medicalHistory-header">
           <Titles title="Historia Clinica" url="/patient/home"></Titles>
         </div>
-        <HistoryTitleSelector setDateSelected={setDateSelected} />
+        <HistoryTitleSelector setDateSelected={setDateSelected} dateSelected={dateSelected}/>
         <MedicalRecords dateSelected={dateSelected} />
       </div>
     </div>
