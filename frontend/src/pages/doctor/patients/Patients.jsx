@@ -1,11 +1,11 @@
 import Search from './components/Search'
 import './Patients.css'
 import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Patients() {
   const [patients, setPatients] = useState([])
-  const history = useHistory()
+  const history = useNavigate()
 
   const handlePatientClick = (patient) => {
     history.push(`/doctor/historialPaciente/${patient.id}`)
