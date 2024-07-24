@@ -39,7 +39,7 @@ function ScheduleForm() {
     fetchDoctors();
   }, [scheduleForm.specialty, user]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const response = await FindAvailableAppointmentsByDr(
@@ -53,7 +53,7 @@ function ScheduleForm() {
       });
       setLoading(false);
     };
-  });
+  }); */
 
   if (loading) {
     return <p>Cargando...</p>;
@@ -71,9 +71,9 @@ function ScheduleForm() {
       date: formattedDateTime,
     };
     const response = await CreateAppointment(formData, user);
-    
-    if (response && response.id) { 
-      navigate('/patient/home');
+
+    if (response && response.id) {
+      navigate("/patient/home");
     } else {
       setShowModal(true);
     }
@@ -86,6 +86,50 @@ function ScheduleForm() {
   if (loading) {
     return <p>Cargando...</p>;
   }
+
+  const getAvailableHours = () => {
+    let availableHours = [];
+
+    const selectedDoctor = Array.isArray(doctorBySpecialty)
+      ? doctorBySpecialty.find((doctor) => doctor.id === scheduleForm.doctorId)
+      : undefined;
+
+    if (selectedDoctor) {
+      if (selectedDoctor.morning) {
+        availableHours = [
+          ...availableHours,
+          ...Array.from(
+            { length: 6 },
+            (_, index) => `${index + 6 < 10 ? "0" : ""}${index + 6}:00`
+          ),
+        ];
+      }
+
+      if (selectedDoctor.afternoon) {
+        availableHours = [
+          ...availableHours,
+          ...Array.from(
+            { length: 6 },
+            (_, index) => `${index + 12 < 10 ? "0" : ""}${index + 12}:00`
+          ),
+        ];
+      }
+
+      if (selectedDoctor.evening) {
+        availableHours = [
+          ...availableHours,
+          ...Array.from(
+            { length: 6 },
+            (_, index) => `${index + 18 < 10 ? "0" : ""}${index + 18}:00`
+          ),
+        ];
+      }
+    }
+
+    return availableHours;
+  };
+
+  const availableHours = getAvailableHours();
   return (
     <div id="schedule-form">
       <div id="schedule-form-container">
@@ -158,14 +202,11 @@ function ScheduleForm() {
                   setScheduleForm({ ...scheduleForm, time: e.target.value })
                 }
               >
-                {Array.from({ length: 24 }, (_, index) => {
-                  const hour = `${index < 10 ? "0" : ""}${index}:00`;
-                  return (
-                    <option key={index} value={hour}>
-                      {hour}
-                    </option>
-                  );
-                })}
+                {availableHours.map((hour, index) => (
+                  <option key={index} value={hour}>
+                    {hour}
+                  </option>
+                ))}
               </select>
             </div>
           )}
