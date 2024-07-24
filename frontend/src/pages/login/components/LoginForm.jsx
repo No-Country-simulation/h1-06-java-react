@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userIcon from "../../../../public/assets/icons/User.svg";
 import passwordIcon from "../../../../public/assets/icons/Lock.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { useUserLogin } from "../../../store/UserLogin";
 function LoginForm() {
   const navigate = useNavigate();
   const { setUser, user } = useUserLogin();
+  const [rememberMe, setRememberMe] = useState(false);
   const [value, setValue] = useState({
     email: "",
     password: "",
@@ -21,12 +22,36 @@ function LoginForm() {
     localStorage.setItem("user", JSON.stringify(response));
     console.log(response);
     console.log("USER", user);
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", value.email);
+      localStorage.setItem("rememberedPassword", value.password);
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("rememberedPassword");
+      localStorage.removeItem("rememberMe");
+    }
+
+    console.log(response);
+    console.log("USER", user);
+
     if (response.role === "[ROLE_PACIENTE]") {
       navigate("/patient/home");
     } else if (response.role === "[ROLE_DOCTOR]") {
       navigate("/doctor/home");
     }
   };
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    const savedRememberMe = localStorage.getItem("rememberMe") === "true";
+
+    if (savedRememberMe) {
+      setValue({ email: savedEmail || "", password: savedPassword || "" });
+      setRememberMe(true);
+    }
+  }, []);
 
   return (
     <div id="login-form">
@@ -39,7 +64,7 @@ function LoginForm() {
         <div className="flex-column inputMarginBottom">
           <label>Email</label>
           <div className="input-div">
-            <img src={userIcon} />
+            <img src={userIcon} alt="User Icon" />
             <input
               type="email"
               placeholder="Usuario"
@@ -51,7 +76,7 @@ function LoginForm() {
         <div className="flex-column">
           <label>Contraseña</label>
           <div className="input-div">
-            <img src={passwordIcon} />
+            <img src={passwordIcon} alt="Password Icon" />
             <input
               type="password"
               placeholder="Contrasena"
@@ -60,12 +85,16 @@ function LoginForm() {
             />
           </div>
         </div>
-        <div className="flex-row-between rememberPassword  inputMarginBottom">
+        <div className="flex-row-between rememberPassword inputMarginBottom">
           <div>
-            <input type="radio" />
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
             <label>Recordar</label>
           </div>
-          <div className="">
+          <div>
             <Link to={"/password-recovery"}>Olvidó su contraseña?</Link>
           </div>
         </div>
@@ -75,6 +104,7 @@ function LoginForm() {
       </form>
     </div>
   );
+
 }
 
 export default LoginForm;

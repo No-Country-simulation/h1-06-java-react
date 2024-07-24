@@ -19,7 +19,7 @@ function ModalForm({ ...props }) {
     address: "",
   });
 
-  const registerRelative = async (e) => {
+  const registerRelativeHandler = async (e) => {
     e.preventDefault();
     const response = await RegisterRelative(registerForm);
     if (response) {
@@ -36,7 +36,7 @@ function ModalForm({ ...props }) {
       <form
         id="tutor-form-container"
         className="flex-column-center"
-        onSubmit={registerRelative}
+        onSubmit={registerRelativeHandler}
       >
         <div className="flex-column">
           <label>Nombre</label>
