@@ -16,7 +16,7 @@ function HistoryPatient() {
     const fetchMedicines = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:7082/api/v1/medicine'
+          'http://3.12.169.103:8080/api/v1/medicine'
         )
         setMedicines(response.data)
       } catch (error) {
@@ -27,7 +27,7 @@ function HistoryPatient() {
     const fetchPathologies = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:7082/api/v1/pathology'
+          'http://3.12.169.103:8080/api/v1/pathology'
         )
         setPathologies(response.data)
       } catch (error) {

@@ -1,0 +1,155 @@
+#profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  font-family: 'Inter';
+  font-style: normal;
+  background-color: #fafafa;
+  min-height: 100%;
+  padding-bottom: 100px;
+}
+
+#profile-container {
+  width: 90%;
+  padding-top: 30px;
+}
+
+.border {
+  border-radius: 50%;
+  width: 145px;
+  height: 145px;
+  top: 76px;
+  left: 147px;
+  gap: 0px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  border: 1px solid #242760;
+}
+
+#profile-image-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.cameraIcon {
+  position: absolute;
+  right: 100px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+}
+
+#personal-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#personal-data-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#personal-data-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#personal-data-content input {
+  width: Fill (391px) px;
+  height: Fixed (56px) px;
+  padding: 16px;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px;
+}
+
+.personalDataTitle {
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 23.8px;
+  text-align: left;
+  text-align: left;
+  color: var(--Color-Text-Title, #374151);
+}
+
+.personalDataContent {
+  width: full;
+  gap: 0px;
+  opacity: 10px;
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #999999;
+}
+
+.profile-hr {
+  left: 1px;
+  border: 1px;
+  border: 1px solid #9ca3af4d;
+}
+
+#medical-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#medical-data-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#medical-data-content {
+  gap: 20px;
+}
+
+#account-data {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  min-height: 200px;
+}
+
+#account-data-content,
+#account-data-content button {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 200px;
+  margin-top: 30px;
+  background-color: transparent;
+}
+
+.modalContainer {
+  width: Fixed (352px) px;
+  height: Hug (297px) px;
+  top: 358px;
+  left: 39px;
+  padding: 13px;
+  gap: 10px;
+  border-radius: 30px;
+  background-color: #ffffff;
+}
+
+.logout {
+  cursor: pointer;
+}

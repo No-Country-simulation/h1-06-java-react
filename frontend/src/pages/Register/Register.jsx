@@ -49,7 +49,7 @@ function Register() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:7082/api/v1/doctor/specialties')
+      .get('http://3.12.169.103:8080/api/v1/doctor/specialties')
       .then((response) => {
         const specialties = response.data
         setRegisterDoctor((prevState) => ({
