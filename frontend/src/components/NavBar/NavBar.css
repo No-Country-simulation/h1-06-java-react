@@ -21,3 +21,13 @@
   width: 25px;
   border-radius: 50%;
 }
+
+.activeNavbar  {
+  background-color: #5664C4;
+  color: white;
+}
+
+.nav{
+  padding: 10px;
+  width: 100%;
+}
