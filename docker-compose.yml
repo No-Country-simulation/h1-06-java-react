@@ -1,23 +1,55 @@
-version: '3.9'
+version: "3.9"
 
 services:
   app:
-    container_name: app
+    container_name: backend
     build: ./backend
     ports:
       - "8080:7082"
     depends_on:
-      - mysql
+      - db
     restart: always
-  mysql:
-    image: mysql:8.0
-    ports:
-      - 3307:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=justinaio
-    volumes:  
-      - mysql_data:/var/lib/mysql
-volumes:
-  mysql_data:
+  web: 
+    container_name: frontend
+    build: ./frontend
+    ports: 
+      - "8090:8090"
+    depends_on:
+      - app
+    restart: always
+    environment: 
+      VITE_API_ROUTE : http://localhost:8080/api/v1
+      VITE_API_LOGIN : /login
+      VITE_REGISTER_DOCTOR : /doctor/register
+      VITE_REGISTER_PATIENT : /patient/register
+      VITE_GET_DOCTOR_BY_ID : /doctor/id/
+      VITE_UPDATE_PERSONAL_DATA_DOCTOR : /doctor/update
+      VITE_GET_APPOINTMENT_DOCTOR : /appointment/patient/
+      VITE_CREATE_APPOINTMENT_PATIENT : /appointment/create
+      VITE_DELETE_PATIENT : /patient/toggle/
+      VITE_FIND_AVAILABLE_APPOINTMENTS_BY_DR : /appointment/doctor/
+      VITE_GET_APPOINTMENT_PATIENT : /appointment/
+      VITE_GET_SPECIALTIES_BY_DOCTOR : /doctor/specialty/
+      VITE_GET_MEDICAL_HISTORY_PATIENT : /appointment/
+      VITE_GET_PATIENT_BY_ID : /patient/id/
+      VITE_GET_SPECIALTIES_PATIENT : /doctor/specialties
+      VITE_GET_TREATMENT_PATIENT : /treatment/patient/
+      VITE_REGISTER_RELATIVE : /relative/register
+      VITE_UPDATE_PERSONAL_DATA_PATIENT : /patient/update
 
+
+      
+  db:
+    container_name: db
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: justinaio
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+volumes:
+  data-postgres:
