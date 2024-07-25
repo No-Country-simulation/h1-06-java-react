@@ -1,5 +1,8 @@
 package io.justina.h106javareact.adapters.controllers;
 
+import io.justina.h106javareact.adapters.dtos.doctor.ReadDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.doctor.UpdateDtoDoctor;
+import io.justina.h106javareact.adapters.dtos.medicalInformation.AddDtoMedicalInformation;
 import io.justina.h106javareact.adapters.dtos.patient.CreateDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
@@ -8,6 +11,7 @@ import io.justina.h106javareact.application.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +61,12 @@ public class PatientController {
     @DeleteMapping("/toggle/{id}")
     public ResponseEntity<Boolean> togglePatient(@PathVariable String id){
         return ResponseEntity.ok(userService.toggle(id));
+    }
+
+    @PutMapping("/medicalInformation")
+    public ResponseEntity<ReadDtoPatient> updateMedicalInformation(
+            @RequestBody @Valid AddDtoMedicalInformation medicalInformation) throws BadRequestException {
+        return ResponseEntity.ok(patientService.updateMedicalInformation(medicalInformation));
     }
 }
 

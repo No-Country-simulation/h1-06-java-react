@@ -1,0 +1,29 @@
+#modal-register-success {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #modal-register-success-container {
+    position: absolute;
+    bottom: 100px;
+    z-index: 10;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 45px;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    background-color: white;
+    position: absolute;
+    border-radius: 10px;
+    width: 300px;
+    padding: 20px;
+  }
+  

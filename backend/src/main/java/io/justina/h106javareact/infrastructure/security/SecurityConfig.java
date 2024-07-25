@@ -70,7 +70,7 @@ public class SecurityConfig {
             "/api/v1/relative/id/{id}/{active}",
             "/api/v1/relative/email/{email}/{active}",
             // REGARDING TREATMENT
-            "/api/v1/treatment/id/{id}",
+            "/api/v1/treatment/id/{id}/{patientId}",
             "/api/v1/treatment/medicalProcedureCode/{code}",
             "/api/v1/treatment/medicalProcedureName/{name}",
             "/api/v1/treatment/patient/{id}",
@@ -109,7 +109,9 @@ public class SecurityConfig {
             "api/v1/appointment/doctor/{id}/{date}/{active}",
             "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/{active}",
             "api/v1/appointment/cancel/{doctorId}",
-            "api/v1/patient/surname/{surname}/{active}"
+            "api/v1/patient/surname/{surname}/{active}",
+            //REGARDING PATIENT INFO
+            "api/v1/patient/medicalInformation"
     };
 
     private static final String[] RELATIVE_ENDPOINTS = {

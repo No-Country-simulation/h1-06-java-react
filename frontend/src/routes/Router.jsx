@@ -19,6 +19,7 @@ import HistoryPatient from "../pages/doctor/historyPatient/HistoryPatient";
 import Cancel from "../pages/doctor/turnos/components/Cancel";
 import ResultPatient from "../pages/doctor/patients/ResultPatient/ResultPatient";
 import MedicalHistory from "../pages/patient/medicalHistory/MedicalHistory";
+import PasswordRecovery from "../pages/PasswordRecovery/PasswordRecovery";
 
 const Router = () => {
   const { user } = useUserLogin();
@@ -106,6 +107,10 @@ const Router = () => {
       path: "/register",
       element: <Register />,
       //errorElement: <ErrorPage />,
+    },
+    {
+      path: "/password-recovery",
+      element: <PasswordRecovery />,
     },
   ]);
 

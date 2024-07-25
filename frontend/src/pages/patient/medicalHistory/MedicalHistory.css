@@ -55,6 +55,27 @@
     gap: 10px;
 }
 
+.buttonInput {
+    width: Hug (205px)px;
+    height: Hug (48px)px;
+    padding: 10px;
+    border-radius: 16px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+    border: 1px solid #5664C4;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    background: #FFFFFF;
+    color: #5664C4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 #medicalRecords-container {
     display: flex;
     flex-direction: column;
@@ -70,8 +91,8 @@
     gap: 10px
 }
 
-#medicalRecords h2, 
-#medicalRecords p{
+#medicalRecords h2,
+#medicalRecords p {
     font-family: Inter;
     font-size: 13.1px;
     font-weight: 400;
@@ -95,13 +116,13 @@
     box-shadow: 0px 16px 32px -4px #6B72801A;
 }
 
-.buttonContainer{
+.buttonContainer {
     display: flex;
     justify-content: center;
     margin-right: 10px;
     background-color: transparent;
 }
 
-.buttonContainer button img{
+.buttonContainer button img {
     background-color: transparent;
 }

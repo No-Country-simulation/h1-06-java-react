@@ -5,15 +5,29 @@ import { useUserPatientAppointment } from "../../../../../store/PatientStore/Use
 
 function ScheduledAppointment() {
   const { appointment } = useUserPatientAppointment();
+
+  const transformedResponse = appointment?.map((element) => ({
+    type: "Turno",
+    title: `Cita con Dr. ${element.doctorId.name} ${element.doctorId.surname}`,
+    time: new Date(element.date).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+    date: new Date(element.date).toLocaleDateString(),
+    day: new Date(element.date).getDay(),
+    month: new Date(element.date).getMonth(),
+    year: new Date(element.date).getFullYear(),
+  }));
+
   return (
     <div id="scheduled-appointment">
       <div id="scheduled-appointment-container" className="container">
         <div id="scheduled-appointment-header">
-          <h2>Cita programadas</h2>
+          <h2>Citas programadas</h2>
         </div>
         <div id="scheduled-appointment-content-notifications">
-          {Array.isArray(appointment) &&
-            appointment.map((notification, index) => (
+          {Array.isArray(transformedResponse) &&
+            transformedResponse.map((notification, index) => (
               <CardNotification
                 key={index}
                 type={notification.type}
