@@ -10,7 +10,7 @@ function Search({ setPatients }) {
     if (query) {
       try {
         const response = await axios.get(
-          `http://localhost:7082/api/v1/patient/surname/${query}/true`
+          `http://3.12.169.103:8080/api/v1/patient/surname/${query}/true`
         )
         setPatients(response.data)
       } catch (error) {

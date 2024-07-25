@@ -26,7 +26,7 @@ function HomeDoctor() {
 
       try {
         const response = await fetch(
-          `http://localhost:7082/api/v1/appointment/doctor/${id}/${initialDate}/${finishDate}/true`
+          `http://3.12.169.103:8080/api/v1/appointment/doctor/${id}/${initialDate}/${finishDate}/true`
         )
         const data = await response.json()
         setPatients(data)
@@ -36,7 +36,7 @@ function HomeDoctor() {
     }
 
     fetchPatients()
-  }, [])
+  }, [user.id])
 
   const getCurrentDate = () => {
     const daysOfWeek = [
