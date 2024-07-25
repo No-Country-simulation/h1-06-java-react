@@ -18,8 +18,27 @@ services:
       - app
     restart: always
     environment: 
-      VITE_API_ROUTE : http://app:8080/api/v1/
-      VITE_API_LOGIN : login
+      VITE_API_ROUTE : http://localhost:8080/api/v1
+      VITE_API_LOGIN : /login
+      VITE_REGISTER_DOCTOR : /doctor/register
+      VITE_REGISTER_PATIENT : /patient/register
+      VITE_GET_DOCTOR_BY_ID : /doctor/id/
+      VITE_UPDATE_PERSONAL_DATA_DOCTOR : /doctor/update
+      VITE_GET_APPOINTMENT_DOCTOR : /appointment/patient/
+      VITE_CREATE_APPOINTMENT_PATIENT : /appointment/create
+      VITE_DELETE_PATIENT : /patient/toggle/
+      VITE_FIND_AVAILABLE_APPOINTMENTS_BY_DR : /appointment/doctor/
+      VITE_GET_APPOINTMENT_PATIENT : /appointment/
+      VITE_GET_SPECIALTIES_BY_DOCTOR : /doctor/specialty/
+      VITE_GET_MEDICAL_HISTORY_PATIENT : /appointment/
+      VITE_GET_PATIENT_BY_ID : /patient/id/
+      VITE_GET_SPECIALTIES_PATIENT : /doctor/specialties
+      VITE_GET_TREATMENT_PATIENT : /treatment/patient/
+      VITE_REGISTER_RELATIVE : /relative/register
+      VITE_UPDATE_PERSONAL_DATA_PATIENT : /patient/update
+
+
+      
   db:
     container_name: db
     image: postgres:16-alpine
