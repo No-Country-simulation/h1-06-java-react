@@ -35,7 +35,7 @@ public class TreatmentController {
     }
 
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/id/{id}/{patientId}")
     public ResponseEntity<ReadDtoTreatment> findTreatmentById(
             @PathVariable String id, @PathVariable String patientId,
             @RequestHeader("Authorization") String token){
