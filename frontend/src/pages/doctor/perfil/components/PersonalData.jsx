@@ -58,6 +58,12 @@ function PersonalData() {
               {patientProfileData.email}
             </span>
           </div>
+          <div className="flex-column">
+            <span className="personalDataTitle">Especialidad</span>
+            <span className="personalDataContent">
+              {patientProfileData.specialty}
+            </span>
+          </div>
         </div>
       </div>
     </div>
