@@ -1,23 +1,25 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  app:
-    container_name: app
-    build: ./backend
+#  app:
+#    container_name: app
+#    build: ./backend
+#    ports:
+#      - "8080:7082"
+#    depends_on:
+#      - db
+#    restart: always
+  db:
+    container_name: db
+    image: postgres:16-alpine
     ports:
-      - "8080:7082"
-    depends_on:
-      - mysql
-    restart: always
-  mysql:
-    image: mysql:8.0
-    ports:
-      - 3307:3306
+      - "5432:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=justinaio
-    volumes:  
-      - mysql_data:/var/lib/mysql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: justinaio
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
 volumes:
-  mysql_data:
-
+  data-postgres:
