@@ -1,0 +1,30 @@
+/* ErrorPage.css */
+.error-page {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-page p {
+  font-size: 72px;
+  margin: 0;
+  color: #343a40;
+}
+
+.error-page a {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.error-page a:hover {
+  background-color: #0056b3;
+}
