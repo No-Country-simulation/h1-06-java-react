@@ -1,0 +1,78 @@
+#appointment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Inter";
+    font-style: normal;
+    background-color: #FAFAFA;
+    padding: 30px;
+    min-height: 100%;
+    width: 95%;
+    padding-bottom: 100px;
+}
+
+#scheduled-appointment-header {
+    margin-bottom: 30px;
+    padding-top: 30px;
+}
+
+#scheduled-appointment-header h2 {
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    color: #1F2937;
+
+}
+
+.container {
+    width: Fill (392px)px;
+    height: Hug (194px)px;
+    gap: 24px;
+    opacity: 0px;
+}
+
+#appointment-divider h1 {
+    width: 257px;
+    height: 32px;
+    left: 1px;
+    gap: 0px;
+    opacity: 0px;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 32px;
+    text-align: left;
+    color: #1F2937;
+
+}
+
+
+#appointment-divider p {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    text-align: left;
+    color: #7A7A7A;
+    width: 390px;
+    height: 40px;
+    top: 46px;
+    gap: 0px;
+    opacity: 0px;
+}
+
+#schedule-form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#scheduled-appointment-content-notifications{
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

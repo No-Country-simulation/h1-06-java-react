@@ -1,0 +1,33 @@
+#navBar {
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 999;
+}
+
+#navBar-container {
+  display: flex;
+  justify-content: space-around;
+  justify-items: center;
+  align-items: end;
+  height: 100%;
+  margin: 10px 0 10px 0;
+}
+
+.profile-profile-image {
+  width: 25px;
+  border-radius: 50%;
+}
+
+.linkNavBar {
+  text-decoration: none;
+  color: black;
+  width: 100%;
+}
+
+.linkNavBar:hover,
+.linkNavBar.active {
+  background-color: #5664c4;
+  color: #ffffff;
+}

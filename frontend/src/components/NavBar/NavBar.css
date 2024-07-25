@@ -1,0 +1,23 @@
+#navBar {
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 999;
+}
+
+
+
+#navBar-container {
+  display: flex;
+  justify-content: space-around;
+  justify-items: center;
+  align-items: end;
+  margin: 10px 0 10px 0;
+  margin-top: 100px;
+}
+
+.profile-profile-image{
+  width: 25px;
+  border-radius: 50%;
+}

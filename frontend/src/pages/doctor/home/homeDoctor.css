@@ -1,0 +1,137 @@
+.contentHome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 6em;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+/* TITLE */
+
+.contentTitle {
+  padding-top: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgTitle {
+  width: 5em;
+  height: 5em;
+  border: 1px solid gray;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+/* Schedule */
+
+.contentSchedule {
+  background-color: #fafaf9;
+  width: 90%;
+  min-height: 20em;
+  padding-bottom: 1em;
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  border: 1px solid #d3d1d1;
+}
+
+.contentTitlesSchedule {
+  margin: 0 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dateSchedule {
+  margin: 0 0.5em;
+}
+
+.contentPatientsDate {
+  margin-top: 1em;
+  display: flex;
+}
+
+.contentPatientsCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 80%;
+}
+
+.contentHourDate {
+  background-color: #d1d0d0;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+  width: 3em;
+  min-height: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1em 0 0.5em;
+}
+
+.hourDate {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  font-weight: bold;
+}
+
+.contentPatientCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5em;
+  width: 95%;
+  background-color: #eaeae4;
+  border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+}
+
+.contentImgAndInfoPatientCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 0.5em;
+}
+
+.imgPatientCard {
+  width: 3em;
+  height: 3em;
+}
+
+.contentInfoPatientCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1em;
+}
+
+.namePatientCard {
+  margin-bottom: -0.5em;
+}
+
+.arrowPatientCard {
+  width: 1.5em;
+  height: 1.5em;
+}

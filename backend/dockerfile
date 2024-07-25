@@ -1,0 +1,23 @@
+FROM openjdk:17-jdk-slim as builder
+
+WORKDIR /app
+
+COPY .mvn/ .mvn
+COPY mvnw ./
+COPY pom.xml ./
+
+RUN chmod +x mvnw && ./mvnw dependency:go-offline
+
+COPY src/ ./src
+
+RUN ./mvnw clean package -DskipTests
+
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+RUN mkdir ./logs
+COPY --from=builder /app/target/ .
+EXPOSE 8080
+
+RUN jar -xf h1-06-java-react-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]

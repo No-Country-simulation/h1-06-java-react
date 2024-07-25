@@ -1,0 +1,104 @@
+@media screen and (max-width: 768px) {
+  #welcome-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #welcome-button {
+    display: flex;
+    justify-content: end;
+    margin-top: 20%;
+    margin-right: 10%;
+  }
+
+  #welcome-button a {
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
+  .welcome-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    margin-bottom: 10%;
+    width: 60%;
+  }
+
+  .welcome-text span {
+    font-size: 56px;
+    color: #ffffff;
+    text-shadow: 2px 4px 8px 0px #00000059;
+    line-height: 50px;
+    margin-bottom: 50px;
+  }
+
+  #welcome-markers {
+    display: flex;
+    gap: 10px;
+  }
+
+  .markers {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+  }
+
+  #welcome {
+    top: 54px;
+    left: 20px;
+    gap: 4px;
+    opacity: 0px;
+    padding: 38px 18px 38px 18px;
+  }
+
+  .modal {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 12px 0px #00000040;
+    border-radius: 16px;
+    width: Fixed (390px) px;
+    height: Fixed (825px) px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #welcome-text-container {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 20px;
+  }
+
+  #welcome-text-container span {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  #welcome-text-container > :nth-child(3) {
+    font-family: Just Another Hand;
+    font-size: 35px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    color: #4d8762;
+  }
+
+  .gapButtons {
+    gap: 15px;
+    margin-bottom: 50px;
+  }
+}

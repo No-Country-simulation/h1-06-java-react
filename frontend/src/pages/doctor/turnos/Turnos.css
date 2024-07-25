@@ -1,0 +1,56 @@
+.contentTurnos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contntBtnsTurnos {
+  margin-top: 1.5em;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.dateTurnos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 1em;
+}
+
+.linkCalendarTurnos {
+  width: 50%;
+  height: 3em;
+  border: 1px solid #5664c4;
+  border-radius: 1.5em;
+  -webkit-border-radius: 1.5em;
+  -moz-border-radius: 1.5em;
+  -ms-border-radius: 1.5em;
+  -o-border-radius: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.linkCancelTurnos {
+  width: 50%;
+  height: 3em;
+  background-color: #5664c4;
+  color: #ffffff;
+  border-radius: 1.5em;
+  -webkit-border-radius: 1.5em;
+  -moz-border-radius: 1.5em;
+  -ms-border-radius: 1.5em;
+  -o-border-radius: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.btnCalendarTurnos,
+.btnCancelTurnos {
+  background: none;
+}
