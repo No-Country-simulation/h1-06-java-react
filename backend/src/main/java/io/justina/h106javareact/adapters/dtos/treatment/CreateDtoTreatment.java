@@ -16,6 +16,7 @@ public record CreateDtoTreatment(
         String doctorId,
         @NotNull(message = "El id del paciente no puede ser nulo.")
         String patientId,
+        String donorId,
         @NotNull(message = "El status de tratamiento no puede ser nulo.")
         TreatmentStatus treatmentStatus
 
