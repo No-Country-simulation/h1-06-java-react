@@ -58,15 +58,23 @@
 }
 
 .contentPatientsDate {
-  margin-top: 1em;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contentHourAndPatient {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0;
 }
 
 .contentPatientsCard {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
-  width: 80%;
+  align-items: center;
+  width: 100%;
 }
 
 .contentHourDate {
@@ -82,6 +90,9 @@
   justify-content: center;
   align-items: center;
   margin: 0 1em 0 0.5em;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #555;
 }
 
 .hourDate {
@@ -98,8 +109,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 5em;
-  width: 95%;
+  height: 4.5em;
+  width: 140%;
   background-color: #eaeae4;
   border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
@@ -134,4 +145,11 @@
 .arrowPatientCard {
   width: 1.5em;
   height: 1.5em;
+}
+
+.NoCitas {
+  display: flex;
+  justify-content: center;
+  height: 20em;
+  font-size: 1.5em;
 }

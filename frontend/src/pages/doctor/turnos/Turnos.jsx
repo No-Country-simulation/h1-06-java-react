@@ -2,69 +2,87 @@ import { Link } from 'react-router-dom'
 import Dates from './components/Dates'
 import './Turnos.css'
 import { useEffect, useState } from 'react'
+import { GetAppointmentDoctorMonth } from '../../../services/Doctor/GetAppointmentDoctorMonth'
+import { useUserLogin } from '../../../store/UserLogin'
 
 function Turnos() {
-  const [dates, setDates] = useState([])
+  const { user } = useUserLogin()
+  const [appointments, setAppointments] = useState([])
 
   useEffect(() => {
-    const getDatesUntilEndOfMonth = () => {
-      const currentDate = new Date()
-      const endOfMonth = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() + 1,
-        0
-      )
-      const daysOfWeek = [
-        'Domingo',
-        'Lunes',
-        'Martes',
-        'Miércoles',
-        'Jueves',
-        'Viernes',
-        'Sábado',
-      ]
-      const monthsOfYear = [
-        'Enero',
-        'Febrero',
-        'Marzo',
-        'Abril',
-        'Mayo',
-        'Junio',
-        'Julio',
-        'Agosto',
-        'Septiembre',
-        'Octubre',
-        'Noviembre',
-        'Diciembre',
-      ]
-
-      const dateList = []
-
-      while (currentDate <= endOfMonth) {
-        const dayOfWeek = currentDate.getDay()
-        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-          const day = currentDate.getDate()
-          const month = monthsOfYear[currentDate.getMonth()]
-          const year = currentDate.getFullYear()
-          dateList.push(`${day} ${month} ${year}, ${daysOfWeek[dayOfWeek]}`)
-        }
-        currentDate.setDate(currentDate.getDate() + 1)
-      }
-
-      return dateList
+    const fetchAppointments = async () => {
+      const data = await GetAppointmentDoctorMonth(user)
+      console.log(data)
+      setAppointments(Array.isArray(data) ? data : [])
     }
 
-    setDates(getDatesUntilEndOfMonth())
-  }, [])
+    fetchAppointments()
+  }, [user])
+
+  const getDatesUntilEndOfMonth = () => {
+    const currentDate = new Date()
+    const endOfMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    )
+    const daysOfWeek = [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ]
+    const monthsOfYear = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+    ]
+
+    const dateList = []
+
+    while (currentDate <= endOfMonth) {
+      const dayOfWeek = currentDate.getDay()
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        const day = currentDate.getDate()
+        const month = monthsOfYear[currentDate.getMonth()]
+        const year = currentDate.getFullYear()
+        dateList.push({
+          date: `${day} ${month} ${year}, ${daysOfWeek[dayOfWeek]}`,
+          appointments: appointments.filter(
+            (appointment) =>
+              new Date(appointment.date).toDateString() ===
+              new Date(currentDate).toDateString()
+          ),
+        })
+      }
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+
+    return dateList
+  }
+
+  const dates = getDatesUntilEndOfMonth()
 
   return (
     <section className="contentHome">
       <h2>Turnos</h2>
       <section className="contentSchedule">
-        {dates.map((date, index) => (
+        {dates.map((dateInfo, index) => (
           <div key={index}>
-            <p className="dateTurnos">{date}</p>
-            <Dates />
+            <p className="dateTurnos">{dateInfo.date}</p>
+            <Dates appointments={dateInfo.appointments} />
           </div>
         ))}
       </section>
