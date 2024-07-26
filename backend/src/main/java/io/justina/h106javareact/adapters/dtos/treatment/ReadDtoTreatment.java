@@ -17,6 +17,7 @@ public record ReadDtoTreatment(
         String administrationDetails,
         String doctorId,
         String patientId,
+        String donorId,
         LocalDateTime date,
         TreatmentStatus treatmentStatus
 ) {

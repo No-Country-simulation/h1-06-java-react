@@ -35,10 +35,11 @@ public class TreatmentController {
     }
 
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/id/{id}/{patientId}")
     public ResponseEntity<ReadDtoTreatment> findTreatmentById(
             @PathVariable String id, @PathVariable String patientId,
             @RequestHeader("Authorization") String token){
+        token = token.substring(7);
         String role = jwtService.getRoles(token);
         validations.checkRelativeOrDoctorValidation(patientId, role);
         return ResponseEntity.ok(treatmentService.findById(id));
