@@ -89,10 +89,11 @@ function DoctorForm({ registerDoctor, setRegisterDoctor }) {
       }
     } catch (error) {
       console.error('Failed to register doctor:', error)
+      console.log(error)
     }
   }
 
-  // console.log(registerDoctor)
+  console.log(registerDoctor)
 
   return (
     <div>

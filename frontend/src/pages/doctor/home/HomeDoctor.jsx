@@ -3,40 +3,23 @@ import Dates from './components/Dates'
 import Title from './components/Title'
 import './homeDoctor.css'
 import { useUserLogin } from '../../../store/UserLogin'
+import { GetAppointmentDoctor } from '../../../services/Doctor/GetAppointmentDoctor'
 
 function HomeDoctor() {
   const { user } = useUserLogin()
 
   const [patients, setPatients] = useState([])
 
-  const formatDate = (date) => {
-    return date.toISOString().split('.')[0].replace(/:/g, '%3A')
-  }
-
   useEffect(() => {
     const fetchPatients = async () => {
-      const id = user.id
-      console.log(id)
-      const currentDate = new Date()
-      const startOfDay = new Date(currentDate.setHours(8, 0, 0, 0))
-      const endOfDay = new Date(currentDate.setHours(12, 0, 0, 0))
-
-      const initialDate = formatDate(startOfDay)
-      const finishDate = formatDate(endOfDay)
-
-      try {
-        const response = await fetch(
-          `http://3.12.169.103:8080/api/v1/appointment/doctor/${id}/${initialDate}/${finishDate}/true`
-        )
-        const data = await response.json()
-        setPatients(data)
-      } catch (error) {
-        console.error('Error fetching patients:', error)
+      const currentDate = new Date().toISOString().split('T')[0]
+      const response = await GetAppointmentDoctor(user, currentDate)
+      if (response && response.length > 0) {
+        setPatients(response)
       }
     }
-
     fetchPatients()
-  }, [user.id])
+  }, [user])
 
   const getCurrentDate = () => {
     const daysOfWeek = [
@@ -83,7 +66,11 @@ function HomeDoctor() {
           <p className="patientSchedule">{patients.length} pacientes</p>
         </div>
         <p className="dateSchedule">{currentDate}</p>
-        <Dates patients={patients} />
+        {patients.length > 0 ? (
+          <Dates patients={patients} />
+        ) : (
+          <p className="NoCitas">Hoy no tienes citas agendadas</p>
+        )}
       </section>
     </div>
   )
