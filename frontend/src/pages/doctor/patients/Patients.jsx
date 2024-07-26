@@ -1,3 +1,4 @@
+import PatientCard from './components/PatientCard'
 import Search from './components/Search'
 import './Patients.css'
 import { useState } from 'react'
@@ -8,7 +9,7 @@ function Patients() {
   const history = useNavigate()
 
   const handlePatientClick = (patient) => {
-    history.push(`/doctor/historialPaciente/${patient.id}`)
+    history(`/doctor/historialPaciente/${patient.id}`)
   }
 
   return (
@@ -19,16 +20,13 @@ function Patients() {
       <div className="patientList">
         {patients.length > 0 ? (
           patients.map((patient) => (
-            <div
+            <PatientCard
               key={patient.id}
-              className="patientItem"
+              name={patient.name}
+              surname={patient.surname}
+              dni={patient.dni}
               onClick={() => handlePatientClick(patient)}
-            >
-              <p>
-                {patient.name} {patient.surname}
-              </p>
-              <p>{patient.dni}</p>
-            </div>
+            />
           ))
         ) : (
           <p>No se encontraron pacientes</p>

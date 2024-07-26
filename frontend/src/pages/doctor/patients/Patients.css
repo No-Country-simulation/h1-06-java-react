@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 10em;
+  padding: 20px;
 }
 
 /* SEARCH */
@@ -28,4 +29,69 @@
 .imgSearch {
   position: absolute;
   right: 0.8em;
+}
+
+/* PATIENTS */
+
+.titlePatients {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.textPatients {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.patientList {
+  margin-top: 20px;
+}
+
+.linkPatients {
+  text-decoration: none;
+  color: inherit;
+}
+
+.contentPatientCardPatients {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.contentPatientCardPatients:hover {
+  background-color: #f0f0f0;
+}
+
+.contentImgAndInfoPatientCardPatients {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.imgPatientCardPatients {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.contentInfoPatientCardPatients {
+  display: flex;
+  flex-direction: column;
+}
+
+.namePatientCardPatients,
+.surnamePatientCardPatients,
+.dniPatientCardPatients {
+  margin: 0;
+}
+
+.arrowPatientCardPatients {
+  width: 20px;
+  height: 20px;
 }
