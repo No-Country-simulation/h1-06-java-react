@@ -117,8 +117,10 @@
 }
 
 .buttonContainer {
+    color: #5664C4;
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-right: 10px;
     background-color: transparent;
 }

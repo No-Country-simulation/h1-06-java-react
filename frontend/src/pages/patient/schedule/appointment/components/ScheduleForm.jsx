@@ -33,7 +33,7 @@ function ScheduleForm() {
     const fetchDoctors = async () => {
       setLoading(true);
       const response = await GetDoctorBySpecialty(scheduleForm.specialty, user);
-      setDoctorBySpecialty(response);
+      setDoctorBySpecialty(response.data);
       setLoading(false);
     };
     fetchDoctors();
