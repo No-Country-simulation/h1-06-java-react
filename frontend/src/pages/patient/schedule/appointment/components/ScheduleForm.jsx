@@ -4,7 +4,7 @@ import { GetSpecialtiesFromDoctor } from "../../../../../services/Patient/GetSpe
 import createSpaces from "../../../../../hooks/createSpaces";
 import { GetDoctorBySpecialty } from "../../../../../services/Patient/GetDoctorBySpecialty";
 import { useUserLogin } from "../../../../../store/UserLogin";
-import { FindAvailableAppointmentsByDr } from "../../../../../services/Patient/FindAvailableAppointmentsByDr";
+//import { FindAvailableAppointmentsByDr } from "../../../../../services/Patient/FindAvailableAppointmentsByDr";
 import { CreateAppointment } from "../../../../../services/Patient/CreateAppointment";
 import { useNavigate } from "react-router-dom";
 
@@ -193,7 +193,7 @@ function ScheduleForm() {
               }
             />
           </div>
-          {scheduleForm.date && (
+          {scheduleForm?.date && (
             <div className="flex-column">
               <label>Hora</label>
               <select

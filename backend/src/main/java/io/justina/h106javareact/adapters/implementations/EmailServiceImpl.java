@@ -49,7 +49,7 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
 
             Context context = new Context();
             context.setVariable("nombreUsuario", userName);
-            context.setVariable("validationLink", buildEndpoint(email));
+            context.setVariable("validationLink", buildEndpoint());
             String htmlBody = templateEngine.process("emailValidation", context);
 
             helper.setText(htmlBody, true);
@@ -59,10 +59,10 @@ public class EmailServiceImpl extends HttpServlet implements EmailService {
         }
     }
 
-    private String buildEndpoint(String email) {
-        String personalizedUrl = serverRoot + "/api/v1/email/emailValidation/"
-                + token + "/" + email ;
-        return personalizedUrl;
+    private String buildEndpoint() {
+        String urlPersonalizado = serverRoot + "/api/v1/email/emailValidation/"
+                + token + "/guillermodivan@gmail.com";
+        return urlPersonalizado;
     }
 
     private String token() {

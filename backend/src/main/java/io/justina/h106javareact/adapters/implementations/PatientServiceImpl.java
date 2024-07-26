@@ -1,26 +1,25 @@
 package io.justina.h106javareact.adapters.implementations;
 
-import io.justina.h106javareact.adapters.dtos.medicalInformation.AddDtoMedicalInformation;
 import io.justina.h106javareact.adapters.dtos.patient.CreateDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.ReadDtoPatient;
 import io.justina.h106javareact.adapters.dtos.patient.UpdateDtoPatient;
 import io.justina.h106javareact.adapters.mappers.UserMapper;
-import io.justina.h106javareact.adapters.repositories.*;
+import io.justina.h106javareact.adapters.repositories.PatientDataRepository;
+import io.justina.h106javareact.adapters.repositories.RelativeDataRepository;
+import io.justina.h106javareact.adapters.repositories.UserRepository;
 import io.justina.h106javareact.application.services.EmailService;
 import io.justina.h106javareact.application.services.PatientService;
 import io.justina.h106javareact.application.validations.Validations;
-import io.justina.h106javareact.domain.entities.*;
+import io.justina.h106javareact.domain.entities.DoctorData;
+import io.justina.h106javareact.domain.entities.PatientData;
+import io.justina.h106javareact.domain.entities.User;
 import io.justina.h106javareact.domain.entities.enums.Role;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +31,6 @@ public class PatientServiceImpl implements PatientService {
     private final PasswordEncoder passwordEncoder;
     public final Validations validations;
     public final EmailService emailService;
-    public final AntigenRepository antigenRepository;
-    public final AntibodyRepository antibodyRepository;
 
     @Transactional
     @Override
@@ -113,44 +110,5 @@ public class PatientServiceImpl implements PatientService {
         this.userRepository.save(user);
         return userMapper.entityToReadDtoPatient(user, patientData);
     }
-
-    @Transactional
-    @Override
-    public ReadDtoPatient updateMedicalInformation(AddDtoMedicalInformation medicalInformation) throws BadRequestException {
-        User user = userRepository.findById(medicalInformation.id())
-                .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + medicalInformation.id()));
-        if (!user.getActive()) { throw new BadRequestException("No se puede actualizar un paciente dado de baja"); }
-        PatientData patientData = patientDataRepository.findById(user.getPatientDataId())
-                    .orElseThrow(() -> new EntityNotFoundException("No se puede encontrar el paciente con el id " + medicalInformation.id()));
-            if (medicalInformation.weight() != null){
-                patientData.setWeight(medicalInformation.weight());
-            }
-            if (!medicalInformation.antigenList().isEmpty()){
-                List<String> stringList = medicalInformation.antigenList();
-                List<Antigen> antigenList = new ArrayList<>();
-                for (String type : stringList) {
-                    Antigen antigen = new Antigen();
-                    antigen.setType(type);
-                    antigen.setPatientId(patientData);
-                    Antigen savedAntigen = antigenRepository.save(antigen);
-                    antigenList.add(savedAntigen);
-                }
-                patientData.setAntigenList(antigenList);
-                }
-            if (!medicalInformation.antibodyList().isEmpty()){
-                List<String> stringList = medicalInformation.antibodyList();
-                List<Antibody> antibodyList = new ArrayList<>();
-                for (String type : stringList) {
-                    Antibody antibody = new Antibody();
-                    antibody.setType(type);
-                    antibody.setPatientId(patientData);
-                    Antibody savedAntibody = antibodyRepository.save(antibody);
-                    antibodyList.add(savedAntibody);
-                }
-                patientData.setAntibodyList(antibodyList);
-            }
-            patientDataRepository.save(patientData);
-            return userMapper.entityToReadDtoPatient(user, patientData);
-        }
 
 }

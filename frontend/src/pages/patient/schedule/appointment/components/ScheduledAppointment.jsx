@@ -27,7 +27,7 @@ function ScheduledAppointment() {
         </div>
         <div id="scheduled-appointment-content-notifications">
           {Array.isArray(transformedResponse) &&
-            transformedResponse.map((notification, index) => (
+            transformedResponse?.map((notification, index) => (
               <CardNotification
                 key={index}
                 type={notification.type}
