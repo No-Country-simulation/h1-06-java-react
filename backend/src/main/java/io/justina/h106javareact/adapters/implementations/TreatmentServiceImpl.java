@@ -45,6 +45,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         for (String pathologyCode : createDtoTreatment.pathologyCodesList()) {
             if (pathologyCode.toString().equals("Z524")){
                 registerKidneyDonation(createDtoTreatment);
+                break;
             }
         }
 
@@ -287,10 +288,6 @@ public class TreatmentServiceImpl implements TreatmentService {
             //TODO. "IF TRUE, son compatibles donante y paciente."
             }
 
-
-
-
-
     }
 
     public boolean checkAgeDifference(User donor, User recipient){
@@ -316,7 +313,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         int antigenCount = 0;
         for (Antigen antigenD : donorAntigens){
             for (Antigen antigenR : recipientAntigens){
-                if (antigenD.getType().equals(antigenR.getType())){ antigenCount++; } continue;
+                if (antigenD.getType().equals(antigenR.getType())){ antigenCount++; break; }
             }
         }
         if (antigenCount <= 3) { return false; }
