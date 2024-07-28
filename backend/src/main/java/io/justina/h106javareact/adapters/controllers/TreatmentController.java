@@ -1,6 +1,7 @@
 package io.justina.h106javareact.adapters.controllers;
 import io.justina.h106javareact.adapters.dtos.treatment.CreateDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.ReadDtoTreatment;
+import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoDonation;
 import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
 import io.justina.h106javareact.application.services.TreatmentService;
 import io.justina.h106javareact.application.validations.Validations;
@@ -136,6 +137,12 @@ public class TreatmentController {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfResource);
+    }
+
+    @PutMapping("/update/donationData")
+    public ResponseEntity<ReadDtoTreatment> updateDonationData(
+            @RequestBody @Valid UpdateDtoDonation updateDonation){
+        return ResponseEntity.ok(treatmentService.updateDonationData(updateDonation));
     }
 }
 

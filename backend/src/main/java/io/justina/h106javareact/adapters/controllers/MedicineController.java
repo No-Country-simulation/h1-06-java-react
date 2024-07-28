@@ -22,9 +22,10 @@ public class MedicineController {
         return ResponseEntity.ok(medicineService.readAll());
     }
 
+    /*
     @GetMapping("/scraping")
     public ResponseEntity<Boolean> scrapping(){
         return ResponseEntity.ok(medicineService.scrapForMedicines());
-    }
+    }*/
 
 }

@@ -7,5 +7,5 @@ import java.util.List;
 public interface MedicalProcedureService {
 
     List<ReadDtoMedicalProcedure> readAll();
-    Boolean scraping() throws IOException;
+    //Boolean scraping() throws IOException;
 }

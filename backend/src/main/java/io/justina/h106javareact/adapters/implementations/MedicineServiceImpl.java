@@ -22,12 +22,13 @@ public class MedicineServiceImpl implements MedicineService {
     private final MedicineRepository medicineRepository;
     private final MedicineMapper medicineMapper;
 
+
     @Override
     public List<ReadDtoMedicine> readAll() {
         List<Medicine> entityList = medicineRepository.findAll();
         return medicineMapper.medicineListToReadDtoList(entityList);
     }
-
+/*
     public Boolean scrapForMedicines(){
         String url = "https://www.anmat.gob.ar/atc/CodigosATC.asp";
 
@@ -53,6 +54,6 @@ public class MedicineServiceImpl implements MedicineService {
         }
         return true;
     }
-
+*/
 }
 

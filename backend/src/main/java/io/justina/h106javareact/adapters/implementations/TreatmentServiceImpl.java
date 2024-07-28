@@ -3,13 +3,12 @@ package io.justina.h106javareact.adapters.implementations;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-import io.justina.h106javareact.adapters.dtos.treatment.CreateDtoTreatment;
-import io.justina.h106javareact.adapters.dtos.treatment.ReadDtoTreatment;
-import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
+import io.justina.h106javareact.adapters.dtos.treatment.*;
 import io.justina.h106javareact.adapters.mappers.TreatmentMapper;
 import io.justina.h106javareact.adapters.repositories.*;
 import io.justina.h106javareact.application.services.TreatmentService;
 import io.justina.h106javareact.domain.entities.*;
+import io.justina.h106javareact.domain.entities.enums.DonationType;
 import io.justina.h106javareact.domain.entities.enums.TreatmentStatus;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -38,18 +37,30 @@ public class TreatmentServiceImpl implements TreatmentService {
     private final UserRepository userRepository;
     private final TreatmentMapper treatmentMapper;
     private final PatientDataRepository patientDataRepository;
+    private final DonationDataRepository donationDataRepository;
 
     @Transactional
     @Override
     public ReadDtoTreatment create(CreateDtoTreatment createDtoTreatment) {
+        var entity = treatmentMapper.createTreatmentToEntity(createDtoTreatment);
+        DonationDtoResult donationDtoResult = null;
+        DonationData donationData = null;
         for (String pathologyCode : createDtoTreatment.pathologyCodesList()) {
-            if (pathologyCode.toString().equals("Z524")){
-                registerKidneyDonation(createDtoTreatment);
+            if (pathologyCode.toString().equals("Z524")) {
+                donationDtoResult = registerKidneyDonation(createDtoTreatment);
+                if (donationDtoResult != null) {
+                    donationData.setDonationType(donationDtoResult.donationType());
+                    donationData.setDonorId(donationDtoResult.donorId());
+                    if (donationData.getDonationType().equals(DonationType.DONACION_CRUZADA)) {
+                        donationData.setCrossedPatientId(donationDtoResult.crossedPatientId());
+                        donationData.setCrossedDonorId(donationDtoResult.crossedDonorId());
+                    }
+                    var savedDonationData = donationDataRepository.save(donationData);
+                    entity.setDonationData(savedDonationData);
+                }
                 break;
             }
         }
-
-        var entity = treatmentMapper.createTreatmentToEntity(createDtoTreatment);
 
         var patient = userRepository.findById(createDtoTreatment.patientId())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -233,7 +244,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         Document document = new Document(pdfDoc);
 
         document.add(new Paragraph("HISTORIA CLÍNICA"));
-        document.add(new Paragraph("Paciente: " + patient.getName() +  " " + patient.getSurname() + "."));
+        document.add(new Paragraph("Paciente: " + patient.getName() + " " + patient.getSurname() + "."));
         document.add(new Paragraph("_________________________"));
         document.add(new Paragraph("_________________________"));
         document.add(new Paragraph(""));
@@ -255,7 +266,7 @@ public class TreatmentServiceImpl implements TreatmentService {
             document.add(new Paragraph("Estado del tratamiento: " + treatment.getTreatmentStatus() + "."));
 
             var doctor = userRepository.findById(treatment.getDoctorId());
-            document.add(new Paragraph("Profesional a cargo: " + doctor.get().getSurname() + ", " + doctor.get().getName() +"."));
+            document.add(new Paragraph("Profesional a cargo: " + doctor.get().getSurname() + ", " + doctor.get().getName() + "."));
             document.add(new Paragraph("_________________________"));
             document.add(new Paragraph(""));
         }
@@ -267,100 +278,180 @@ public class TreatmentServiceImpl implements TreatmentService {
         return new InputStreamResource(bis);
     }
 
-    public void registerKidneyDonation(CreateDtoTreatment createDtoTreatment){
-        User donor = userRepository.findById(createDtoTreatment.donorId())
-                .orElseThrow(() -> new EntityNotFoundException("El donante no debe ser nulo"));
-        PatientData donorData = patientDataRepository.findById(donor.getPatientDataId())
-                .orElseThrow(() -> new EntityNotFoundException("El donante no debe ser nulo"));
-        User recipient = userRepository.findById(createDtoTreatment.donorId())
-                .orElseThrow(() -> new EntityNotFoundException("El donante no debe ser nulo"));
-        PatientData recipientData = patientDataRepository.findById(recipient.getPatientDataId())
-                .orElseThrow(() -> new EntityNotFoundException("El paciente no debe ser nulo"));
+    @Override
+    public ReadDtoTreatment updateDonationData(UpdateDtoDonation updateDtoDonation) {
+        var treatment = treatmentRepository.findById(updateDtoDonation.treatmentId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "No se puede encontrar el tratamiento con el id " + updateDtoDonation.treatmentId()));
+        var donationData = treatment.getDonationData();
 
-        boolean ageDifference = checkAgeDifference(donor, recipient);
-        boolean weightDifference = checkWeightDifference(donorData, recipientData);
-        boolean antigenDifference = checkAntigenDifference(donorData, recipientData);
-        boolean antigenAntibodyDifference = checkAntigenAntibody(donorData, recipientData);
-        boolean bloodTypeCompatibility = checkBloodTypes(donorData, recipientData);
+        if (updateDtoDonation.patientInformedConsent() != null) {
+            donationData.setPatientInformedConsent(updateDtoDonation.patientInformedConsent());
+        }
+        if (updateDtoDonation.donorInformedConsent() != null) {
+            donationData.setDonorInformedConsent(updateDtoDonation.donorInformedConsent());
+        }
+        if (updateDtoDonation.patientMedicalClearance() != null) {
+            donationData.setPatientMedicalClearance(updateDtoDonation.patientMedicalClearance());
+        }
+        if (updateDtoDonation.donorMedicalClearance() != null) {
+            donationData.setDonorMedicalClearance(updateDtoDonation.donorMedicalClearance());
+        }
+        if (updateDtoDonation.doctorApproval() != null) {
+            donationData.setDoctorApproval(updateDtoDonation.doctorApproval());
+        }
 
-        if (ageDifference && weightDifference && antigenDifference
-                && antigenAntibodyDifference && bloodTypeCompatibility){
-            //TODO. "IF TRUE, son compatibles donante y paciente."
-            }
-
+        var savedDonationData = donationDataRepository.save(donationData);
+        if (savedDonationData.getPatientInformedConsent()
+                && savedDonationData.getDonorInformedConsent()
+                && savedDonationData.getPatientMedicalClearance()
+                && savedDonationData.getDonorMedicalClearance()
+                && savedDonationData.getDoctorApproval()) {
+            treatment.setTreatmentStatus(TreatmentStatus.EN_CURSO);
+            var savedTreatment = treatmentRepository.save(treatment);
+            var crossedTreatmentId = lookForCoincidences(savedTreatment);
+            if (crossedTreatmentId != null) { return crossedTreatmentId; }
+        }
+        return treatmentMapper.entityToReadTreatment(treatment);
     }
 
-    public boolean checkAgeDifference(User donor, User recipient){
+    private DonationDtoResult registerKidneyDonation(CreateDtoTreatment createDtoTreatment) {
+        User donor = userRepository.findById(createDtoTreatment.donorId())
+                .orElseThrow(() -> new EntityNotFoundException("El donante no debe ser nulo"));
+        User recipient = userRepository.findById(createDtoTreatment.patientId())
+                .orElseThrow(() -> new EntityNotFoundException("El donante no debe ser nulo"));
+
+        boolean result = checkCompatibility(donor.getId(), recipient.getId());
+
+        if (result) {
+            return new DonationDtoResult(
+                    DonationType.DONACION_FAMILIAR_PACIENTE, donor.getId(),
+                    null, null);
+        } else {
+            return new DonationDtoResult(
+                    DonationType.DONACION_CRUZADA, donor.getId(),
+                    null, null);
+        }
+    }
+
+    private ReadDtoTreatment lookForCoincidences(Treatment treatment1) {
+        List<Treatment> potentialMatches =
+                treatmentRepository.findForCrossDonation("Z524");
+        for (Treatment treatment2 : potentialMatches) {
+
+            boolean firstCheck = checkCompatibility(
+                    treatment2.getDonationData().getDonorId(), treatment1.getPatient().getId());
+            boolean secondCheck = checkCompatibility(
+                    treatment1.getDonationData().getDonorId(), treatment2.getPatient().getId());
+            if (firstCheck && secondCheck) {
+                return treatmentMapper.entityToReadTreatment(treatment2);
+            }
+        }
+        return null;
+    }
+
+    private boolean checkCompatibility(String donorId, String patientId){
+        var donor = userRepository.findById(donorId).get();
+        var donorData = patientDataRepository.findById(donor.getPatientDataId()).get();
+
+        var patient = userRepository.findById(patientId).get();
+        var patientData = patientDataRepository.findById(patient.getPatientDataId()).get();
+
+        boolean result = true;
+        result &= checkAgeDifference(donor, patient);
+        result &= checkWeightDifference(donorData, patientData);
+        result &= checkAntigenDifference(donorData, patientData);
+        result &= checkAntigenAntibody(donorData, patientData);
+        result &= checkBloodTypes(donorData, patientData);
+        return result;
+    }
+
+    private boolean checkAgeDifference(User donor, User recipient) {
         var donorAge = donor.getDateOfBirth();
         var recipientAge = recipient.getDateOfBirth();
         var ageDifference = ChronoUnit.YEARS.between(donorAge, recipientAge);
-        if (ageDifference > 20) { return false; }
+        if (ageDifference > 20) {
+            return false;
+        }
         return true;
     }
 
-    public boolean checkWeightDifference(PatientData donor, PatientData recipient){
+    private boolean checkWeightDifference(PatientData donor, PatientData recipient) {
         var donorWeight = donor.getWeight();
         var recipientWeight = recipient.getWeight();
         var weightDifference = Math.abs(donorWeight - recipientWeight);
         var thresholdPercentage = (weightDifference * 100) / recipientWeight;
-        if (thresholdPercentage >= 30.0) { return false; }
+        if (thresholdPercentage >= 30.0) {
+            return false;
+        }
         return true;
     }
 
-    public boolean checkAntigenDifference(PatientData donor, PatientData recipient) {
+    private boolean checkAntigenDifference(PatientData donor, PatientData recipient) {
         var donorAntigens = donor.getAntigenList();
         var recipientAntigens = recipient.getAntigenList();
         int antigenCount = 0;
-        for (Antigen antigenD : donorAntigens){
-            for (Antigen antigenR : recipientAntigens){
-                if (antigenD.getType().equals(antigenR.getType())){ antigenCount++; break; }
+        for (Antigen antigenD : donorAntigens) {
+            for (Antigen antigenR : recipientAntigens) {
+                if (antigenD.getType().equals(antigenR.getType())) {
+                    antigenCount++;
+                    break;
+                }
             }
         }
-        if (antigenCount <= 3) { return false; }
+        if (antigenCount <= 3) {
+            return false;
+        }
         return true;
     }
 
-    public boolean checkAntigenAntibody(PatientData donor, PatientData recipient) {
+    private boolean checkAntigenAntibody(PatientData donor, PatientData recipient) {
         var donorAntigens = donor.getAntigenList();
         var recipientAntibodies = recipient.getAntibodyList();
-        for (Antigen antigenD : donorAntigens){
-            for (Antibody antibodyR : recipientAntibodies){
-                if (antigenD.getType().equals(antibodyR.getType())){ return false; }
+        for (Antigen antigenD : donorAntigens) {
+            for (Antibody antibodyR : recipientAntibodies) {
+                if (antigenD.getType().equals(antibodyR.getType())) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    public boolean checkBloodTypes(PatientData donor, PatientData recipient){
+    private boolean checkBloodTypes(PatientData donor, PatientData recipient) {
         var donorBlood = donor.getBloodType().toString();
         var recipientBlood = recipient.getBloodType().toString();
 
         //Casos donde la pareja donante es compatible:
-        if (recipientBlood.equals("AB_POSITIVO")) {return false; } //si el receptor es ABPos, receptor universal
-        if (recipientBlood.equals("AB_NEGATIVO") && donorBlood.contains("NEGATIVO")) {return false; } //si el receptor es ABNeg y el donante es Neg.
+        if (recipientBlood.equals("AB_POSITIVO")) {
+            return false;
+        } //si el receptor es ABPos, receptor universal
+        if (recipientBlood.equals("AB_NEGATIVO") && donorBlood.contains("NEGATIVO")) {
+            return false;
+        } //si el receptor es ABNeg y el donante es Neg.
         if (recipientBlood.equals("A_POSITIVO")
-                && (donorBlood.contains("A_") || (donorBlood.contains("O_")))) { return false;} //si el receptor es Apos y el donante es A o O.
+                && (donorBlood.contains("A_") || (donorBlood.contains("O_")))) {
+            return false;
+        } //si el receptor es Apos y el donante es A o O.
         if (recipientBlood.equals("B_POSITIVO")
-                && (donorBlood.contains("B_") || (donorBlood.contains("O_")))) { return false;} //si el receptor es Bpos y el donante es B o O.
+                && (donorBlood.contains("B_") || (donorBlood.contains("O_")))) {
+            return false;
+        } //si el receptor es Bpos y el donante es B o O.
         if (recipientBlood.equals("A_NEGATIVO")
-                && (donorBlood.contains("A_NEGATIVO") || (donorBlood.contains("O_NEGATIVO")))) { return false;} //si el receptor es Aneg y el donante es Aneg o Oneg.
+                && (donorBlood.contains("A_NEGATIVO") || (donorBlood.contains("O_NEGATIVO")))) {
+            return false;
+        } //si el receptor es Aneg y el donante es Aneg o Oneg.
         if (recipientBlood.equals("B_NEGATIVO")
-                && (donorBlood.equals("B_NEGATIVO") || (donorBlood.equals("O_NEGATIVO")))) { return false;}  //si el receptor es Bneg y el donante es Bneg o Oneg.
-        if (recipientBlood.equals("O_POSITIVO") && donorBlood.contains("O_")) {return false; } //si el receptor es Opos y el donante es O.
-        if (recipientBlood.equals("O_NEGATIVO") && donorBlood.equals("O_NEGATIVO")) {return false; } //si el receptor es ONeg y el donante también es Oneg.
+                && (donorBlood.equals("B_NEGATIVO") || (donorBlood.equals("O_NEGATIVO")))) {
+            return false;
+        }  //si el receptor es Bneg y el donante es Bneg o Oneg.
+        if (recipientBlood.equals("O_POSITIVO") && donorBlood.contains("O_")) {
+            return false;
+        } //si el receptor es Opos y el donante es O.
+        if (recipientBlood.equals("O_NEGATIVO") && donorBlood.equals("O_NEGATIVO")) {
+            return false;
+        } //si el receptor es ONeg y el donante también es Oneg.
         return true;
     }
 
 }
-
-
-/*Resumen de Compatibilidad
-A positivo: Recibe de A positivo, A negativo, O positivo, O negativo; Dona a A positivo, AB positivo.
-A negativo: Recibe de A negativo, O negativo; Dona a A positivo, A negativo, AB positivo, AB negativo.
-B positivo: Recibe de B positivo, B negativo, O positivo, O negativo; Dona a B positivo, AB positivo.
-B negativo: Recibe de B negativo, O negativo; Dona a B positivo, B negativo, AB positivo, AB negativo.
-AB positivo: Recibe de todos los tipos de sangre; Dona solo a AB positivo.
-AB negativo: Recibe de A negativo, B negativo, AB negativo, O negativo; Dona a AB positivo, AB negativo.
-O positivo: Recibe de O positivo, O negativo; Dona a todos los tipos de sangre positivos.
-O negativo: Recibe solo de O negativo; Dona a todos los tipos de sangre.
-* */

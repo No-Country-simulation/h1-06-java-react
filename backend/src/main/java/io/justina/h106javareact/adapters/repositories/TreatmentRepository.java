@@ -33,4 +33,7 @@ public interface TreatmentRepository extends JpaRepository<Treatment, String> {
             @Param("patientId") String patientId
     );
 
+    @Query("SELECT t FROM Treatment t JOIN t.pathologyList p WHERE p.code = :pathologyCode " +
+            "AND t.treatmentStatus = 0 AND t.donationData.donationType = 'DONACION_CRUZADA' ")
+    List<Treatment> findForCrossDonation(String pathologyCode);
 }

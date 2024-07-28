@@ -32,6 +32,7 @@ public class MedicalProcedureServiceImpl implements MedicalProcedureService {
         return medicalProcedureMapper.medicalProcedureListToReadDtoList(entityList);
     }
 
+    /*
     @Override
     public Boolean scraping() throws IOException {
         File file = ResourceUtils.getFile("classpath:PracticasMedicas.csv");
@@ -51,5 +52,5 @@ public class MedicalProcedureServiceImpl implements MedicalProcedureService {
 
         medicalProcedureRepository.saveAll(medicalProcedureList);
         return true;
-    }
+    }*/
 }

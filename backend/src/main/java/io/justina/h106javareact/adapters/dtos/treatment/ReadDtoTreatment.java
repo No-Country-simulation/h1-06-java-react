@@ -1,6 +1,7 @@
 package io.justina.h106javareact.adapters.dtos.treatment;
 import io.justina.h106javareact.adapters.dtos.medicine.ReadDtoMedicine;
 import io.justina.h106javareact.adapters.dtos.pathology.ReadDtoPathology;
+import io.justina.h106javareact.domain.entities.enums.DonationType;
 import io.justina.h106javareact.domain.entities.enums.TreatmentStatus;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public record ReadDtoTreatment(
         String patientId,
         String donorId,
         LocalDateTime date,
-        TreatmentStatus treatmentStatus
+        TreatmentStatus treatmentStatus,
+        DonationType donationType
 ) {
 }
