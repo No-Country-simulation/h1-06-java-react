@@ -83,7 +83,8 @@ public class SecurityConfig {
             "api/v1/appointment/{id}/{active}",
             "api/v1/appointment/patient/{id}/{active}",
             "api/v1/appointment/patient/{id}/{date}/{active}",
-            "api/v1/appointment/patient/{id}/{startDate}/{endDate}/{active}"
+            "api/v1/appointment/patient/{id}/{startDate}/{endDate}/{active}",
+            "api/v1/appointment/doctor/{id}/{startDate}/{endDate}/available"
 
     };
 
@@ -94,7 +95,6 @@ public class SecurityConfig {
             "/api/v1/appointment/create",
             "/api/v1/treatment/patient/{id}/medicalRecordPdf",
             "api/v1/specialty/{specialty}",
-            "api/v1/doctor/{id}/{date}/available",
             "/api/v1/appointment/toggle/{id}"
     };
 
