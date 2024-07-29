@@ -23,10 +23,9 @@ public class PathologyController {
         return ResponseEntity.ok(pathologyService.readAll());
     }
 
-    /*
     @GetMapping("/scraping")
     public ResponseEntity<Boolean> scrapping() throws IOException {
         return ResponseEntity.ok(pathologyService.scraping());
-    }*/
+    }
 
 }

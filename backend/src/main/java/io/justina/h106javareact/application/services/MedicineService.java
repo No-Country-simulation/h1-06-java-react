@@ -5,5 +5,5 @@ import java.util.List;
 public interface MedicineService {
 
     List<ReadDtoMedicine> readAll();
-    //Boolean scrapForMedicines();
+    Boolean scrapForMedicines();
 }
