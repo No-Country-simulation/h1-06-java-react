@@ -26,6 +26,7 @@ function Turnos() {
       currentDate.getMonth() + 1,
       0
     )
+
     const daysOfWeek = [
       'Domingo',
       'Lunes',
@@ -35,6 +36,7 @@ function Turnos() {
       'Viernes',
       'Sábado',
     ]
+
     const monthsOfYear = [
       'Enero',
       'Febrero',
@@ -64,6 +66,26 @@ function Turnos() {
             (appointment) =>
               new Date(appointment.date).toDateString() ===
               new Date(currentDate).toDateString()
+          ),
+        })
+      }
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+
+    const additionalDays = 7
+    for (let i = 0; i < additionalDays; i++) {
+      const nextDate = new Date(currentDate)
+      const dayOfWeek = nextDate.getDay()
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        const day = nextDate.getDate()
+        const month = monthsOfYear[nextDate.getMonth()]
+        const year = nextDate.getFullYear()
+        dateList.push({
+          date: `${day} ${month} ${year}, ${daysOfWeek[dayOfWeek]}`,
+          appointments: appointments.filter(
+            (appointment) =>
+              new Date(appointment.date).toDateString() ===
+              new Date(nextDate).toDateString()
           ),
         })
       }

@@ -24,9 +24,9 @@ public class MedicalProcedureController {
     public ResponseEntity<List<ReadDtoMedicalProcedure>> findAllProcedures(){
         return ResponseEntity.ok(medicalProcedureService.readAll());
     }
-
+/*
     @GetMapping("/scraping")
     public ResponseEntity<Boolean> scraping() throws IOException {
         return ResponseEntity.ok(medicalProcedureService.scraping());
-    }
+    }*/
 }

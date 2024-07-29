@@ -1,6 +1,7 @@
 package io.justina.h106javareact.adapters.controllers;
 import io.justina.h106javareact.adapters.dtos.treatment.CreateDtoTreatment;
 import io.justina.h106javareact.adapters.dtos.treatment.ReadDtoTreatment;
+import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoDonation;
 import io.justina.h106javareact.adapters.dtos.treatment.UpdateDtoTreatment;
 import io.justina.h106javareact.application.services.TreatmentService;
 import io.justina.h106javareact.application.validations.Validations;
@@ -35,10 +36,11 @@ public class TreatmentController {
     }
 
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/id/{id}/{patientId}")
     public ResponseEntity<ReadDtoTreatment> findTreatmentById(
             @PathVariable String id, @PathVariable String patientId,
             @RequestHeader("Authorization") String token){
+        token = token.substring(7);
         String role = jwtService.getRoles(token);
         validations.checkRelativeOrDoctorValidation(patientId, role);
         return ResponseEntity.ok(treatmentService.findById(id));
@@ -135,6 +137,12 @@ public class TreatmentController {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfResource);
+    }
+
+    @PutMapping("/update/donationData")
+    public ResponseEntity<ReadDtoTreatment> updateDonationData(
+            @RequestBody @Valid UpdateDtoDonation updateDonation){
+        return ResponseEntity.ok(treatmentService.updateDonationData(updateDonation));
     }
 }
 

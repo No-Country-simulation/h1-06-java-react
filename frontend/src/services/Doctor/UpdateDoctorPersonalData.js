@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const UpdateDoctorPersonalData = async (data, user) => {
     const apiRoute = import.meta.env.VITE_API_ROUTE;
-    const updateDoctorPersonalData = import.meta.env.VITE_UPDATE_PERSONAL_DATA_PATIENT;
+    const updateDoctorPersonalData = import.meta.env.VITE_UPDATE_PERSONAL_DATA_DOCTOR;
     try {
         const response = await axios.put(
             apiRoute + updateDoctorPersonalData,

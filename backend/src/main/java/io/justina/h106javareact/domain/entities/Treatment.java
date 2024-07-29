@@ -1,13 +1,13 @@
 package io.justina.h106javareact.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.justina.h106javareact.domain.entities.enums.DonationType;
 import io.justina.h106javareact.domain.entities.enums.TreatmentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,5 +37,7 @@ public class Treatment {
     @JsonBackReference
     private User patient;
     private LocalDateTime date = LocalDateTime.now().withSecond(0).withNano(0);
+    @OneToOne
+    private DonationData donationData;
 
 }
