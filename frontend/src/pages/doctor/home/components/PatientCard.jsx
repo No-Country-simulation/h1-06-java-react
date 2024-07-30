@@ -11,7 +11,7 @@ function PatientCard({ patient }) {
   })
 
   return (
-    <Link to="/doctor/historialPaciente" className="link">
+    <Link to={`/doctor/historialPaciente/${patient.id}`} className="link">
       <article className="contentPatientCard">
         <div className="contentImgAndInfoPatientCard">
           <img src={profileImage} className="imgPatientCard" />

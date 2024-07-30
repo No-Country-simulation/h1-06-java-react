@@ -22,6 +22,7 @@ function Dates({ appointments }) {
             </div>
             <div className="contentPatientsCardTurnos">
               <PatientCard
+                id={`${appointment.id}`}
                 name={`${appointment.patientId.name} ${appointment.patientId.surname}`}
                 appointmentTime={new Date(appointment.date).toLocaleTimeString(
                   'en-GB',

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import Card from './components/Card'
 import DataPatient from './components/DataPatient'
@@ -6,13 +7,37 @@ import './HistoryPatient.css'
 import microphone from '/public/assets/icons/microphone.svg'
 import chevronLeft from '/public/assets/icons/chevronLeft.svg'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useUserLogin } from '../../../store/UserLogin'
 
 function HistoryPatient() {
+  const { id } = useParams()
+  const { user } = useUserLogin()
   const [medicines, setMedicines] = useState([])
   const [pathologies, setPathologies] = useState([])
+  const [patientData, setPatientData] = useState(null)
+  const [tutorData, setTutorData] = useState(null)
+  const [appointmentData, setAppointmentData] = useState(null)
 
   useEffect(() => {
+    const fetchAppointmentData = async () => {
+      try {
+        const response = await axios.get(
+          `http://3.12.169.103:8080/api/v1/appointment/${id}/true`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.jwt}`,
+            },
+          }
+        )
+        setAppointmentData(response.data)
+        setPatientData(response.data.patientId)
+        setTutorData(response.data.relativeId)
+      } catch (error) {
+        console.error('Error fetching appointment data:', error)
+      }
+    }
+
     const fetchMedicines = async () => {
       try {
         const response = await axios.get(
@@ -35,9 +60,10 @@ function HistoryPatient() {
       }
     }
 
+    fetchAppointmentData()
     fetchMedicines()
     fetchPathologies()
-  }, [])
+  }, [id, user.jwt])
 
   const obj = {
     1: {
@@ -74,6 +100,10 @@ function HistoryPatient() {
 
   const objArray = Object.entries(obj)
 
+  // console.log(appointmentData)
+  // console.log(patientData)
+  // console.log(tutorData)
+
   return (
     <div className="contentHistoryPatient">
       <div className="contentTitleHistoryPatient">
@@ -88,8 +118,8 @@ function HistoryPatient() {
           Formato de Referencia de Pacientes
         </h3>
       </div>
-      <DataPatient />
-      <DataTutor />
+      <DataPatient patientData={patientData} />
+      {tutorData && <DataTutor tutorData={tutorData} />}
       <h4>Exámen Físico</h4>
       <section className="contentCardsHistoryPatient">
         {objArray.map(([key, value]) => (

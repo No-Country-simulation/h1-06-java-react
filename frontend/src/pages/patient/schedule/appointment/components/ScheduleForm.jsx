@@ -1,99 +1,81 @@
-import { useState, useEffect } from "react";
-import Buttons from "../../../../../components/Buttons/Buttons";
-import { GetSpecialtiesFromDoctor } from "../../../../../services/Patient/GetSpecialtiesFromDoctor";
-import createSpaces from "../../../../../hooks/createSpaces";
-import { GetDoctorBySpecialty } from "../../../../../services/Patient/GetDoctorBySpecialty";
-import { useUserLogin } from "../../../../../store/UserLogin";
-//import { FindAvailableAppointmentsByDr } from "../../../../../services/Patient/FindAvailableAppointmentsByDr";
-import { CreateAppointment } from "../../../../../services/Patient/CreateAppointment";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react'
+import Buttons from '../../../../../components/Buttons/Buttons'
+import { GetSpecialtiesFromDoctor } from '../../../../../services/Patient/GetSpecialtiesFromDoctor'
+import createSpaces from '../../../../../hooks/createSpaces'
+import { GetDoctorBySpecialty } from '../../../../../services/Patient/GetDoctorBySpecialty'
+import { useUserLogin } from '../../../../../store/UserLogin'
+import { CreateAppointment } from '../../../../../services/Patient/CreateAppointment'
+import { useNavigate } from 'react-router-dom'
 
 function ScheduleForm() {
-  const navigate = useNavigate();
-  const { user } = useUserLogin();
-  const [loading, setLoading] = useState(false);
-  const [doctorBySpecialty, setDoctorBySpecialty] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [specialties, setSpecialties] = useState([]);
+  const navigate = useNavigate()
+  const { user } = useUserLogin()
+  const [doctorBySpecialty, setDoctorBySpecialty] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [specialties, setSpecialties] = useState([])
   const [scheduleForm, setScheduleForm] = useState({
-    specialty: "",
-    patientId: "",
-    doctorId: "",
+    specialty: '',
+    patientId: '',
+    doctorId: '',
     date: null,
-    observations: "",
-  });
-
-  ///Los horarios de médico son: 8-11.59 mañana, 12-16.59 tarde, 17-21.59 noche.
+    time: '',
+    observations: '',
+  })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const GetSpecialties = async () => GetSpecialtiesFromDoctor();
-    GetSpecialties().then((response) => setSpecialties(response));
-  }, []);
+    const fetchSpecialties = async () => {
+      const response = await GetSpecialtiesFromDoctor()
+      setSpecialties(response)
+    }
+    fetchSpecialties()
+  }, [])
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      setLoading(true);
-      const response = await GetDoctorBySpecialty(scheduleForm.specialty, user);
-      setDoctorBySpecialty(response);
-      setLoading(false);
-    };
-    fetchDoctors();
-  }, [scheduleForm.specialty, user]);
-
-  /*   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await FindAvailableAppointmentsByDr(
-        doctorBySpecialty[0],
-        user,
-        scheduleForm.date
-      );
-      setScheduleForm({
-        ...scheduleForm,
-        time: response[0],
-      });
-      setLoading(false);
-    };
-  }); */
-
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
+      if (scheduleForm.specialty) {
+        setLoading(true)
+        const response = await GetDoctorBySpecialty(
+          scheduleForm.specialty,
+          user
+        )
+        setDoctorBySpecialty(response)
+        setLoading(false)
+      }
+    }
+    fetchDoctors()
+  }, [scheduleForm.specialty, user])
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const formattedDateTime = formatDateTime(
       scheduleForm.date,
       scheduleForm.time
-    );
+    )
     const formData = {
       ...scheduleForm,
       patientId: user.id,
       date: formattedDateTime,
-    };
-    const response = await CreateAppointment(formData, user);
+    }
+    const response = await CreateAppointment(formData, user)
 
     if (response && response.id) {
-      navigate("/patient/home");
+      navigate('/patient/home')
     } else {
-      setShowModal(true);
+      setShowModal(true)
     }
-  };
+  }
 
-  const formatDateTime = (date, time = "08:00") => {
-    return `${date}T${time}`;
-  };
-
-  if (loading) {
-    return <p>Cargando...</p>;
+  const formatDateTime = (date, time = '08:00') => {
+    return `${date}T${time}`
   }
 
   const getAvailableHours = () => {
-    let availableHours = [];
+    let availableHours = []
 
-    const selectedDoctor = Array.isArray(doctorBySpecialty)
-      ? doctorBySpecialty.find((doctor) => doctor.id === scheduleForm.doctorId)
-      : undefined;
+    const selectedDoctor = doctorBySpecialty.find(
+      (doctor) => doctor.id === scheduleForm.doctorId
+    )
 
     if (selectedDoctor) {
       if (selectedDoctor.morning) {
@@ -101,9 +83,9 @@ function ScheduleForm() {
           ...availableHours,
           ...Array.from(
             { length: 6 },
-            (_, index) => `${index + 6 < 10 ? "0" : ""}${index + 6}:00`
+            (_, index) => `${index + 6 < 10 ? '0' : ''}${index + 6}:00`
           ),
-        ];
+        ]
       }
 
       if (selectedDoctor.afternoon) {
@@ -111,9 +93,9 @@ function ScheduleForm() {
           ...availableHours,
           ...Array.from(
             { length: 6 },
-            (_, index) => `${index + 12 < 10 ? "0" : ""}${index + 12}:00`
+            (_, index) => `${index + 12 < 10 ? '0' : ''}${index + 12}:00`
           ),
-        ];
+        ]
       }
 
       if (selectedDoctor.evening) {
@@ -121,22 +103,21 @@ function ScheduleForm() {
           ...availableHours,
           ...Array.from(
             { length: 6 },
-            (_, index) => `${index + 18 < 10 ? "0" : ""}${index + 18}:00`
+            (_, index) => `${index + 18 < 10 ? '0' : ''}${index + 18}:00`
           ),
-        ];
+        ]
       }
     }
 
-    return availableHours;
-  };
+    return availableHours
+  }
 
-  console.log("specialty", doctorBySpecialty);
+  const availableHours = getAvailableHours()
 
-  const availableHours = getAvailableHours();
   return (
     <div id="schedule-form">
       <div id="schedule-form-container">
-        <form className="form" onSubmit={(e) => onSubmit(e)}>
+        <form className="form" onSubmit={onSubmit}>
           <div className="flex-column">
             <label>Especialidad</label>
             <select
@@ -148,16 +129,15 @@ function ScheduleForm() {
                 setScheduleForm({
                   ...scheduleForm,
                   specialty: e.target.value,
-                });
+                })
               }}
             >
-              {specialties.length > 0
-                ? specialties.map((specialty) => (
-                    <option key={specialty} value={specialty}>
-                      {createSpaces(specialty)}
-                    </option>
-                  ))
-                : null}
+              <option value="">Seleccione una especialidad</option>
+              {specialties.map((specialty) => (
+                <option key={specialty} value={specialty}>
+                  {createSpaces(specialty)}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex-column">
@@ -174,7 +154,8 @@ function ScheduleForm() {
                 })
               }
             >
-              {doctorBySpecialty && doctorBySpecialty.length > 0 ? (
+              <option value="">Seleccione un especialista</option>
+              {doctorBySpecialty.length > 0 ? (
                 doctorBySpecialty.map((doctor) => (
                   <option key={doctor.id} value={doctor.id}>
                     {doctor.name} {doctor.surname}
@@ -196,7 +177,7 @@ function ScheduleForm() {
               }
             />
           </div>
-          {scheduleForm?.date && (
+          {scheduleForm.date && (
             <div className="flex-column">
               <label>Hora</label>
               <select
@@ -205,7 +186,8 @@ function ScheduleForm() {
                   setScheduleForm({ ...scheduleForm, time: e.target.value })
                 }
               >
-                {availableHours?.map((hour, index) => (
+                <option value="">Seleccione una hora</option>
+                {availableHours.map((hour, index) => (
                   <option key={index} value={hour}>
                     {hour}
                   </option>
@@ -213,27 +195,32 @@ function ScheduleForm() {
               </select>
             </div>
           )}
-          <div>
-            <div className="flex-column">
-              <label>Observaciones</label>
-              <textarea
-                type="text"
-                required
-                className="inputLayout"
-                onChange={(e) =>
-                  setScheduleForm({
-                    ...scheduleForm,
-                    observations: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <Buttons type="submit" label="Agendar Cita"></Buttons>
+          <div className="flex-column">
+            <label>Observaciones</label>
+            <textarea
+              type="text"
+              required
+              className="inputLayout"
+              value={scheduleForm.observations}
+              onChange={(e) =>
+                setScheduleForm({
+                  ...scheduleForm,
+                  observations: e.target.value,
+                })
+              }
+            />
           </div>
+          <Buttons type="submit" label="Agendar Cita" />
         </form>
+        {showModal && (
+          <div className="modal">
+            <p>Error al agendar la cita. Por favor, intente de nuevo.</p>
+            <button onClick={() => setShowModal(false)}>Cerrar</button>
+          </div>
+        )}
       </div>
     </div>
-  );
+  )
 }
 
-export default ScheduleForm;
+export default ScheduleForm
