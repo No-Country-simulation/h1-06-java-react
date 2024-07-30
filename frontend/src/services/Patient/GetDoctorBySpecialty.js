@@ -9,7 +9,7 @@ export const GetDoctorBySpecialty = async (specialty, user) => {
             Authorization: `Bearer ${user.jwt}`,
         },
     });
-    console.log(response.data);
+    console.log("DOCTOR",response.data);
     return response.data;
   } catch (error) {
     console.log(error.response);

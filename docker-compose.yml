@@ -28,7 +28,7 @@ services:
       VITE_CREATE_APPOINTMENT_PATIENT : /appointment/create
       VITE_DELETE_PATIENT : /patient/toggle/
       VITE_FIND_AVAILABLE_APPOINTMENTS_BY_DR : /appointment/doctor/
-      VITE_GET_APPOINTMENT_PATIENT : /appointment/
+      VITE_GET_APPOINTMENT_PATIENT : /appointment/patient/
       VITE_GET_SPECIALTIES_BY_DOCTOR : /doctor/specialty/
       VITE_GET_MEDICAL_HISTORY_PATIENT : /appointment/
       VITE_GET_PATIENT_BY_ID : /patient/id/

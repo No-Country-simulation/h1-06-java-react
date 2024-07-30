@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 function ScheduleForm() {
   const navigate = useNavigate();
   const { user } = useUserLogin();
+  const [loading, setLoading] = useState(false);
   const [doctorBySpecialty, setDoctorBySpecialty] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [specialties, setSpecialties] = useState([]);
@@ -22,12 +23,12 @@ function ScheduleForm() {
     observations: "",
   });
 
+  ///Los horarios de médico son: 8-11.59 mañana, 12-16.59 tarde, 17-21.59 noche.
+
   useEffect(() => {
     const GetSpecialties = async () => GetSpecialtiesFromDoctor();
     GetSpecialties().then((response) => setSpecialties(response));
   }, []);
-
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -129,6 +130,8 @@ function ScheduleForm() {
     return availableHours;
   };
 
+  console.log("specialty", doctorBySpecialty);
+
   const availableHours = getAvailableHours();
   return (
     <div id="schedule-form">
@@ -148,7 +151,7 @@ function ScheduleForm() {
                 });
               }}
             >
-              {specialties && specialties.length > 0
+              {specialties.length > 0
                 ? specialties.map((specialty) => (
                     <option key={specialty} value={specialty}>
                       {createSpaces(specialty)}
@@ -171,7 +174,7 @@ function ScheduleForm() {
                 })
               }
             >
-              {doctorBySpecialty.length > 0 ? (
+              {doctorBySpecialty && doctorBySpecialty.length > 0 ? (
                 doctorBySpecialty.map((doctor) => (
                   <option key={doctor.id} value={doctor.id}>
                     {doctor.name} {doctor.surname}
@@ -202,7 +205,7 @@ function ScheduleForm() {
                   setScheduleForm({ ...scheduleForm, time: e.target.value })
                 }
               >
-                {availableHours.map((hour, index) => (
+                {availableHours?.map((hour, index) => (
                   <option key={index} value={hour}>
                     {hour}
                   </option>

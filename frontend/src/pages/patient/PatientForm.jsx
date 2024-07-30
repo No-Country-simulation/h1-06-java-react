@@ -36,7 +36,6 @@ function PatientForm({ ...props }) {
     try {
       const response = await RegisterPatient(props.registerForm);
       if (response && response.id) {
-        // Verifica que response no sea undefined
         setRegisterSuccessModalVisible(true);
         setModalContent({
           message: "Registro exitoso",

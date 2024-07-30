@@ -5,8 +5,13 @@ import calendarImage from "../../../public/assets/icons/calendar.svg";
 import profileImage from "../../../public/assets/images/profile.png";
 import "./NavBar.css";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
 function NavBar() {
+  let location = useLocation();
   const [navBarSelected, setNavBarSelected] = useState("home");
+
+  console.log("name", location);
   return (
     <div id="navBar">
       <div id="navBar-container" className="navBarContainer interFont">
@@ -14,7 +19,7 @@ function NavBar() {
           to={"/patient/home"}
           id="navBar-inicio"
           className={`flex-column-center nav ${
-            navBarSelected === "home" && "activeNavbar"
+            location.pathname === "/patient/home" ? "activeNavbar" : ""
           }`}
           onClick={() => setNavBarSelected("home")}
         >
@@ -25,7 +30,9 @@ function NavBar() {
           to={"/patient/medical-history"}
           id="navBar-salud"
           className={`flex-column-center nav ${
-            navBarSelected === "salud" && "activeNavbar"
+            location.pathname === "/patient/medical-history"
+              ? "activeNavbar"
+              : ""
           }`}
           onClick={() => setNavBarSelected("salud")}
         >
@@ -36,7 +43,7 @@ function NavBar() {
           to={"/patient/appointment"}
           id="navBar-calendar"
           className={`flex-column-center nav ${
-            navBarSelected === "appointment" && "activeNavbar"
+            location.pathname === "/patient/appointment" ? "activeNavbar" : ""
           }`}
           onClick={() => setNavBarSelected("appointment")}
         >
@@ -47,7 +54,7 @@ function NavBar() {
           to={"/patient/profile"}
           id="navBar-profile"
           className={`flex-column-center nav ${
-            navBarSelected === "profile" && "activeNavbar"
+            location.pathname === "/patient/profile" ? "activeNavbar" : ""
           }`}
           onClick={() => setNavBarSelected("profile")}
         >
