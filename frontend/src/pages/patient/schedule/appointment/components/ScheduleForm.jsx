@@ -205,7 +205,7 @@ function ScheduleForm() {
                   setScheduleForm({ ...scheduleForm, time: e.target.value })
                 }
               >
-                {availableHours.map((hour, index) => (
+                {availableHours?.map((hour, index) => (
                   <option key={index} value={hour}>
                     {hour}
                   </option>

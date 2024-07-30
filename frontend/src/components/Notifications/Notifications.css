@@ -9,7 +9,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 95%;
 }
 
 
@@ -29,7 +29,7 @@
 }
 
 .cardNotification {
-    width: 80%;
+    width: 96%;
     height: Hug (68px)px;
     padding: 9px;
     gap: 72px;

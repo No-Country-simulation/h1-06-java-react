@@ -1,5 +1,3 @@
-import { useState } from "react";
-import Notifications from "../../../../../components/Notifications/Notifications";
 import CardNotification from "../../../home/components/CardNotification";
 import { useUserPatientAppointment } from "../../../../../store/PatientStore/UserPatientAppointment";
 
@@ -8,7 +6,7 @@ function ScheduledAppointment() {
 
   const transformedResponse = appointment?.map((element) => ({
     type: "Turno",
-    title: `Cita con Dr. ${element.doctorId.name} ${element.doctorId.surname}`,
+    title: `Dr. ${element.doctorId.name} ${element.doctorId.surname}`,
     time: new Date(element.date).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",

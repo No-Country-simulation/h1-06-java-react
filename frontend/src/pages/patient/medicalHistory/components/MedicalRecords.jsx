@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { GetMedicalHistory } from "../../../../services/Patient/GetMedicalHistory";
 import { useUserLogin } from "../../../../store/UserLogin";
 import downloadIcon from "../../../../../public/assets/icons/download.svg";
+import downloadTreatment from "../../../../services/Patient/DownloadTreatment";
 
 function MedicalRecords({ ...props }) {
   const { user } = useUserLogin();
@@ -18,13 +19,11 @@ function MedicalRecords({ ...props }) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await GetMedicalHistory();
-      setRecord(response);
-    };
-    fetchData();
-  }, []);
+  const downloadHandler = (id) => {
+    downloadTreatment(id, user);
+  };
+
+  console.log("RECORDDD", record);
   return (
     <div id="medicalRecords">
       <div id="medicalRecords-container">
@@ -43,19 +42,23 @@ function MedicalRecords({ ...props }) {
                   <strong>Tratamiento:</strong> {rec.medicalProcedureCode}
                 </span>
                 <div>
-                  <h3>Medicamentos</h3>
-                  <ul>
-                    {record.medicineList?.map((medicine, medIndex) => (
-                      <li key={medicine.id}>
-                        <p>{medicine.name} - </p>
-                        <p>{record.frequency}</p>
-                      </li>
-                    ))}
+                  <h3>Medicamentos:</h3>
+                  <ul className="medicineList">
+                    {rec.medicineList &&
+                      rec.medicineList.map((medicine, index) => (
+                        <li key={index}>
+                          <p>{medicine.name}</p>
+                        </li>
+                      ))}
+                    <p>{rec.frequency}</p>
                   </ul>
                 </div>
               </div>
               <div className="buttonContainer">
-                <button className="buttonContainer">
+                <button
+                  className="buttonContainer"
+                  onClick={() => downloadHandler(rec.id)}
+                >
                   <span>Descargar</span>
                   <img
                     src={downloadIcon}
