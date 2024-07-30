@@ -3,9 +3,9 @@ import profileImage from '/public/assets/images/profile.png'
 import arrowImage from '/public/assets/icons/arrowRight.svg'
 import { Link } from 'react-router-dom'
 
-function PatientCard({ name, appointmentTime }) {
+function PatientCard({ name, appointmentTime, id }) {
   return (
-    <Link to="/doctor/historialPaciente" className="link">
+    <Link to={`/doctor/historialPaciente/${id}`} className="link">
       <article className="contentPatientCard">
         <div className="contentImgAndInfoPatientCard">
           <img src={profileImage} className="imgPatientCard" alt="Patient" />
