@@ -49,7 +49,5 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: justinaio
     volumes:
-      - data-postgres:/var/lib/postgresql/data
+      - ./postgresql_data:/var/lib/postgresql/data
     restart: always
-volumes:
-  data-postgres:

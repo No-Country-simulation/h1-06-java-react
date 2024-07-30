@@ -30,7 +30,6 @@ public class PathologyServiceImpl implements PathologyService {
         return pathologyMapper.pathologyListToReadDtoList(entityList);
     }
 
-    /*
     public Boolean scraping() throws IOException {
         File file = ResourceUtils.getFile("classpath:cie10.json");
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -40,5 +39,5 @@ public class PathologyServiceImpl implements PathologyService {
 
         pathologyRepository.saveAll(pathologyList);
         return true;
-    }*/
+    }
 }
