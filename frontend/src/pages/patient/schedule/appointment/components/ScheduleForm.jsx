@@ -22,6 +22,9 @@ function ScheduleForm() {
     observations: "",
   });
 
+
+  ///Los horarios de médico son: 8-11.59 mañana, 12-16.59 tarde, 17-21.59 noche.
+
   useEffect(() => {
     const GetSpecialties = async () => GetSpecialtiesFromDoctor();
     GetSpecialties().then((response) => setSpecialties(response));
