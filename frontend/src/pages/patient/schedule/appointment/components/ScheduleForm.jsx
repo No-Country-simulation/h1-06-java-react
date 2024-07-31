@@ -35,6 +35,7 @@ function ScheduleForm() {
       setLoading(true);
       const response = await GetDoctorBySpecialty(scheduleForm.specialty, user);
       setDoctorBySpecialty(response);
+      scheduleForm.doctorId = response[0]?.id;
       setLoading(false);
     };
     fetchDoctors();
