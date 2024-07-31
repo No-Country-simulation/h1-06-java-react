@@ -64,23 +64,14 @@
 }
 
 #schedule-form-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 #scheduled-appointment-container{
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-#scheduled-appointment-content-notifications{
-    min-width: 100vw;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}

@@ -33,18 +33,34 @@ function ScheduleForm() {
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      if (scheduleForm.specialty) {
-        setLoading(true)
-        const response = await GetDoctorBySpecialty(
-          scheduleForm.specialty,
-          user
-        )
-        setDoctorBySpecialty(response)
-        setLoading(false)
-      }
-    }
-    fetchDoctors()
-  }, [scheduleForm.specialty, user])
+      setLoading(true);
+      const response = await GetDoctorBySpecialty(scheduleForm.specialty, user);
+      setDoctorBySpecialty(response);
+      scheduleForm.doctorId = response[0]?.id;
+      setLoading(false);
+    };
+    fetchDoctors();
+  }, [scheduleForm.specialty, user]);
+
+  /*   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const response = await FindAvailableAppointmentsByDr(
+        doctorBySpecialty[0],
+        user,
+        scheduleForm.date
+      );
+      setScheduleForm({
+        ...scheduleForm,
+        time: response[0],
+      });
+      setLoading(false);
+    };
+  }); */
+
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault()

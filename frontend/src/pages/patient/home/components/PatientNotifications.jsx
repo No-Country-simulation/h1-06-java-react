@@ -33,7 +33,7 @@ useEffect(() => {
 
   const transformedResponse = filteredAppointments.map((appointment) => ({
     type: "Turno",
-    title: `Cita con Dr. ${appointment.doctorId.name} ${appointment.doctorId.surname}`,
+    title: `Dr. ${appointment.doctorId.name} ${appointment.doctorId.surname}`,
     time: new Date(appointment.date).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
