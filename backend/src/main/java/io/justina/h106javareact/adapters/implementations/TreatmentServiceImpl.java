@@ -44,11 +44,11 @@ public class TreatmentServiceImpl implements TreatmentService {
     public ReadDtoTreatment create(CreateDtoTreatment createDtoTreatment) {
         var entity = treatmentMapper.createTreatmentToEntity(createDtoTreatment);
         DonationDtoResult donationDtoResult = null;
-        DonationData donationData = null;
         for (String pathologyCode : createDtoTreatment.pathologyCodesList()) {
             if (pathologyCode.toString().equals("Z524")) {
                 donationDtoResult = registerKidneyDonation(createDtoTreatment);
                 if (donationDtoResult != null) {
+                    DonationData donationData = new DonationData();
                     donationData.setDonationType(donationDtoResult.donationType());
                     donationData.setDonorId(donationDtoResult.donorId());
                     if (donationData.getDonationType().equals(DonationType.DONACION_CRUZADA)) {
@@ -285,6 +285,9 @@ public class TreatmentServiceImpl implements TreatmentService {
                         "No se puede encontrar el tratamiento con el id " + updateDtoDonation.treatmentId()));
         var donationData = treatment.getDonationData();
 
+        donationData.setTreatmentId(updateDtoDonation.treatmentId());
+        donationData.setDonorId(treatment.getDonationData().getDonorId()); //????????
+
         if (updateDtoDonation.patientInformedConsent() != null) {
             donationData.setPatientInformedConsent(updateDtoDonation.patientInformedConsent());
         }
@@ -302,6 +305,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         }
 
         var savedDonationData = donationDataRepository.save(donationData);
+        treatment.setDonationData(savedDonationData);
         if (savedDonationData.getPatientInformedConsent()
                 && savedDonationData.getDonorInformedConsent()
                 && savedDonationData.getPatientMedicalClearance()
@@ -362,7 +366,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         result &= checkWeightDifference(donorData, patientData);
         result &= checkAntigenDifference(donorData, patientData);
         result &= checkAntigenAntibody(donorData, patientData);
-        result &= checkBloodTypes(donorData, patientData);
+        result &= !checkBloodTypes(donorData, patientData);
         return result;
     }
 
