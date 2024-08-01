@@ -13,6 +13,8 @@ public interface TreatmentMapper {
 
     Treatment createTreatmentToEntity (CreateDtoTreatment createDtoTreatment);
     @Mapping(target = "patientId", source = "treatment.patient.id")
+    @Mapping(target = "donorId", source = "treatment.donationData.donorId")
+    @Mapping(target = "donationType", source = "treatment.donationData.donationType")
     ReadDtoTreatment entityToReadTreatment (Treatment treatment);
     List<ReadDtoTreatment> entityListToReadTreatmentList (List<Treatment> treatment);
 }
